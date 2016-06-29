@@ -173,7 +173,7 @@ i.hideelement {
 .profile-basic-info {
     padding-left: 5px;
     font-size: 14px;
-    color: gray;
+    color: black;
     margin-left: 2px;
 }
 
@@ -495,4 +495,10 @@ div:focus {
     text-align: center;
     font-size: 20pt;
     font-weight: 500;
+}
+
+.profile-role {
+    margin-top: -14px;
+    font-size: 14px;
+    color: black;
 }
