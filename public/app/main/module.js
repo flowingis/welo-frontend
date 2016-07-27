@@ -47,8 +47,8 @@ angular.module('app', [
 	.config(['$mdThemingProvider',
 		function($mdThemingProvider) {
 			$mdThemingProvider.theme('default')
-				.primaryPalette('blue-grey')
-				.accentPalette('indigo')
+				.primaryPalette('cyan')
+				.accentPalette('grey')
 				.warnPalette('red', {
       				'hue-1': 'A200'
     			});

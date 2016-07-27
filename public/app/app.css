@@ -99,7 +99,7 @@ md-tabs > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item
 md-tabs.md-accent > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]):nth-child(3) md-icon,
 md-tabs.md-default-theme.md-accent > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]):nth-child(3),
 md-tabs.md-default-theme.md-accent > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]):nth-child(3) md-icon {
-    background-color: #607d8b;
+    background-color: #00838f;
     color: #C3CDD3;
 }
 
@@ -138,7 +138,7 @@ md-tabs.md-default-theme.md-accent > md-tabs-wrapper > md-tabs-canvas > md-pagin
 }
 
 .stream-subject {
-    color: #9fa7aa;
+    color: white;
 }
 
 .people-you-label {
@@ -173,7 +173,7 @@ i.hideelement {
 .profile-basic-info {
     padding-left: 5px;
     font-size: 14px;
-    color: gray;
+    color: black;
     margin-left: 2px;
 }
 
@@ -222,7 +222,7 @@ i.hideelement {
 .logo {
     height: 52px;
     background-repeat: no-repeat;
-    background-image: url('../img/ora_icon_flow_v1.svg');
+    background-image: url('../img/liquido_icon_flow_v1.svg');
     background-position: center center;
 }
 
@@ -527,4 +527,14 @@ div:focus {
 .priority-title-label {
     font-size: 14px;
     font-weight: bold;
+}
+
+.profile-role {
+    margin-top: -14px;
+    font-size: 14px;
+    color: black;
+}
+
+md-tabs.md-default-theme.md-primary > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]), md-tabs.md-primary > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]) {
+    color: white;
 }
