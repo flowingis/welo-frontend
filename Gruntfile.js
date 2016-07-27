@@ -111,7 +111,10 @@ module.exports = function(grunt) {
 		shell: {
 	        deploy_staging: {
 	            command: 'rsync ./build/* cocoon@10.250.2.44:/var/www/vhosts/cocoon/public --rsh ssh -r --verbose'
-	        }
+	        },
+			deploy_prod: {
+				command: 'rsync ./build/* cocoon@10.250.2.44:/var/www/vhosts/welo/public --rsh ssh -r --verbose'
+			}
 	    }
 	});
 	grunt.loadNpmTasks('grunt-contrib-concat');
@@ -124,5 +127,6 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.registerTask('build', ['jshint', 'clean:build', 'ngtemplates', 'concat', 'uglify', 'cssmin', 'processhtml', 'copy', 'clean:tmp']);
-	grunt.registerTask('deploy', ['build', 'shell:deploy_staging']);
+	grunt.registerTask('deploy_staging', ['build', 'shell:deploy_staging']);
+	grunt.registerTask('deploy', ['build', 'shell:deploy_prod']);
 };
