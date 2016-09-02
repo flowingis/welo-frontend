@@ -479,7 +479,7 @@ var ItemService = function(
 					!this.isEstimationCompleted(resource);
 				},
 				assignShares: function(resource) {
-					var shares = resource && resource.members[this.getIdentity().getId()] && resource.members[this.getIdentity().getId()].shares || [];
+					var shares = resource && resource.members && resource.members[this.getIdentity().getId()] && resource.members[this.getIdentity().getId()].shares || [];
 
 					return resource &&
 					this.getIdentity().isAuthenticated() &&
