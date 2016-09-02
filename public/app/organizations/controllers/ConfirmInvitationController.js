@@ -16,8 +16,6 @@ angular.module('app')
 			memberService,
 			InvitationData) {
 
-				console.log(InvitationData);
-
 				var onSuccess = function(googleUser) {
 					$scope.$apply(function() {
 						var profile = googleUser.getBasicProfile();
