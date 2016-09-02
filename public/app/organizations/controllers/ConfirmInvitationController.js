@@ -44,9 +44,12 @@ angular.module('app')
 								}
 							});
 						}else{
+
+							var message = "Your email (" + email + ") it's not the same used to invite you (" + InvitationData.guestEmail + "). Please login with a different user";
+
 							var alert = $mdDialog.alert({
 						        title: 'Error',
-						        textContent: 'Your invitation is not valid',
+						        textContent: message,
 						        ok: 'Close'
 							});
 
