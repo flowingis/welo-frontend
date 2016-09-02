@@ -147,26 +147,30 @@ AccountService.prototype = {
 				account.holders.hasOwnProperty(userId);
 	},
 
+	isAdmin: function(account) {
+		return 'admin' === this.getIdentity().getMembershipRole(account.organization.id);
+	},
+
 	visibilityCriteria: {
 		'deposit': function(account) {
 			return this.getIdentity().isAuthenticated() &&
 				this.isOrganizationAccount(account) &&
-					this.isHolder(account, this.getIdentity().getId());
+					this.isAdmin(account);
 		},
 		'withdrawal': function(account) {
 			return this.getIdentity().isAuthenticated() &&
 					this.isOrganizationAccount(account) &&
-					this.isHolder(account, this.getIdentity().getId());
+				this.isAdmin(account);
 		},
 		'incomingTransfer': function(account) {
 			return this.getIdentity().isAuthenticated() &&
 					this.isOrganizationAccount(account) &&
-					this.isHolder(account, this.getIdentity().getId());
+				this.isAdmin(account);
 		},
 		'outgoingTransfer': function(account) {
 			return this.getIdentity().isAuthenticated() &&
 					this.isOrganizationAccount(account) &&
-					this.isHolder(account, this.getIdentity().getId());
+				this.isAdmin(account);
 		}
 	},
 
