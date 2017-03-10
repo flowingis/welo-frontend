@@ -310,6 +310,12 @@ var ItemService = function(
 				'ROLE_MEMBER': 'member',
 				'ROLE_OWNER' : 'owner'
 			},
+            getAuthor: function(item) {
+                if(item) {
+					return item.author;
+                }
+                return null;
+            },
 			getOwner: function(item) {
 				if(item) {
 					for(var id in item.members) {

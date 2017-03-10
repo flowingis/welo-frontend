@@ -104,6 +104,11 @@ angular.module('app.collaboration')
 				return $scope.user(member);
 			};
 
+			this.getAuthor = function(item) {
+				var member = itemService.getAuthor(item);
+				return $scope.user(member);
+			};
+
 			this.checkImIn = function(item){
 				return itemService.isIn(item,$scope.identity.getId());
 			};

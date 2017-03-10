@@ -87,6 +87,7 @@ angular.module('app.collaboration')
 			};
 
 			var onLoadItem = function(data){
+				$scope.author = itemService.getAuthor(data);
 				$scope.owner = itemService.getOwner(data);
 				$scope.item = data;
 				$scope.busy = false;
