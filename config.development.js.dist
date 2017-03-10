@@ -1,0 +1,5 @@
+module.exports = {
+	"apiEndPoint": "<hostname of your api endpoint>",
+	"serverPort": 8000,
+	"serverIpAddress": 'localhost'
+};
