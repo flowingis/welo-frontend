@@ -74,21 +74,21 @@
                 <span style="font-size: 13px; color:#5f6b76; margin-bottom:5px;"
                       data-ng-show="item.decision === 'true'">Decision</span>
             </div>
-				<span class="padding-right-20 padding-top-10 padding-bottom-5 item-title">
-					{{ item.subject }}
-				</span>
-				<span class="padding-right-20 padding-top-5 padding-bottom-10 item-lane">
-					{{ item.lane }}
-				</span>
-				<span style="font-size: 13px; line-height: 14px;" class="md-subhead padding-right-20 justify">
-					{{item.description}}
-				</span>
+                <span class="padding-right-20 padding-top-10 padding-bottom-5 item-title">
+                    {{ item.subject }}
+                </span>
+                <span class="padding-right-20 padding-top-5 padding-bottom-10 item-lane">
+                    {{ item.lane }}
+                </span>
+                <span style="font-size: 13px; line-height: 14px;" class="md-subhead padding-right-20 justify">
+                    {{item.description}}
+                </span>
             <div layout="row" class="padding-right-20">
                 <p style="font-size: 14px;">
                     Status:
-						<span style="line-height: 16px" class="md-subhead">
-							{{item.status | itemStatusLabel}}
-						</span>
+                        <span style="line-height: 16px" class="md-subhead">
+                            {{item.status | itemStatusLabel}}
+                        </span>
                 </p>
                 <!-- TODO: print current value for item -->
                 <p style=" font-size: 14px; padding-left:20px;">
@@ -126,9 +126,9 @@
     <div layout="row" style="margin-top: -32px;">
         <p style=" font-size: 12px; margin-top: 12px; margin-left: 16px;">
             Last activity:
-				<span style="letter-spacing: .010em; color: rgba(0,0,0,0.54);">
-					{{item.mostRecentEditAt | date:'dd/MM/yyyy'}}
-				</span>
+                <span style="letter-spacing: .010em; color: rgba(0,0,0,0.54);">
+                    {{item.mostRecentEditAt | date:'dd/MM/yyyy'}}
+                </span>
         </p>
     </div>
     <div layout="row">

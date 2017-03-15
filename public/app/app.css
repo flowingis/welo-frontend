@@ -538,3 +538,17 @@ div:focus {
 md-tabs.md-default-theme.md-primary > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]), md-tabs.md-primary > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]) {
     color: white;
 }
+
+md-fab-speed-dial.md-scale .md-fab-action-item {
+    transform: scale(0);
+}
+
+div.content-wrapper.flex > md-fab-speed-dial,
+div.content-wrapper.flex > .tooltip {
+    transform: scale(1);
+    transition: all .2s ease-in-out;
+}
+div.content-wrapper.flex.scrolling > md-fab-speed-dial,
+div.content-wrapper.flex.scrolling > .tooltip {
+    transform: scale(0);
+}
