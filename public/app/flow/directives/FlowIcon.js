@@ -15,7 +15,9 @@
                         'VoteIdea': 'lightbulb_outline',
                         'VoteCompletedItem': 'done',
                         'VoteCompletedItemVotingClosed': 'gavel',
-                        'VoteCompletedItemReopened': 'announcement'
+                        'VoteCompletedItemReopened': 'announcement',
+                        'CreditsAddedCard': 'transfer',
+                        'CreditsSubtractedCard': 'transfer'
                     };
 
                     $scope.pippo = associate[$scope.type] || 'info';
