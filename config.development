@@ -1,5 +1,0 @@
-module.exports = {
-  "apiEndPoint": "http://welo.ideato.it/api",
-  "serverPort": 8000,
-  "serverIpAddress": 'localhost'
-};
