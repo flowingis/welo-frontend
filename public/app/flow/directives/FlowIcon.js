@@ -16,8 +16,8 @@
                         'VoteCompletedItem': 'done',
                         'VoteCompletedItemVotingClosed': 'gavel',
                         'VoteCompletedItemReopened': 'announcement',
-                        'CreditsAddedCard': 'transfer',
-                        'CreditsSubtractedCard': 'transfer'
+                        'CreditsAddedCard': 'info',
+                        'CreditsSubtractedCard': 'info'
                     };
 
                     $scope.pippo = associate[$scope.type] || 'info';
