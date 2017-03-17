@@ -12,3 +12,19 @@ Prerequisites: nvm (node version manager) on the dev machine
 - npm start
 
 A local node server will be started, acting like a proxy. This allows you to test the frontend with different environments.
+
+
+## Deploy
+
+From the project root run 
+```
+$ node_modules/grunt-cli/bin/grunt deploy
+```
+
+to deploy on production 
+
+```
+$ node_modules/grunt-cli/bin/grunt deploy_staging
+```
+
+to deploy on staging
