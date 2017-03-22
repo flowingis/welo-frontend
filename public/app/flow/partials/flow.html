@@ -19,6 +19,28 @@
 			<p class="flow-type">{{card.type | flowTypeLabel}}</p>
 			<h1 class="flow-title"  >{{card.title}}</h1>
 			<p class="flow-description justify padding-right-30">{{card.content.description}}</p>
+			<br ng-if="card.type == 'ItemClosed'"/>
+
+			<div class="flow-description justify padding-right-30" ng-if="card.type == 'ItemClosed'">
+				<p class="flow-description justify padding-right-30">
+					Total credits: {{card.content.extraData.total}}
+				</p>
+
+				<table class="summary">
+					<thead>
+						<tr><th>User</th><th>Share %</th><th>Value </th><th>Gap %</th></tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="share in card.content.extraData.shares">
+							<td>{{ share['name'] }}</td>
+							<td>{{ share['share'] }}</td>
+							<td>{{ share['value'] }}</td>
+							<td>{{ share['gap'] }}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
 		</div>
 		<div layout="column">
 			<p am-time-ago="card.createdAt" class="p-size"></p>

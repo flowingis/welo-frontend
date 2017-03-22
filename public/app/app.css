@@ -552,3 +552,13 @@ div.content-wrapper.flex.scrolling > md-fab-speed-dial,
 div.content-wrapper.flex.scrolling > .tooltip {
     transform: scale(0);
 }
+
+.summary, .summary th {
+    padding: 5px;
+    color: rgba(0,0,0,0.54);
+}
+
+.summary td {
+    padding: 5px;
+    text-align: center;
+}
