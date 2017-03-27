@@ -38,6 +38,12 @@
 				</span>
 			</p>
 			<p style="font-size: 14px; margin-top: -8px;">
+				Kanbanize Id:
+				<span style="line-height: 14px" class="md-subhead">
+					{{item.taskId | itemStatusLabel}}
+				</span>
+			</p>
+			<p style="font-size: 14px; margin-top: -8px;">
 				Last Activity:
 				<span style="line-height: 14px" class="md-subhead">
 					{{item.mostRecentEditAt | date:'dd/MM/yyyy'}}
