@@ -150,23 +150,24 @@ AccountService.prototype = {
 	visibilityCriteria: {
 		'deposit': function(account) {
 			return this.getIdentity().isAuthenticated() &&
-				this.isOrganizationAccount(account) &&
-					this.isHolder(account, this.getIdentity().getId());
+				   this.isOrganizationAccount(account) &&
+				   account._links['ora:deposit'];
 		},
 		'withdrawal': function(account) {
 			return this.getIdentity().isAuthenticated() &&
-					this.isOrganizationAccount(account) &&
-					this.isHolder(account, this.getIdentity().getId());
+				   this.isOrganizationAccount(account) &&
+                   account._links['ora:withdrawal'];
 		},
 		'incomingTransfer': function(account) {
 			return this.getIdentity().isAuthenticated() &&
-					this.isOrganizationAccount(account) &&
-					this.isHolder(account, this.getIdentity().getId());
-		},
+				   this.isOrganizationAccount(account) &&
+				   account._links['ora:incoming-transfer'];
+
+        },
 		'outgoingTransfer': function(account) {
-			return this.getIdentity().isAuthenticated() &&
-					this.isOrganizationAccount(account) &&
-					this.isHolder(account, this.getIdentity().getId());
+            return this.getIdentity().isAuthenticated() &&
+                   this.isOrganizationAccount(account) &&
+                   account._links['outgoing-transfer'];
 		}
 	},
 

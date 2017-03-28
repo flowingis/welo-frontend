@@ -193,9 +193,9 @@ angular.module('app.accounting')
 					return false;
 				}
 
-				return accountService.isAllowed('deposit', $scope.statement) ||
-				accountService.isAllowed('withdrawal', $scope.statement) ||
-				accountService.isAllowed('incomingTransfer', $scope.statement) ||
-				accountService.isAllowed('outgoingTransfer', $scope.statement);
+				return $scope.statement._links['ora:deposit'] ||
+				 	   $scope.statement._links['ora:withdrawal'] ||
+                	   $scope.statement._links['ora:incoming-transfer'] ||
+				       $scope.statement._links['outgoing-transfer'];
 			};
 		}]);
