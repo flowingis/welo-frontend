@@ -196,6 +196,6 @@ angular.module('app.accounting')
 				return $scope.statement._links['ora:deposit'] ||
 				 	   $scope.statement._links['ora:withdrawal'] ||
                 	   $scope.statement._links['ora:incoming-transfer'] ||
-				       $scope.statement._links['outgoing-transfer'];
+				       $scope.statement._links['ora:outgoing-transfer'];
 			};
 		}]);

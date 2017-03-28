@@ -10,6 +10,7 @@
 <div ng-if="menu.open" class="tooltip" style=" width: 120px;right:100px;bottom: 309px;">
     Outgoing Transfer
 </div>
+
 <md-fab-speed-dial md-open="menu.open" md-direction="up" class="md-scale md-fab-bottom-right ora-fab"
                    data-ng-show="statement && ctrl.isNewTransactionsAllowed()">
     <md-fab-trigger>
@@ -18,24 +19,31 @@
         </md-button>
     </md-fab-trigger>
     <md-fab-actions>
-        <md-button aria-label="Add Credit" class="md-fab md-raised md-mini" ng-click="ctrl.openNewDeposit($event)"
-                   data-ng-show="ctrl.isAllowed('deposit', statement)">
+
+        <md-button aria-label="Add Credit" class="md-fab md-raised md-mini"
+                   ng-click="ctrl.openNewDeposit($event)"
+                   ng-if="ctrl.isAllowed('deposit', statement)">
             <md-icon md-svg-icon="deposit" style="fill: Black" title="New Deposit"></md-icon>
         </md-button>
-        <md-button aria-label="Withdrawal" class="md-fab md-raised md-mini" ng-click="ctrl.openNewWithdrawal($event)"
+
+        <md-button aria-label="Withdrawal" class="md-fab md-raised md-mini"
+                   ng-click="ctrl.openNewWithdrawal($event)"
                    ng-if="ctrl.isAllowed('withdrawal', statement)">
             <md-icon md-svg-icon="withdrawal" style="fill: Black" title="New Withdrawal"></md-icon>
         </md-button>
+
         <md-button aria-label="Incoming Transfer" class="md-fab md-raised md-mini"
                    ng-click="ctrl.openNewIncomingTransfer($event)"
                    ng-if="ctrl.isAllowed('incomingTransfer', statement)">
             <md-icon md-svg-icon="transfer" style="fill: Black" title="New Incoming Transfer"></md-icon>
         </md-button>
+
         <md-button aria-label="Outgoing Transfer" class="md-fab md-raised md-mini"
                    ng-click="ctrl.openNewOutgoingTransfer($event)"
                    ng-if="ctrl.isAllowed('outgoingTransfer', statement)">
             <md-icon md-svg-icon="transfer" style="fill: Black" title="New Outgoing Transfer"></md-icon>
         </md-button>
+
     </md-fab-actions>
 </md-fab-speed-dial>
 <md-tabs md-no-ink-bar md-dynamic-height md-border-bottom class="md-primary tabs-statement" md-selected="currentTab" md-stretch-tabs="always">

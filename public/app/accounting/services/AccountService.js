@@ -167,7 +167,7 @@ AccountService.prototype = {
 		'outgoingTransfer': function(account) {
             return this.getIdentity().isAuthenticated() &&
                    this.isOrganizationAccount(account) &&
-                   account._links['outgoing-transfer'];
+                   account._links['ora:outgoing-transfer'];
 		}
 	},
 
