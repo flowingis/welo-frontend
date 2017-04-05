@@ -76,9 +76,21 @@ angular.module('app.flow')
 							that.onLoadingError(response);
 				});
 			};
-			this.route = function(card, hierarchy){
+
+			this.route = function(card, hierarchy) {
+
 				if (card.content.actions[hierarchy].orgId && card.content.actions[hierarchy].itemId) {
-					$state.go('org.item', { orgId: card.content.actions[hierarchy].orgId, itemId: card.content.actions[hierarchy].itemId});
+					$state.go('org.item', {
+						orgId: card.content.actions[hierarchy].orgId,
+						itemId: card.content.actions[hierarchy].itemId
+					});
+				}
+
+				if (card.content.actions[hierarchy].orgId && card.content.actions[hierarchy].userId) {
+					$state.go('org.profile', {
+						orgId: card.content.actions[hierarchy].orgId,
+						memberId: card.content.actions[hierarchy].userId
+					});
 				}
 			};
 		}]);
