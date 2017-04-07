@@ -6,6 +6,7 @@ angular.module('app.people')
 		'memberService',
 		'itemService',
 		'accountService',
+		'userEmailsService',
 		'identity',
 		'$mdDialog',
 		function(
@@ -15,17 +16,17 @@ angular.module('app.people')
 			memberService,
 			itemService,
 			accountService,
+            userEmailsService,
 			identity,
 			$mdDialog) {
 
 			$scope.myProfile = identity.getId() === $stateParams.memberId;
 
 			$scope.profile = memberService.get({ orgId: $stateParams.orgId, memberId: $stateParams.memberId },function(){
-				console.log($scope.profile);
+				$scope.profile.editable = $scope.profile.email==identity.getEmail();
 			});
 
 			$scope.credits = accountService.userStats({ orgId: $stateParams.orgId, memberId: $stateParams.memberId },function(){
-				console.log($scope.credits);
 			});
 
 			$scope.askChangeRole = function(ev,newRole) {
@@ -46,6 +47,21 @@ angular.module('app.people')
 					});
 			    });
 			};
+
+			$scope.askChangeSecondaryEmails = function(ev) {
+                $mdDialog.show({
+                    controller: 'ProfileController',
+                    templateUrl: 'app/people/partials/secondary-emails.html',
+                    targetEvent: ev,
+                    clickOutsideToClose: true,
+                    locals: {
+                        // emails: emails,
+                        // owner: $scope.owner
+                    },
+					scope: $scope
+				});
+
+            };
 
 			$scope.tasks   = null;
 			$scope.stats   = null;
@@ -117,4 +133,13 @@ angular.module('app.people')
 			$scope.showMore = function() {
 				$scope.moreDetail = !$scope.moreDetail;
 			};
+
+            $scope.submit = function() {
+                userEmailsService.set($scope.profile.secondaryEmails);
+                $mdDialog.hide();
+            };
+
+			$scope.cancel = function() {
+                $mdDialog.cancel();
+            };
 		}]);
