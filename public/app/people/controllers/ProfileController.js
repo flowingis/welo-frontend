@@ -24,10 +24,12 @@ angular.module('app.people')
 
 			$scope.profile = memberService.get({ orgId: $stateParams.orgId, memberId: $stateParams.memberId },function(){
 				$scope.profile.editable = $scope.profile.email==identity.getEmail();
+				$scope.profile.newSecondaryEmails = $scope.profile.secondaryEmails;
 			});
 
 			$scope.credits = accountService.userStats({ orgId: $stateParams.orgId, memberId: $stateParams.memberId },function(){
 			});
+
 
 			$scope.askChangeRole = function(ev,newRole) {
 				var message = "Are you sure you want to change the role of this user to ";
@@ -54,11 +56,8 @@ angular.module('app.people')
                     templateUrl: 'app/people/partials/secondary-emails.html',
                     targetEvent: ev,
                     clickOutsideToClose: true,
-                    locals: {
-                        // emails: emails,
-                        // owner: $scope.owner
-                    },
-					scope: $scope
+                    scope: $scope,
+                    preserveScope: true
 				});
 
             };
@@ -135,11 +134,27 @@ angular.module('app.people')
 			};
 
             $scope.submit = function() {
-                userEmailsService.set($scope.profile.secondaryEmails);
+                var promise = userEmailsService.set($scope.profile.newSecondaryEmails);
+                promise.then($scope.submitSuccess, $scope.submitFail);
                 $mdDialog.hide();
             };
 
-			$scope.cancel = function() {
+            $scope.submitSuccess = function(params) {
+                $scope.profile.secondaryEmails = $scope.profile.newSecondaryEmails;
+            };
+
+			$scope.submitFail = function(params) {
+				var alert = $mdDialog.alert({
+						title: 'Cannot save secondary emails',
+						textContent: params.statusText,
+						ok: 'Close'
+					});
+                $mdDialog.show( alert );
+
+            }
+
+
+            $scope.cancel = function() {
                 $mdDialog.cancel();
             };
 		}]);

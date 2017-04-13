@@ -8,8 +8,8 @@ var UserEmailsService = function($http, $resource, identity) {
 			}).then(function (response) {
 				return response.data.settings;
 			});
-		}
-		,
+		},
+
 		set: function(emails) {
 			return $http({
 				method: 'PUT',
