@@ -1,4 +1,4 @@
-describe('ItemListController', function() {
+xdescribe('ItemListController', function() {
 	
 	beforeEach(module('app'));
 	
