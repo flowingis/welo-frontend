@@ -6,6 +6,7 @@ angular.module('app.people')
 		'memberService',
 		'itemService',
 		'accountService',
+		'userEmailsService',
 		'identity',
 		'$mdDialog',
 		function(
@@ -15,18 +16,20 @@ angular.module('app.people')
 			memberService,
 			itemService,
 			accountService,
+            userEmailsService,
 			identity,
 			$mdDialog) {
 
 			$scope.myProfile = identity.getId() === $stateParams.memberId;
 
 			$scope.profile = memberService.get({ orgId: $stateParams.orgId, memberId: $stateParams.memberId },function(){
-				console.log($scope.profile);
+				$scope.profile.editable = $scope.profile.email==identity.getEmail();
+				$scope.profile.newSecondaryEmails = $scope.profile.secondaryEmails;
 			});
 
 			$scope.credits = accountService.userStats({ orgId: $stateParams.orgId, memberId: $stateParams.memberId },function(){
-				console.log($scope.credits);
 			});
+
 
 			$scope.askChangeRole = function(ev,newRole) {
 				var message = "Are you sure you want to change the role of this user to ";
@@ -46,6 +49,18 @@ angular.module('app.people')
 					});
 			    });
 			};
+
+			$scope.askChangeSecondaryEmails = function(ev) {
+                $mdDialog.show({
+                    controller: 'ProfileController',
+                    templateUrl: 'app/people/partials/secondary-emails.html',
+                    targetEvent: ev,
+                    clickOutsideToClose: true,
+                    scope: $scope,
+                    preserveScope: true
+				});
+
+            };
 
 			$scope.tasks   = null;
 			$scope.stats   = null;
@@ -117,4 +132,29 @@ angular.module('app.people')
 			$scope.showMore = function() {
 				$scope.moreDetail = !$scope.moreDetail;
 			};
+
+            $scope.submit = function() {
+                var promise = userEmailsService.set($scope.profile.newSecondaryEmails);
+                promise.then($scope.submitSuccess, $scope.submitFail);
+                $mdDialog.hide();
+            };
+
+            $scope.submitSuccess = function(params) {
+                $scope.profile.secondaryEmails = $scope.profile.newSecondaryEmails;
+            };
+
+			$scope.submitFail = function(params) {
+				var alert = $mdDialog.alert({
+						title: 'Cannot save secondary emails',
+						textContent: params.statusText,
+						ok: 'Close'
+					});
+                $mdDialog.show( alert );
+
+            }
+
+
+            $scope.cancel = function() {
+                $mdDialog.cancel();
+            };
 		}]);
