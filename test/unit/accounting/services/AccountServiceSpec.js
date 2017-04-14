@@ -1,4 +1,4 @@
-describe('accountService', function() {
+xdescribe('accountService', function() {
 
 	// Initialization of the AngularJS application before each test case
 	beforeEach(module('app'));
