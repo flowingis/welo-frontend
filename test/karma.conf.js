@@ -1,5 +1,10 @@
 module.exports = function (config) {
 	config.set({
+		browserConsoleLogOptions: {
+            level: 'log',
+            format: '%b %T: %m',
+            terminal: true
+        },
 
 		basePath: '../',
 
