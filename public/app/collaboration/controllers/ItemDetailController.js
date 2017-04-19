@@ -7,7 +7,8 @@ angular.module('app.collaboration')
 		'$log',
 		'streamService',
 		'itemService',
-		'identity',
+        'kanbanizeLaneService',
+        'identity',
 		function (
 			$scope,
 			$state,
@@ -16,7 +17,8 @@ angular.module('app.collaboration')
 			$log,
 			streamService,
 			itemService,
-			identity) {
+            kanbanizeLaneService,
+            identity) {
 
 			var onHttpGenericError  = function(httpResponse) {
 				alert('Generic Error during server communication (error: ' + httpResponse.status + ' ' + httpResponse.statusText + ') ');
@@ -33,7 +35,16 @@ angular.module('app.collaboration')
 
 			$scope.history = [];
 
-			this.iVoted = function(elm) {
+            $scope.lanes = [];
+            kanbanizeLaneService.getLanes($stateParams.orgId).then(function(lanes){
+            	lanes.forEach(function(lane) {
+            		if (lane.lcid!=null) {
+                        $scope.lanes[lane.lcid] = lane.lcname;
+                    }
+				});
+            });
+
+            this.iVoted = function(elm) {
 				if (elm.status === 0) {
 					if (elm.approvals.hasOwnProperty($scope.myId)) {
 						switch (elm.approvals[$scope.myId].approval) {
@@ -95,6 +106,8 @@ angular.module('app.collaboration')
 				$scope.members = _.filter(_.values(data.members),function(member){
 					return member.id !== $scope.owner.id;
 				});
+
+				$scope.item.laneName = $scope.item.lane.length ? $scope.lanes[$scope.item.lane] : '';
 
 				itemService.getHistory($scope.item).then(function(response){
 					$scope.history = response.data;

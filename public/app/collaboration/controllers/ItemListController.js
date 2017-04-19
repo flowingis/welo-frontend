@@ -69,6 +69,13 @@ angular.module('app.collaboration')
 
 			kanbanizeLaneService.getLanes($stateParams.orgId).then(function(lanes){
 				$scope.lanes = lanes;
+				$scope.lanesNames = [];
+
+                lanes.forEach(function(lane) {
+                    if (lane.lcid!=null) {
+                        $scope.lanesNames[lane.lcid] = lane.lcname;
+                    }
+                });
 
 				$scope.$watchGroup(['filters.status','filters.memberId','filters.orderType'],function(newValue,oldValue){
 					if (newValue!=oldValue) {
@@ -117,7 +124,14 @@ angular.module('app.collaboration')
 				$scope.filters.limit = 10;
 				kanbanizeLaneService.getLanes($stateParams.orgId).then(function(lanes){
 					$scope.lanes = lanes;
-					itemService.query($stateParams.orgId, $scope.filters, function(data) { $scope.items = data; }, this.onLoadingError);
+					$scope.lanesNames = [];
+                    lanes.forEach(function(lane) {
+                        if (lane.lcid!=null) {
+                            $scope.lanesNames[lane.lcid] = lane.lcname;
+                        }
+                    });
+
+                    itemService.query($stateParams.orgId, $scope.filters, function(data) { $scope.items = data; }, this.onLoadingError);
 				});
 			};
 
