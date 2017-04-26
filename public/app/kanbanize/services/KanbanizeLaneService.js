@@ -48,18 +48,8 @@ var Service = function(
 
 	return {
 		getLanes: function (organizationId) {
-			var deferred = $q.defer();
-
-			var lanes = LanesCache.get(organizationId);
-
-			if (lanes) {
-				deferred.resolve(lanes.lanes);
-				updateIfStaleLanes(lanes,organizationId);
-			} else {
-				return updateLanes(organizationId);
-			}
-
-			return deferred.promise;
+			// removed LanesCache usage, look at previous versions
+			return updateLanes(organizationId);
 		}
 	};
 };
