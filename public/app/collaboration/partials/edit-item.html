@@ -14,7 +14,7 @@
 				<md-input-container data-ng-if="lanes.length > 0">
 					<label>Lane</label>
 					<md-select data-ng-model="item.lane" name="lane">
-						<md-option ng-repeat="lane in lanes" value="{{ lane.lcid }}">{{ lane.lcname }}</md-option>
+						<md-option ng-repeat="lane in lanes" ng-model-options="{trackBy: '$value.lcid'}" value="{{ lane.lcid }}">{{ lane.lcname }}</md-option>
 					</md-select>
 					<div ng-messages="form.lane.$error" role="alert">
 						<div ng-message="required">Lane is required</div>
