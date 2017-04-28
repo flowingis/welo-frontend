@@ -43,7 +43,7 @@ describe('VoteExtractor', function(){
             }
         };
 
-        expect(voteExtractor(userId, mockElm)).toBe("You have absteined from vote this idea");
+        expect(voteExtractor(userId, mockElm)).toBe("You have absteined from voting this idea");
     });
 
 });

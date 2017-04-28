@@ -8,7 +8,7 @@ angular.module('app.collaboration').factory('voteExtractor', [function(){
                     case 1:
                         return "You have already accepted this idea";
                     case 2:
-                        return "You have absteined from vote this idea";
+                        return "You have absteined from voting this idea";
                 }
             }
         }
