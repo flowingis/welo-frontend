@@ -56,15 +56,17 @@ angular.module('app.collaboration')
 
 			$scope.loadingItems = true;
 
-
-			var restartPollingItems = function() {
-				itemService.stopQueryPolling();
-				$scope.items = [];
-				$scope.loadingItems = true;
-				itemService.startQueryPolling($stateParams.orgId, $scope.filters, function(data) {
-					$scope.loadingItems = false;
-					$scope.items = data;
-				}, this.onLoadingError, 30000);
+			var getItems = function(loadingName) {
+				$scope[loadingName] = true;
+				itemService.query($stateParams.orgId, $scope.filters,
+					function(data) {
+						$scope[loadingName] = false;
+						$scope.items = data;
+					},
+					function(response) {
+						$scope[loadingName] = false;
+						that.onLoadingError(response);
+				});
 			};
 
 			kanbanizeLaneService.getLanes($stateParams.orgId).then(function(lanes){
@@ -72,10 +74,10 @@ angular.module('app.collaboration')
 
 				$scope.$watchGroup(['filters.status','filters.memberId','filters.orderType'],function(newValue,oldValue){
 					if (newValue!=oldValue) {
-						restartPollingItems();
+						getItems('loadingItems');
 					}
 				});
-				restartPollingItems();
+				getItems('loadingItems');
 
 
 			},function (httpResponse) {
@@ -127,18 +129,9 @@ angular.module('app.collaboration')
 
 			$scope.isLoadingMore = false;
 			this.loadMore = function() {
-				$scope.isLoadingMore = true;
 				$scope.filters.limit = $scope.items.count + 10;
 				var that = this;
-				itemService.query($stateParams.orgId, $scope.filters,
-						function(data) {
-							$scope.isLoadingMore = false;
-							$scope.items = data;
-						},
-						function(response) {
-							$scope.isLoadingMore = false;
-							that.onLoadingError(response);
-				});
+				getItems('isLoadingMore');
 			};
 
 			/*this.stream = function(task) {
@@ -178,7 +171,7 @@ angular.module('app.collaboration')
 			};
 
 			this.onItemAdded = function(newItem){
-				restartPollingItems();
+				getItems('loadingItems');
 				$mdDialog.show({
 					controller: "OnItemAddedDialogController",
 					templateUrl: "app/collaboration/partials/on-item-added-dialog.html",

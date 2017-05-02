@@ -121,8 +121,15 @@ var ItemService = function(
 		this.query = function(organizationId, filters, success, error) {
 			error = error || _.noop;
 			isQueryPolling = true;
+
+			var newFilters = _.extend({},filters);
+
+			if(_.values(ItemService.prototype.ITEM_STATUS).indexOf(newFilters.status) === -1){
+				newFilters.status = null;
+			}
+
 			return resource.query(
-				angular.extend({ orgId: organizationId }, filters),
+				angular.extend({ orgId: organizationId }, newFilters),
 				function (data) {
 					isQueryPolling = false;
 					success(data);
