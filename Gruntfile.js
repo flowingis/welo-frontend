@@ -23,7 +23,8 @@ module.exports = function(grunt) {
 					'public/app/people/module.js',
 					'public/app/people/**/*.js',
 					'public/app/kanbanize/module.js',
-					'public/app/kanbanize/**/*.js'
+					'public/app/kanbanize/**/*.js',
+					'!**/*.spec.js'
 				],
 				dest: 'build/js/app.js'
 			},

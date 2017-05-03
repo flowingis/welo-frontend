@@ -7,8 +7,9 @@ angular.module('app.collaboration')
 		'$log',
 		'streamService',
 		'itemService',
-        'kanbanizeLaneService',
-        'identity',
+    'kanbanizeLaneService',
+    'identity',
+		'voteExtractor',
 		function (
 			$scope,
 			$state,
@@ -17,8 +18,9 @@ angular.module('app.collaboration')
 			$log,
 			streamService,
 			itemService,
-            kanbanizeLaneService,
-            identity) {
+      kanbanizeLaneService,
+			identity,
+			voteExtractor) {
 
 			var onHttpGenericError  = function(httpResponse) {
 				alert('Generic Error during server communication (error: ' + httpResponse.status + ' ' + httpResponse.statusText + ') ');
@@ -35,54 +37,27 @@ angular.module('app.collaboration')
 
 			$scope.history = [];
 
-            $scope.lanes = [];
-            kanbanizeLaneService.getLanes($stateParams.orgId).then(function(lanes){
-            	lanes.forEach(function(lane) {
-            		if (lane.lcid!=null) {
-                        $scope.lanes[lane.lcid] = lane.lcname;
-                    }
-				});
-            });
+      $scope.lanes = [];
+      kanbanizeLaneService.getLanes($stateParams.orgId).then(function(lanes){
+        lanes.forEach(function(lane) {
+          if (lane.lcid!=null) {
+            $scope.lanes[lane.lcid] = lane.lcname;
+          }
+        });
+      });
 
-            this.iVoted = function(elm) {
-				if (elm.status === 0) {
-					if (elm.approvals.hasOwnProperty($scope.myId)) {
-						switch (elm.approvals[$scope.myId].approval) {
-							case 0:
-								$scope.suggest = "You rejected this idea";
-								break;
-							case 1:
-								$scope.suggest = "You have already accepted this idea";
-								break;
-							case 2:
-								$scope.suggest = "You have absteined from vote this idea";
-								break;
-						}
-						return true;
-					}
+			this.iVoted = function(elm) {
+				var messageFromVoteExtractor = voteExtractor($scope.myId, elm);
+
+				if (messageFromVoteExtractor) {
+					$scope.suggest = messageFromVoteExtractor;
+					return true;
 				}
 
 				if (elm.status === 40) {
 					if (elm.members[$scope.myId] && elm.members[$scope.myId].shares) {
 						if (elm.members[$scope.myId].shares.hasOwnProperty($scope.myId)) {
 							$scope.suggest = "You have just assigned shares";
-						}
-						return true;
-					}
-				}
-
-				if (elm.status === 40) {
-					if (elm.acceptances.hasOwnProperty($scope.myId)) {
-						switch (elm.approvals[$scope.myId].approval) {
-							case 0:
-								$scope.suggest = "You haven't accepted";
-								break;
-							case 1:
-								$scope.suggest = "You have accepted";
-								break;
-							case 2:
-								$scope.suggest = "You have absteined from accepting this idea";
-								break;
 						}
 						return true;
 					}
