@@ -107,7 +107,7 @@ angular.module('app.collaboration')
 					return member.id !== $scope.owner.id;
 				});
 
-				$scope.item.laneName = $scope.item.lane.length ? $scope.lanes[$scope.item.lane] : '';
+				$scope.item.laneName = ($scope.item.lane && $scope.item.lane.length) ? $scope.lanes[$scope.item.lane] : '';
 
 				itemService.getHistory($scope.item).then(function(response){
 					$scope.history = response.data;
