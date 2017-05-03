@@ -48,18 +48,25 @@ var Service = function(
 
 	return {
 		getLanes: function (organizationId) {
-			var deferred = $q.defer();
+            return $http({
+                url: "api/organizations/" + organizationId,
+                method: 'GET',
+                headers: {'GOOGLE-JWT': identity.getToken()}
+            }).then(function (response) {
+                var data = response.data;
 
-			var lanes = LanesCache.get(organizationId);
 
-			if (lanes) {
-				deferred.resolve(lanes.lanes);
-				updateIfStaleLanes(lanes,organizationId);
-			} else {
-				return updateLanes(organizationId);
-			}
+				var lanes = Object
+								.keys(data.organization.lanes)
+								.map(function(key) {
+									var result = [];
+									result.lcid = key;
+									result.lcname = data.organization.lanes[key];
+									return result;
+								});
 
-			return deferred.promise;
+                return lanes || [];
+            });
 		}
 	};
 };

@@ -7,7 +7,8 @@ angular.module('app.collaboration')
 		'$log',
 		'streamService',
 		'itemService',
-		'identity',
+    'kanbanizeLaneService',
+    'identity',
 		'voteExtractor',
 		function (
 			$scope,
@@ -17,6 +18,7 @@ angular.module('app.collaboration')
 			$log,
 			streamService,
 			itemService,
+      kanbanizeLaneService,
 			identity,
 			voteExtractor) {
 
@@ -34,6 +36,15 @@ angular.module('app.collaboration')
 			$scope.busy = true;
 
 			$scope.history = [];
+
+      $scope.lanes = [];
+      kanbanizeLaneService.getLanes($stateParams.orgId).then(function(lanes){
+        lanes.forEach(function(lane) {
+          if (lane.lcid!=null) {
+            $scope.lanes[lane.lcid] = lane.lcname;
+          }
+        });
+      });
 
 			this.iVoted = function(elm) {
 				var messageFromVoteExtractor = voteExtractor($scope.myId, elm);
@@ -70,6 +81,8 @@ angular.module('app.collaboration')
 				$scope.members = _.filter(_.values(data.members),function(member){
 					return member.id !== $scope.owner.id;
 				});
+
+				$scope.item.laneName = ($scope.item.lane && $scope.item.lane.length) ? $scope.lanes[$scope.item.lane] : '';
 
 				itemService.getHistory($scope.item).then(function(response){
 					$scope.history = response.data;
