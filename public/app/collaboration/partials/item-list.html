@@ -149,8 +149,14 @@
         <md-button class="md-button md-warn md-ink-ripple">VIEW ITEM</md-button>
     </md-card-action>
 </md-card>
-<md-button data-ng-if="items._embedded['ora:task'].length < items.total" class="" data-ng-click="loadMore()">
-    LOAD MORE
-</md-button>
+<div layout="row" layout-align="center">
+    <md-button 
+        aria-label="Load More"
+        class="md-raised"
+        data-ng-if="items._embedded['ora:task'].length < items.total" 
+        data-ng-click="loadMore()">
+        LOAD MORE
+    </md-button>
+</div>
 
 <div class="space-at-end"></div>
