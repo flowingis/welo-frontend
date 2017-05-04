@@ -59,11 +59,11 @@
     </div>
 </md-content>
 <md-progress-linear data-ng-if="loadingItems" md-mode="query"></md-progress-linear>
+        <!-- infinite-scroll="ctrl.loadMore()" -->
 <md-card
         data-ng-click="goToDetail($event,item)"
         class="card-item" ng-repeat="item in items._embedded['ora:task']"
         ng-init="owner = ctrl.getOwner(item); author = ctrl.getAuthor(item)"
-        infinite-scroll="ctrl.loadMore()"
         infinite-scroll-distance="1"
         infinite-scroll-parent="true"
         infinite-scroll-disabled="items.total == items.count || isLoadingMore"
@@ -149,4 +149,8 @@
         <md-button class="md-button md-warn md-ink-ripple">VIEW ITEM</md-button>
     </md-card-action>
 </md-card>
+<md-button data-ng-if="items._embedded['ora:task'].length < items.total" class="" data-ng-click="loadMore()">
+    LOAD MORE
+</md-button>
+
 <div class="space-at-end"></div>

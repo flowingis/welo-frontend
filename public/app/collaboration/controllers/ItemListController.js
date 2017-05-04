@@ -58,6 +58,7 @@ angular.module('app.collaboration')
 
 			var getItems = function(loadingName) {
 				$scope[loadingName] = true;
+				$scope.filters.offset = 0;
 				itemService.query($stateParams.orgId, $scope.filters,
 					function(data) {
 						$scope[loadingName] = false;
@@ -128,10 +129,18 @@ angular.module('app.collaboration')
 			};
 
 			$scope.isLoadingMore = false;
-			this.loadMore = function() {
-				$scope.filters.limit = $scope.items.count + 10;
-				var that = this;
-				getItems('isLoadingMore');
+			$scope.loadMore = function() {
+				// $scope.filters.limit = $scope.items.count + 10;
+				$scope.filters.offset = $scope.items._embedded['ora:task'].length;
+				itemService.query($stateParams.orgId, $scope.filters,
+					function(data) {
+						$scope.isLoadingMore = false;
+						$scope.items._embedded['ora:task'] = $scope.items._embedded['ora:task'].concat(data._embedded['ora:task']);
+					},
+					function(response) {
+						$scope.isLoadingMore = false;
+						that.onLoadingError(response);
+				});
 			};
 
 			/*this.stream = function(task) {
