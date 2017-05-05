@@ -121,15 +121,8 @@
 			</div>
 			<div layout="row">
 				<md-input-container>
-					<label class="md-container-ignore">Organization transaction limit per page</label>
-					<input type="text"
-						data-ng-model="orgSettings.org_transaction_limit_per_page"
-						name="org_transaction_limit_per_page"
-						aria-label="Organization transaction limit per page"
-						required>
-					<div ng-messages="orgSettingsForm.org_transaction_limit_per_page.$error" role="alert">
-						<div ng-message="required">Organization transaction limit per page is required</div>
-					</div>
+					<label class="md-container-ignore">Flow Welcome Card</label>
+					<textarea data-ng-model="orgSettings.flow_welcome_card_text" aria-label="Flow Welcome Card"></textarea>
 				</md-input-container>
 			</div>
 			<div layout="row" layout-align="end center">
