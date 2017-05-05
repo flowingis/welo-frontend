@@ -150,7 +150,6 @@ angular.module('app.people')
 						ok: 'Close'
 					});
                 $mdDialog.show( alert );
-
             };
 
 
