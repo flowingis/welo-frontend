@@ -39,7 +39,6 @@ angular.module('app.collaboration')
 
 			$scope.filters = {
 				offset: 0,
-				limit: 20,
 				status: "All",
 				cardType: ($scope.decisions ? "decisions" : "all"),
 				memberId: null,
