@@ -29,19 +29,17 @@ angular.module('app.collaboration')
 			};
 
 			$scope.currentUserId = $scope.identity.getId();
-
 			$scope.decisions = $state.$current.data.decisions;
-
 			$scope.changeUpdateTime = false;
-
 			$scope.changeStatusTime = false;
-
 			$scope.streams = null;
-
 			$scope.lanes = null;
+			$scope.isLoadingMore = false;
+			$scope.loadingItems = true;
 
 			$scope.filters = {
 				offset: 0,
+				limit: 20,
 				status: "All",
 				cardType: ($scope.decisions ? "decisions" : "all"),
 				memberId: null,
@@ -54,17 +52,34 @@ angular.module('app.collaboration')
 				itemService.stopQueryPolling();
 			};
 
-			$scope.loadingItems = true;
-
-
-			var restartPollingItems = function() {
-				itemService.stopQueryPolling();
-				$scope.items = [];
+			var getItems = function() {
 				$scope.loadingItems = true;
-				itemService.startQueryPolling($stateParams.orgId, $scope.filters, function(data) {
-					$scope.loadingItems = false;
-					$scope.items = data;
-				}, this.onLoadingError, 30000);
+				$scope.filters.offset = 0;
+				itemService.query($stateParams.orgId, $scope.filters,
+					function(data) {
+						$scope.loadingItems = false;
+						$scope.items = data;
+					},
+					function(response) {
+						$scope.loadingItems = false;
+						that.onLoadingError(response);
+				});
+			};
+
+			$scope.loadMore = function() {
+				$scope.loadingItems = true;
+				$scope.filters.offset = $scope.items._embedded['ora:task'].length;
+				itemService.query($stateParams.orgId, $scope.filters,
+					function(data) {
+						$scope.isLoadingMore = false;
+						$scope.loadingItems = false;
+						$scope.items._embedded['ora:task'] = $scope.items._embedded['ora:task'].concat(data._embedded['ora:task']);
+					},
+					function(response) {
+						$scope.isLoadingMore = false;
+						$scope.loadingItems = false;
+						that.onLoadingError(response);
+				});
 			};
 
 			kanbanizeLaneService.getLanes($stateParams.orgId).then(function(lanes){
@@ -79,10 +94,10 @@ angular.module('app.collaboration')
 
 				$scope.$watchGroup(['filters.status','filters.memberId','filters.orderType'],function(newValue,oldValue){
 					if (newValue!=oldValue) {
-						restartPollingItems();
+						getItems();
 					}
 				});
-				restartPollingItems();
+				getItems();
 
 
 			},function (httpResponse) {
@@ -120,7 +135,7 @@ angular.module('app.collaboration')
 				return itemService.isIn(item,$scope.identity.getId());
 			};
 
-			this.loadItems = function() {
+			/*this.loadItems = function() {
 				$scope.filters.limit = 10;
 				kanbanizeLaneService.getLanes($stateParams.orgId).then(function(lanes){
 					$scope.lanes = lanes;
@@ -133,28 +148,13 @@ angular.module('app.collaboration')
 
                     itemService.query($stateParams.orgId, $scope.filters, function(data) { $scope.items = data; }, this.onLoadingError);
 				});
-			};
+			};*/
 
 			$scope.printVote = function(item){
 				return voteExtractor($scope.currentUserId,item);
 			};
 
-			$scope.isLoadingMore = false;
-			this.loadMore = function() {
-				$scope.isLoadingMore = true;
-				$scope.filters.limit = $scope.items.count + 10;
-				var that = this;
-				itemService.query($stateParams.orgId, $scope.filters,
-						function(data) {
-							$scope.isLoadingMore = false;
-							$scope.items = data;
-						},
-						function(response) {
-							$scope.isLoadingMore = false;
-							that.onLoadingError(response);
-				});
-			};
-
+			
 			/*this.stream = function(task) {
 				if($scope.streams && task.stream) {
 					return $scope.streams._embedded['ora:stream'][task.stream.id];
@@ -192,7 +192,7 @@ angular.module('app.collaboration')
 			};
 
 			this.onItemAdded = function(newItem){
-				restartPollingItems();
+				getItems();
 				$mdDialog.show({
 					controller: "OnItemAddedDialogController",
 					templateUrl: "app/collaboration/partials/on-item-added-dialog.html",

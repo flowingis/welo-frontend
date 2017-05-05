@@ -22,7 +22,7 @@
                     scope.lastScrollTop = 0;
 
                     angular.element(element).bind("scroll", function(e) {
-                        console.log(e.target.scrollTop);
+                        // console.log(e.target.scrollTop);
 
                         scrolling(e.target, scope.lastScrollTop);
 
