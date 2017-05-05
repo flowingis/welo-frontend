@@ -9,6 +9,7 @@ module.exports = function (config) {
 		basePath: '../',
 
 		files: [
+			'public/components/lodash/dist/lodash.min.js',
 			'public/components/angular/angular.js',
 			'public/components/jquery/dist/jquery.js',
 			'public/components/ngInfiniteScroll/build/ng-infinite-scroll.js',

@@ -7,6 +7,7 @@ angular.module('app.flow')
 		'flowService',
 		'$state',
 		'SelectedOrganizationId',
+		'FlowItemsTools',
 		'streamService',
 		function (
 			$scope,
@@ -16,6 +17,7 @@ angular.module('app.flow')
 			flowService,
 			$state,
 			SelectedOrganizationId,
+			FlowItemsTools,
 			streamService) {
 			if(SelectedOrganizationId.get()){
 				streamService.query(SelectedOrganizationId.get(),function(data){
@@ -34,7 +36,10 @@ angular.module('app.flow')
 					limit: 10,
 					offset: 0
 				};
-			$scope.cards = [];
+			$scope.cards = {
+				_embedded: {
+				}
+			};
 			$scope.isLoadingMore = false;
 			var that = this;
 			this.onLoadingError = function(error) {
@@ -50,10 +55,17 @@ angular.module('app.flow')
 				}
 			};
 
+			var updatedCards = function(oldDatas, newDatas){
+				var newCards = _.extend({}, newDatas);
+				var arraOfNewCard = FlowItemsTools.objToArray(newDatas._embedded['ora:flowcard']);
+				newCards._embedded['ora:flowcard'] = FlowItemsTools.merge(oldDatas._embedded['ora:flowcard'], arraOfNewCard).items;
+				return newDatas;
+			}
+
 			$scope.loading = true;
 			flowService.startQueryPolling($scope.filters, function(data) {
 				$scope.loading = false;
-				$scope.cards = data;
+				$scope.cards = updatedCards($scope.cards, data);
 			}, this.onLoadingError, 10000);
 
 			this.cancelAutoUpdate = function() {
@@ -62,14 +74,14 @@ angular.module('app.flow')
 			$scope.$on("$destroy", function(){
 				that.cancelAutoUpdate();
 			});
-			this.loadMore = function() {
+			$scope.loadMore = function() {
+				that.cancelAutoUpdate();
 				$scope.isLoadingMore = true;
-				$scope.filters.limit = $scope.items.count + 10;
-				var that = this;
+				$scope.filters.offset = $scope.cards._embedded['ora:flowcard'].length;
 				flowService.query($scope.filters,
 						function(data) {
 							$scope.isLoadingMore = false;
-							$scope.cards = data;
+							$scope.cards = updatedCards($scope.cards, data);
 						},
 						function(response) {
 							$scope.isLoadingMore = false;
