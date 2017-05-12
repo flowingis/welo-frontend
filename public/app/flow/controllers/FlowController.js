@@ -60,7 +60,7 @@ angular.module('app.flow')
 				var arraOfNewCard = FlowItemsTools.objToArray(newDatas._embedded['ora:flowcard']);
 				newCards._embedded['ora:flowcard'] = FlowItemsTools.merge(oldDatas._embedded['ora:flowcard'], arraOfNewCard).items;
 				return newDatas;
-			}
+			};
 
 			$scope.loading = true;
 			flowService.startQueryPolling($scope.filters, function(data) {

@@ -3,11 +3,11 @@ angular.module('app.flow').factory('FlowItemsTools', [function(){
         return _.reverse(_.orderBy(items, function(item){
             return (new Date(item.createdAt)).getTime();
         }));
-    }
+    };
 
     var objToArray = function(obj){
         return orderItemsByData(_.values(obj));
-    }
+    };
     
     var merge = function(oldItems, newItems) {
         if(oldItems){
@@ -33,12 +33,12 @@ angular.module('app.flow').factory('FlowItemsTools', [function(){
 
         return {
             items: orderItemsByData(mergedItems.concat(oldItems))
-        }
-    }
+        };
+    };
 
 
     return {
         merge: merge,
         objToArray: objToArray
-    }
+    };
 }]);
