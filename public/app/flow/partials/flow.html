@@ -3,7 +3,17 @@
 		<!-- To be defined 
 	</div>
 </md-toolbar> -->
-<md-subheader class="md-no-sticky">Latest Activity</md-subheader>
+<md-subheader class="md-no-sticky">
+	Latest Activity
+	<md-button
+		data-ng-if="pollingStopped"
+        aria-label="Load More"
+        class="md-raised md-primary md-button md-ink-ripple"
+        data-ng-if="cards._embedded['ora:flowcard'].length < cards.total" 
+        data-ng-click="restartPolling()">
+        RESTART POLLING
+    </md-button>
+</md-subheader>
 <md-divider></md-divider>
 <md-content>
 	<md-progress-linear data-ng-if="loading" md-mode="query"></md-progress-linear>
