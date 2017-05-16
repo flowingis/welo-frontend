@@ -543,6 +543,11 @@ md-fab-speed-dial.md-scale .md-fab-action-item {
     transform: scale(0);
 }
 
+md-toast.md-center {
+  left: 50%;
+  transform: translate3d(-50%, 0, 0);
+}
+
 div.content-wrapper.flex > md-fab-speed-dial,
 div.content-wrapper.flex > .tooltip {
     transform: scale(1);

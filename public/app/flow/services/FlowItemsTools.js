@@ -31,8 +31,11 @@ angular.module('app.flow').factory('FlowItemsTools', [function(){
             }
         });
 
+        var items = orderItemsByData(mergedItems.concat(oldItems));
+        
         return {
-            items: orderItemsByData(mergedItems.concat(oldItems))
+            items: items,
+            hadNewItems: (items.length > oldItems.length) 
         };
     };
 

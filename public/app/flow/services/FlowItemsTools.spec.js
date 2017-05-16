@@ -33,6 +33,21 @@ describe('FlowItemsTools', function(){
         expect(flowItemsTools.merge(oldItems, newItems).items[6].id).toBe("0", "after newItems should be oldItems(4)");
     });
 
+    it("merge function should not modify inputs array", function(){
+        var oldItemsCopy = JSON.parse(JSON.stringify(oldItems));
+        newItems = [
+            {createdAt: "2017-04-28T14:01:00+02:00", id: "otherNewItem", description: "bazz"},
+            {createdAt: "2017-04-28T14:02:00+02:00", id: "newItem", description: "foo"},
+            {createdAt: "2017-04-28T14:00:00+02:00", id: "4", description: "task 4"},
+            {createdAt: "2017-04-28T13:51:14+02:00", id: "3", description: "task 3"}
+        ];
+        var newItemsCopy = JSON.parse(JSON.stringify(newItems));
+
+        flowItemsTools.merge(oldItemsCopy, newItemsCopy);
+        expect(oldItemsCopy).toEqual(oldItems);
+        expect(newItemsCopy).toEqual(newItems);
+    });
+
     it("merge function should work with undefined oldItems", function(){
         newItems = [
             {id: "newItem", description: "foo"},
@@ -65,9 +80,6 @@ describe('FlowItemsTools', function(){
         };
 
         var arrFromObj = flowItemsTools.objToArray(obj);
-            
-            
-            
 
         expect(arrFromObj[0].id).toBe("3");
         expect(arrFromObj[1].id).toBe("2");
@@ -77,6 +89,25 @@ describe('FlowItemsTools', function(){
 
     it("objToArray function should return empty array if obj is undefined", function(){
         expect(flowItemsTools.objToArray(undefined)).toEqual([]);
+    });
+
+    it("merge function return should contain hadNewItems at false if there is no new items", function(){
+        newItems = [
+            {createdAt: "2017-04-28T14:00:00+02:00", id: "4", description: "task 4"},
+            {createdAt: "2017-04-28T13:51:14+02:00", id: "3", description: "task 3"}
+        ];
+
+        expect(flowItemsTools.merge(oldItems, newItems).hadNewItems).toBe(false);
+    });
+
+    it("merge function return should contain hadNewItems at true if there is new items", function(){
+        newItems = [
+            {createdAt: "2017-04-28T14:02:00+02:00", id: "newItem", description: "foo"},
+            {createdAt: "2017-04-28T14:00:00+02:00", id: "4", description: "task 4"},
+            {createdAt: "2017-04-28T13:51:14+02:00", id: "3", description: "task 3"}
+        ];
+
+        expect(flowItemsTools.merge(oldItems, newItems).hadNewItems).toBe(true);
     });
 
 });
