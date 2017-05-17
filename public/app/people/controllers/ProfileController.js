@@ -151,7 +151,7 @@ angular.module('app.people')
 					});
                 $mdDialog.show( alert );
 
-            }
+            };
 
 
             $scope.cancel = function() {

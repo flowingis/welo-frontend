@@ -40,7 +40,7 @@ angular.module('app.collaboration')
       $scope.lanes = [];
       kanbanizeLaneService.getLanes($stateParams.orgId).then(function(lanes){
         lanes.forEach(function(lane) {
-          if (lane.lcid!=null) {
+          if (lane.lcid!==null) {
             $scope.lanes[lane.lcid] = lane.lcname;
           }
         });

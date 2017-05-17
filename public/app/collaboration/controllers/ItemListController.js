@@ -87,7 +87,7 @@ angular.module('app.collaboration')
 				$scope.lanesNames = [];
 
                 lanes.forEach(function(lane) {
-                    if (lane.lcid!=null) {
+                    if (lane.lcid!==null) {
                         $scope.lanesNames[lane.lcid] = lane.lcname;
                     }
                 });
