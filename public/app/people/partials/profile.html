@@ -25,7 +25,8 @@
 					   data-ng-href="mailto:{{email}}" target="_top">
 						{{email}}
 					</a>
-					<a style="padding-left:20px;" ng-click="askChangeSecondaryEmails($event)"><i style="font-size:16px;" ng-if="profile.editable" class="material-icons" >&#xE254;</i></a>
+					<a style="padding-left:20px; cursor:pointer;" ng-click="askChangeSecondaryEmails($event)">
+						<i style="font-size:17px;" ng-if="profile.editable" class="material-icons" >&#xE02E;</i></a>
 				</p>
 			</md-list-item>
 		</md-list>
