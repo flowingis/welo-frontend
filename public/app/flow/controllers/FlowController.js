@@ -93,7 +93,7 @@ angular.module('app.flow')
                     .hideDelay(0)
                     .action('SHOW')
                     .highlightAction(true)
-                    .position("top center")
+                    .position("top center");
                     // .parent(containerEl);
 
                 $mdToast.show(toast).then(function(response) {
