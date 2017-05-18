@@ -1,25 +1,27 @@
-<div ng-if="menu.open" class="tooltip" style=" width: 120px;right:100px;bottom: 100px;">
+<div ng-if="menu.open" class="tooltip" style=" width: 120px;right:85px;bottom: 142px;">
     Deposit
 </div>
-<div ng-if="menu.open" class="tooltip" style=" width: 120px;right:100px;bottom: 150px;">
+<div ng-if="menu.open" class="tooltip" style=" width: 120px;right:85px;bottom: 194px;">
     Withdrawal
 </div>
-<div ng-if="menu.open" class="tooltip" style=" width: 120px;right:100px;bottom: 205px;">
+<div ng-if="menu.open" class="tooltip" style=" width: 120px;right:85px;bottom: 246px;">
     Incoming Transfer
 </div>
-<div ng-if="menu.open" class="tooltip" style=" width: 120px;right:100px;bottom: 258px;">
+<div ng-if="menu.open" class="tooltip" style=" width: 120px;right:85px;bottom: 298px;">
     Outgoing Transfer
 </div>
 
-<md-fab-speed-dial md-open="menu.open" md-direction="up" class="md-scale md-fab-bottom-right ora-fab"
-                   data-ng-show="statement && ctrl.isNewTransactionsAllowed()">
+<md-fab-speed-dial 
+        md-open="menu.open" 
+        md-direction="up" 
+        class="md-scale ora-fab"
+        ng-if="statement && ctrl.isNewTransactionsAllowed()">
     <md-fab-trigger>
         <md-button aria-label="Account Menu" class="md-fab md-warn md-hue-1">
             <md-icon md-svg-icon="add"></md-icon>
         </md-button>
     </md-fab-trigger>
     <md-fab-actions>
-
         <md-button aria-label="Add Credit" class="md-fab md-raised md-mini"
                    ng-click="ctrl.openNewDeposit($event)"
                    ng-if="ctrl.isAllowed('deposit', statement)">

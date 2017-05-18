@@ -30,8 +30,9 @@
 			</div>
 		</md-dialog-content>
 		<md-dialog-actions layout="row" layout-align="end center">
-			<md-button type="button" ng-click="dialogCtrl.cancel()">Cancel</md-button>
-			<md-button type="submit" style="margin-right:20px;" class="md-primary" ng-disabled="form.$invalid">Submit</md-button>
+			<md-button type="button" ng-click="dialogCtrl.cancel()" data-ng-if="!saving">Cancel</md-button>
+			<md-button type="submit" style="margin-right:20px;" class="md-primary" data-ng-if="!saving" ng-disabled="form.$invalid">Submit</md-button>
+			<md-progress-circular  style="margin-right:10px;" data-ng-if="saving" md-mode="indeterminate"></md-progress-circular>
 		</md-dialog-actions>
 	</form>
 </md-dialog>

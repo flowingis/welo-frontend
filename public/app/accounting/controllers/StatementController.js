@@ -116,7 +116,7 @@ angular.module('app.accounting')
 					});
 			};
 
-			this.addTransaction = function(transaction) {
+			$scope.addTransaction = function(transaction) {
 				$scope.statement._embedded.transactions.unshift(transaction);
 			};
 
@@ -131,7 +131,7 @@ angular.module('app.accounting')
 					locals: {
 						account: $scope.statement
 					}
-				}).then(this.addTransaction);
+				}).then($scope.addTransaction);
 			};
 			this.openNewWithdrawal = function(ev) {
 				$mdDialog.show({
@@ -144,7 +144,7 @@ angular.module('app.accounting')
 					locals: {
 						account: $scope.statement
 					}
-				}).then(this.addTransaction);
+				}).then($scope.addTransaction);
 			};
 			this.openNewIncomingTransfer = function(ev) {
 				$mdDialog.show({
@@ -161,7 +161,7 @@ angular.module('app.accounting')
 					for(var i = 0; i < data._embedded['ora:transaction'].length; i++) {
 						var transaction = data._embedded['ora:transaction'][i];
 						if(transaction.account.id == $scope.statement.id) {
-							that.addTransaction(transaction);
+							$scope.addTransaction(transaction);
 							return;
 						}
 					}
@@ -182,7 +182,7 @@ angular.module('app.accounting')
 					for(var i = 0; i < data._embedded['ora:transaction'].length; i++) {
 						var transaction = data._embedded['ora:transaction'][i];
 						if(transaction.account.id == $scope.statement.id) {
-							that.addTransaction(transaction);
+							$scope.addTransaction(transaction);
 							return;
 						}
 					}

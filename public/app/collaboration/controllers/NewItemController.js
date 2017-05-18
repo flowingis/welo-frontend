@@ -9,6 +9,8 @@ function NewItemController(
 	decisionMode,
 	lanes) {
 
+	$scope.saving = false;
+
 	$scope.lanes = lanes || [];
 
 	$scope.decisionMode = decisionMode;
@@ -35,6 +37,7 @@ function NewItemController(
 		$mdDialog.cancel();
 	};
 	this.submit = function() {
+		$scope.saving = true;
 		var onSuccess = function(newItem){
 			$mdDialog.hide(newItem);
 		};
@@ -49,6 +52,7 @@ function NewItemController(
 		}
 
 		itemService.save(orgId, $scope.task, onSuccess, function(httpResponse) {
+			$scope.saving = false;
 			switch(httpResponse.status) {
 				case 400:
 					httpResponse.data.errors.forEach(function(error) {
