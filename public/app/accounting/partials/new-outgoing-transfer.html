@@ -22,7 +22,7 @@
 				</md-input-container>
 				<md-input-container>
 					<label>Description</label>
-					<input name="description" type="text" maxlength="256" data-ng-model="transfer.description">
+					<input name="description" type="text" maxlength="256" required data-ng-model="transfer.description">
 					<div ng-messages="form.stream.$error" role="alert">
 						<div ng-message="maxlength">Description can be 256 characters long at most</div>
 					</div>
