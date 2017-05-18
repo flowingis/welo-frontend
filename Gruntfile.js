@@ -93,6 +93,7 @@ module.exports = function(grunt) {
 			main: {
 				files: [
 					{src: 'public/icon-set.svg',dest: 'build/icon-set.svg'},
+					{src: 'public/robots.txt',dest: 'build/robots.txt'},
 					{expand: true, cwd: 'public/img/', src: ['**'], dest: 'build/img/'}
 				]
 
