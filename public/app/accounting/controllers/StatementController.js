@@ -23,7 +23,6 @@ angular.module('app.accounting')
 			this.onLoadingError = function(error) {
 				switch (error.status) {
 					case 401:
-						this.cancelAutoUpdate();
 						break;
 				}
 			};
@@ -38,7 +37,7 @@ angular.module('app.accounting')
 
 			$scope.emptyOrganizationTransactions = false;
 			$scope.loadingOrganizationTransactions = true;
-			accountService.startOrganizationPolling($stateParams.orgId, $scope.filters, function(data) {
+			accountService.organizationStatement($stateParams.orgId, $scope.filters, function(data) {
 				$scope.loadingOrganizationTransactions = false;
 				var transactions = data._embedded.transactions || [];
 				if(transactions.length === 0){
@@ -48,17 +47,12 @@ angular.module('app.accounting')
 			}, function(error){
 				this.onLoadingError(error);
 				$scope.loadingOrganizationTransactions = false;
-			}, 30000);
-
-			var cancelAutoUpdate = function () {
-				accountService.stopOrganizationPolling();
-				accountService.stopPersonalPolling();
-			};
+			});
 
 			$scope.personalStatement = null;
 			$scope.emptyPersonalTransactions = false;
 			$scope.loadingPersonalTransactions = true;
-			accountService.startPersonalPolling($stateParams.orgId,{}, function(data) {
+			accountService.personalStatement($stateParams.orgId,{}, function(data) {
 				$scope.loadingPersonalTransactions = false;
 				var transactions = data._embedded.transactions || [];
 				if(transactions.length === 0){
@@ -68,10 +62,6 @@ angular.module('app.accounting')
 			}, function(error){
 				this.onLoadingError(error);
 				$scope.loadingPersonalTransactions = false;
-			}, 30000);
-
-			$scope.$on('$destroy', function(){
-				cancelAutoUpdate();
 			});
 
 			$scope.isLoadingMore = false;

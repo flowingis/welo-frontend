@@ -106,13 +106,12 @@ angular.module('app.collaboration')
 					default:
 						alert('Generic Error during server communication (error: ' + httpResponse.status + ' ' + httpResponse.statusText + ') ');
 						$log.warn(httpResponse);
-						itemService.stopGetPolling();
 				}
 			};
 			$scope.item = null;
 			$scope.ITEM_STATUS = itemService.ITEM_STATUS;
-			itemService.startGetPolling($stateParams.orgId, $stateParams.itemId, onLoadItem, this.onLoadingError, 10000);
-			$scope.$on('$destroy', itemService.stopGetPolling);
+			itemService.get($stateParams.orgId, $stateParams.itemId, onLoadItem, this.onLoadingError);
+
 			this.stream = function(item) {
 				if($scope.streams && item && item.stream) {
 					return $scope.streams._embedded['ora:stream'][item.stream.id];

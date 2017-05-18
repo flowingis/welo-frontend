@@ -47,11 +47,6 @@ angular.module('app.collaboration')
 				orderType: ($scope.changeUpdateTime ? "asc" : "desc") //exeption for handle sort without break signature method
 			};
 
-			this.cancelAutoUpdate = function() {
-				streamService.stopQueryPolling();
-				itemService.stopQueryPolling();
-			};
-
 			var getItems = function() {
 				$scope.loadingItems = true;
 				$scope.filters.offset = 0;
@@ -110,8 +105,6 @@ angular.module('app.collaboration')
 				alert('Generic Error during server communication (error: ' + httpResponse.status + ' ' + httpResponse.statusText + ') ');
 				$log.warn(httpResponse);
 			};
-
-			$scope.$on('$destroy', this.cancelAutoUpdate);
 
 			$scope.ITEM_STATUS = itemService.ITEM_STATUS;
 
@@ -278,7 +271,6 @@ angular.module('app.collaboration')
 			this.onLoadingError = function(error) {
 				switch (error.status) {
 					case 401:
-						this.cancelAutoUpdate();
 						break;
 				}
 			};

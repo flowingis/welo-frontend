@@ -3,12 +3,14 @@
 		<!-- To be defined 
 	</div>
 </md-toolbar> -->
-<md-subheader class="md-no-sticky">Latest Activity</md-subheader>
+<md-subheader class="md-no-sticky">
+	Latest Activity
+</md-subheader>
 <md-divider></md-divider>
 <md-content>
 	<md-progress-linear data-ng-if="loading" md-mode="query"></md-progress-linear>
+	<!-- infinite-scroll="ctrl.loadMore()" -->
 	<md-list flex="100" ng-repeat="card in cards._embedded['ora:flowcard']"
-	infinite-scroll="ctrl.loadMore()"
 	infinite-scroll-distance="1"
 	infinite-scroll-parent="true"
 	infinite-scroll-disabled="cards.total == cards.count || isLoadingMore"
@@ -51,5 +53,14 @@
 	</md-list-item>
 	<md-divider style="margin-left: 70px;"></md-divider>
 </md-list>
+<div layout="row" layout-align="center">
+    <md-button 
+        aria-label="Load More"
+        class="md-raised md-primary md-button md-ink-ripple"
+        data-ng-if="cards._embedded['ora:flowcard'].length < cards.total" 
+        data-ng-click="loadMore()">
+        LOAD MORE
+    </md-button>
+</div>
 <div style="height: 48px;"></div>
 </md-content>
