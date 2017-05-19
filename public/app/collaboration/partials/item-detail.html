@@ -11,11 +11,11 @@
 				{{ item.laneName }}
 			</p>
 			<div layout="row" class="margin-bottom-20" ng-if="item.status < ITEM_STATUS.OPEN">
-				<img class="margin-right-20" style="max-width: 60px; max-height: 60px; border-radius: 50%;" ng-src="{{ author.picture || 'img/account.jpg' }}">
+				<img ng-click="goToProfile(author.id)" class="margin-right-20" style="max-width: 60px; max-height: 60px; border-radius: 50%; cursor: pointer;" ng-src="{{ author.picture || 'img/account.jpg' }}">
 				<div>
 					<p class="no-margin no-padding" style="font-size: 14px;">author:</p>
-					<p class="no-margin no-padding" style="font-size: 14px;">
-						<u class="warn" ng-click="goToProfile(author.id)"> {{ author.firstname }} {{ author.lastname }}</u>
+					<p class="no-margin no-padding warn" data-ng-click="goToProfile(author.id)" style="font-size: 14px; cursor: pointer;">
+						{{ author.firstname }} {{ author.lastname }}
 					</p>
 
 				</div>
