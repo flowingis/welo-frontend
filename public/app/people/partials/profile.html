@@ -16,13 +16,13 @@
 				<p>
 					<a
 						class="profile-basic-info"
-						data-ng-href="mailto:{{profile.email}}" target="_top">
+						target="_top">
 						{{profile.email}}
 					</a>
 					<a ng-repeat="email in profile.secondaryEmails"
 					   style="padding-left:20px;"
 					   class="profile-basic-info"
-					   data-ng-href="mailto:{{email}}" target="_top">
+					   target="_top">
 						{{email}}
 					</a>
 					<a style="padding-left:20px; cursor:pointer;" ng-click="askChangeSecondaryEmails($event)">
