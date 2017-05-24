@@ -171,10 +171,10 @@ i.hideelement {
 }
 
 .profile-basic-info {
-    padding-left: 5px;
+    /*padding-left: 5px;*/
     font-size: 14px;
     color: black;
-    margin-left: 2px;
+    /*margin-left: 2px;*/
 }
 
 .im-in-icon {
