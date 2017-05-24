@@ -15,7 +15,7 @@
         md-open="menu.open" 
         md-direction="up" 
         class="md-scale ora-fab"
-        ng-if="statement && ctrl.isNewTransactionsAllowed()">
+        ng-if="statement && ctrl.isNewTransactionsAllowed() && currentTab === 0">
     <md-fab-trigger>
         <md-button aria-label="Account Menu" class="md-fab md-warn md-hue-1">
             <md-icon md-svg-icon="add"></md-icon>
