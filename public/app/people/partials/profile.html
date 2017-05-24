@@ -10,21 +10,15 @@
 
 		<md-list>
 			<md-list-item style="padding-left:20px;">
-				<div class="profile-info-icon">
+				<!--<div class="profile-info-icon">
 					<i style="font-size:10px;" class="material-icons">mail_outline</i>
-				</div>
+				</div>-->
 				<p>
-					<a
-						class="profile-basic-info"
-						target="_top">
-						{{profile.email}}
-					</a>
+					<a class="profile-basic-info" target="_top">{{profile.email}}</a>
 					<a ng-repeat="email in profile.secondaryEmails"
 					   style="padding-left:20px;"
 					   class="profile-basic-info"
-					   target="_top">
-						{{email}}
-					</a>
+					   target="_top">{{email}}</a>
 					<a style="padding-left:20px; cursor:pointer;" ng-click="askChangeSecondaryEmails($event)">
 						<i style="font-size:17px;" ng-if="profile.editable" class="material-icons" >&#xE02E;</i></a>
 				</p>
