@@ -7,8 +7,8 @@ angular.module('app.collaboration')
 		'$log',
 		'streamService',
 		'itemService',
-    'kanbanizeLaneService',
-    'identity',
+		'kanbanizeLaneService',
+		'identity',
 		'voteExtractor',
 		function (
 			$scope,
@@ -18,11 +18,11 @@ angular.module('app.collaboration')
 			$log,
 			streamService,
 			itemService,
-      kanbanizeLaneService,
+			kanbanizeLaneService,
 			identity,
 			voteExtractor) {
 
-			var onHttpGenericError  = function(httpResponse) {
+			var onHttpGenericError = function (httpResponse) {
 				alert('Generic Error during server communication (error: ' + httpResponse.status + ' ' + httpResponse.statusText + ') ');
 				$log.warn(httpResponse);
 			};
@@ -37,16 +37,16 @@ angular.module('app.collaboration')
 
 			$scope.history = [];
 
-      $scope.lanes = [];
-      kanbanizeLaneService.getLanes($stateParams.orgId).then(function(lanes){
-        lanes.forEach(function(lane) {
-          if (lane.lcid!==null) {
-            $scope.lanes[lane.lcid] = lane.lcname;
-          }
-        });
-      });
+			$scope.lanes = [];
+			kanbanizeLaneService.getLanes($stateParams.orgId).then(function (lanes) {
+				lanes.forEach(function (lane) {
+					if (lane.lcid !== null) {
+						$scope.lanes[lane.lcid] = lane.lcname;
+					}
+				});
+			});
 
-			this.iVoted = function(elm) {
+			this.iVoted = function (elm) {
 				var messageFromVoteExtractor = voteExtractor($scope.myId, elm);
 
 				if (messageFromVoteExtractor) {
@@ -72,32 +72,32 @@ angular.module('app.collaboration')
 				return false;
 			};
 
-			var onLoadItem = function(data){
+			var onLoadItem = function (data) {
 				$scope.author = itemService.getAuthor(data);
 				$scope.owner = itemService.getOwner(data);
 				$scope.item = data;
 				$scope.busy = false;
 				$scope.attachments = data.attachments || [];
-				$scope.members = _.filter(_.values(data.members),function(member){
+				$scope.members = _.filter(_.values(data.members), function (member) {
 					return member.id !== $scope.owner.id;
 				});
 
 				$scope.item.laneName = ($scope.item.lane && $scope.item.lane.length) ? $scope.lanes[$scope.item.lane] : '';
 
-				itemService.getHistory($scope.item).then(function(response){
+				itemService.getHistory($scope.item).then(function (response) {
 					$scope.history = response.data;
-				},onHttpGenericError);
+				}, onHttpGenericError);
 			};
 
 			$scope.membershipRole = $scope.identity.getMembershipRole($stateParams.orgId);
 
-			$scope.goToProfile = function(id) {
-				$state.go("org.profile",{memberId:id});
+			$scope.goToProfile = function (id) {
+				$state.go("org.profile", { memberId: id });
 			};
 
 			$scope.streams = null;
-			streamService.query($stateParams.orgId, function(data) { $scope.streams = data; }, onHttpGenericError);
-			this.onLoadingError = function(error) {
+			streamService.query($stateParams.orgId, function (data) { $scope.streams = data; }, onHttpGenericError);
+			this.onLoadingError = function (error) {
 				$log.debug(error);
 				switch (error.status) {
 					/*case 401:
@@ -112,23 +112,23 @@ angular.module('app.collaboration')
 			$scope.ITEM_STATUS = itemService.ITEM_STATUS;
 			itemService.get($stateParams.orgId, $stateParams.itemId, onLoadItem, this.onLoadingError);
 
-			this.stream = function(item) {
-				if($scope.streams && item && item.stream) {
+			this.stream = function (item) {
+				if ($scope.streams && item && item.stream) {
 					return $scope.streams._embedded['ora:stream'][item.stream.id];
 				}
 				return null;
 			};
 			this.isAllowed = itemService.isAllowed.bind(itemService);
-			this.hasMore = function(item) {
+			this.hasMore = function (item) {
 				return this.isAllowed('editItem', item) ||
-						this.isAllowed('deleteItem', item) ||
-						this.isAllowed('unjoinItem', item) ||
-						this.isAllowed('reExecuteItem', item);
+					this.isAllowed('deleteItem', item) ||
+					this.isAllowed('unjoinItem', item) ||
+					this.isAllowed('reExecuteItem', item);
 			};
-			this.parseDate = function(when) {
+			this.parseDate = function (when) {
 				return Date.parse(when);
 			};
-			this.openEditItem = function(ev, item) {
+			this.openEditItem = function (ev, item) {
 				$mdDialog.show({
 					controller: EditItemController,
 					controllerAs: 'dialogCtrl',
@@ -140,30 +140,30 @@ angular.module('app.collaboration')
 					}
 				}).then(this.updateItem);
 			};
-			this.deleteItem = function(ev, item) {
+			this.deleteItem = function (ev, item) {
 				var confirm = $mdDialog.confirm()
-						.title("Would you delete this item?")
-						.textContent("It removes all its informations and cannot be undone.")
-						.targetEvent(ev)
-						.ok("Yes")
-						.cancel("No");
+					.title("Would you delete this item?")
+					.textContent("It removes all its informations and cannot be undone.")
+					.targetEvent(ev)
+					.ok("Yes")
+					.cancel("No");
 
-				$mdDialog.show(confirm).then(function() {
+				$mdDialog.show(confirm).then(function () {
 					itemService.delete(item,
-						function() {
+						function () {
 							$state.go('org.collaboration', { orgId: item.organization.id });
 						},
 						onHttpGenericError
 					);
 				});
 			};
-			this.joinItem = function(item) {
+			this.joinItem = function (item) {
 				itemService.joinItem(item, this.updateItem, onHttpGenericError);
 			};
-			this.unjoinItem = function(item) {
+			this.unjoinItem = function (item) {
 				itemService.unjoinItem(item, this.updateItem, onHttpGenericError);
 			};
-			this.openEstimateItem = function(ev, item) {
+			this.openEstimateItem = function (ev, item) {
 				$mdDialog.show({
 					controller: EstimateItemController,
 					controllerAs: 'dialogCtrl',
@@ -176,41 +176,41 @@ angular.module('app.collaboration')
 					}
 				}).then(this.updateItem);
 			};
-			this.executeItem = function(item) {
+			this.executeItem = function (item) {
 				itemService.executeItem(item, this.updateItem, onHttpGenericError);
 			};
-			this.reExecuteItem = function(ev, item) {
+			this.reExecuteItem = function (ev, item) {
 				var that = this;
 				var confirm = $mdDialog.confirm()
-						.title("Would you revert this item to ongoing?")
-						.textContent("Organization members can join, item members can unjoin or change their estimates.")
-						.targetEvent(ev)
-						.ok("Yes")
-						.cancel("No");
+					.title("Would you revert this item to ongoing?")
+					.textContent("Organization members can join, item members can unjoin or change their estimates.")
+					.targetEvent(ev)
+					.ok("Yes")
+					.cancel("No");
 
 				$mdDialog.show(confirm)
-						.then(function() {
-							that.executeItem(item);
-						});
+					.then(function () {
+						that.executeItem(item);
+					});
 			};
-			this.completeItem = function(ev, item) {
+			this.completeItem = function (ev, item) {
 				var that = this;
 				var confirm = $mdDialog.confirm()
-						.title("Would you mark this item as completed?")
-						.textContent("It freezes item members and their estimation.")
-						.targetEvent(ev)
-						.ok("Yes")
-						.cancel("No");
+					.title("Would you mark this item as completed?")
+					.textContent("It freezes item members and their estimation.")
+					.targetEvent(ev)
+					.ok("Yes")
+					.cancel("No");
 
 				$mdDialog.show(confirm)
-						.then(function() {
-							that.reCompleteItem(item);
-						});
+					.then(function () {
+						that.reCompleteItem(item);
+					});
 			};
-			this.reCompleteItem = function(item) {
+			this.reCompleteItem = function (item) {
 				itemService.completeItem(item, this.updateItem, onHttpGenericError);
 			};
-			this.acceptItem = function(ev,item) {
+			this.acceptItem = function (ev, item) {
 				$mdDialog.show({
 					controller: ApproveIdeaController,
 					controllerAs: 'dialogCtrl',
@@ -220,15 +220,15 @@ angular.module('app.collaboration')
 					locals: {
 						title: 'Accept Item',
 						item: item,
-						callbacks:{
-							abstain:itemService.abstainCompletedItem,
-							accept:itemService.approveCompletedItem,
-							reject:itemService.rejectCompletedItem
+						callbacks: {
+							abstain: itemService.abstainCompletedItem,
+							accept: itemService.approveCompletedItem,
+							reject: itemService.rejectCompletedItem
 						}
 					}
 				}).then(this.updateItem);
 			};
-			this.openAssignShares = function(ev, item) {
+			this.openAssignShares = function (ev, item) {
 				$mdDialog.show({
 					controller: AssignSharesController,
 					controllerAs: 'dialogCtrl',
@@ -242,20 +242,20 @@ angular.module('app.collaboration')
 				}).then(this.updateItem);
 			};
 
-			this.removeTaskMember = function(ev,item,member){
+			this.removeTaskMember = function (ev, item, member) {
 				var confirm = $mdDialog.confirm()
-						.title("Would you remove this user from the task?")
-						.textContent("This operation cannot be undone.")
-						.targetEvent(ev)
-						.ok("Yes")
-						.cancel("No");
+					.title("Would you remove this user from the task?")
+					.textContent("This operation cannot be undone.")
+					.targetEvent(ev)
+					.ok("Yes")
+					.cancel("No");
 
-				$mdDialog.show(confirm).then(function() {
-					itemService.removeTaskMember(item.organization.id,item.id,member.id).then($log.info,onHttpGenericError);
+				$mdDialog.show(confirm).then(function () {
+					itemService.removeTaskMember(item.organization.id, item.id, member.id).then($log.info, onHttpGenericError);
 				});
 			};
 
-            this.openApproveIdea = function(ev, item) {
+			this.openApproveIdea = function (ev, item) {
 				$mdDialog.show({
 					controller: ApproveIdeaController,
 					controllerAs: 'dialogCtrl',
@@ -265,44 +265,44 @@ angular.module('app.collaboration')
 					locals: {
 						title: 'Approve Idea',
 						item: item,
-						callbacks:{
-							abstain:itemService.abstainIdeaItem,
-							accept:itemService.approveIdeaItem,
-							reject:itemService.rejectIdeaItem
+						callbacks: {
+							abstain: itemService.abstainIdeaItem,
+							accept: itemService.approveIdeaItem,
+							reject: itemService.rejectIdeaItem
 						}
 					}
 				}).then(this.updateItem);
 			};
 
-			this.remindItemEstimate = function(item) {
+			this.remindItemEstimate = function (item) {
 				itemService.remindItemEstimate(item, $log.info, onHttpGenericError);
 			};
 
-			this.updateItem = function(item) {
+			this.updateItem = function (item) {
 				$scope.item = item;
 			};
 
-			this.closeItem = function(item) {
+			this.closeItem = function (item) {
 				itemService.closeItem(item, this.updateItem, onHttpGenericError);
 			};
 
-			this.addAttachment = function(file){
+			this.addAttachment = function (file) {
 				$scope.attachments.push(file);
-				itemService.setAttachments($stateParams.orgId,$stateParams.itemId,$scope.attachments).then($log.info,onHttpGenericError);
+				itemService.setAttachments($stateParams.orgId, $stateParams.itemId, $scope.attachments).then($log.info, onHttpGenericError);
 			};
 
-			this.deleteAttachment = function(file){
-				$scope.attachments = _.without($scope.attachments,file);
-				itemService.setAttachments($stateParams.orgId,$stateParams.itemId,$scope.attachments).then($log.info,onHttpGenericError);
+			this.deleteAttachment = function (file) {
+				$scope.attachments = _.without($scope.attachments, file);
+				itemService.setAttachments($stateParams.orgId, $stateParams.itemId, $scope.attachments).then($log.info, onHttpGenericError);
 			};
 
-			$scope.showPriority = function(item){
+			$scope.showPriority = function (item) {
 				return item.status == itemService.ITEM_STATUS.OPEN && !_.isNull(item.position);
 			};
 
 			var that = this;
 
-			this.changeOwner = function(ev, item) {
+			this.changeOwner = function (ev, item) {
 				$mdDialog.show({
 					controller: 'ChangeOwnerController',
 					templateUrl: 'app/collaboration/partials/change-owner.html',
@@ -312,10 +312,10 @@ angular.module('app.collaboration')
 						item: item,
 						owner: $scope.owner
 					}
-				}).then(function(owner) {
-					itemService.changeOwner(item,owner).then(function(){
+				}).then(function (owner) {
+					itemService.changeOwner(item, owner).then(function () {
 						itemService.query($stateParams.orgId, $stateParams.itemId, onLoadItem);
-					},onHttpGenericError);
+					}, onHttpGenericError);
 				});
 			};
 		}]);
