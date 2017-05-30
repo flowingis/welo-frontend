@@ -120,6 +120,11 @@
 						<md-tooltip md-direction="top" ng-if="member.estimatedAt">Estimate At {{member.estimatedAt | date:"dd/MM/yyyy 'at' HH:mm"}}</md-tooltip>
 						<md-tooltip md-direction="top" ng-if="!member.estimatedAt">Not yet estimated</md-tooltip>
 						<md-icon ng-class="{'success': member.estimatedAt}" class="material-icons">&#xE85C;</md-icon>
+					</md-button>
+					<md-button class="md-icon-button">
+						<md-tooltip md-direction="top" ng-if="member.shares">Shares assigned</md-tooltip>
+						<md-tooltip md-direction="top" ng-if="!member.shares">Shares not yet assigned</md-tooltip>
+						<md-icon ng-class="{'success': member.shares}" class="material-icons">&#xE043;</md-icon>
 					</md-button>						
 					<md-button class="md-secondary md-icon-button" aria-label="delete" ng-click="ctrl.removeTaskMember($event,item,member)" data-ng-if="ctrl.isAllowed('removeTaskMember', item.organization)">
 						<md-icon class="md-warn material-icons">delete</md-icon>
