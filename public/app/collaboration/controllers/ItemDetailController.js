@@ -79,6 +79,7 @@ angular.module('app.collaboration')
 				$scope.busy = false;
 				$scope.attachments = data.attachments || [];
 				$scope.members = _.values(data.members);
+				console.log(data);
 
 				$scope.item.laneName = ($scope.item.lane && $scope.item.lane.length) ? $scope.lanes[$scope.item.lane] : '';
 
