@@ -97,24 +97,13 @@
 		<md-card-header-text>
 			<span style="font-size: 14px;" class="md-title">Partecipants List</span>
 
-			<!--<div layout="row" layout-align="space-between center" ng-class="ctrl.isAllowed('showShares', item) && member.share ? 'md-3-line' : 'md-2-line'" data-ng-repeat="member in members" ng-init="m = user(member)">
-				<div layout="row">
-					<img style="max-width: 30px; max-height: 30px; border-radius: 50%;" ng-src="{{ member.picture || 'img/account.jpg' }}" md-ink-ripple>
-					<p ng-click="goToProfile(member.id)" class="padding-left-10 margin-top-10 warn no-margin" style=" font-size: 14px; margin-left: 2px;">{{ member.firstname }} {{ member.lastname }} <span style="color:gray;">({{ member.role }})</span></p>
-				</div>
-				<md-button class="md-icon-button md-warn" data-ng-if="ctrl.isAllowed('removeTaskMember', item.organization)" aria-label="Delete"
-				 data-ng-click="ctrl.removeTaskMember($event,item,member)">
-					<md-icon class="material-icons" aria-label="delete">delete</md-icon>
-				</md-button>
-			</div>-->
-
 			<md-list class="md-dense" ng-if="item.status != 50">
 				<md-list-item ng-repeat="member in members" ng-init="m = user(member)" ng-click="goToProfile(member.id)"  class="md-2-line md-no-proxy" style="padding:0;">
 					<img alt="{{ member.firstname }} {{ member.lastname }}" ng-src="{{ member.picture || 'img/account.jpg' }}" class="md-avatar"
 					/>
 					<div class="md-list-item-text" layout="column">
 						<h3 class="warn">{{ member.firstname }} {{ member.lastname }}</h3>
-						<p style="color:gray;">({{ member.role }})</p>
+						<p style="color:gray;"><!--({{ member.role }})--></p>
 					</div>
 					<md-button class="md-icon-button">
 						<md-tooltip md-direction="top" ng-if="member.estimatedAt">Estimate At {{member.estimatedAt | date:"dd/MM/yyyy 'at' HH:mm"}}</md-tooltip>
