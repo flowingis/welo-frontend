@@ -133,13 +133,13 @@
 			</md-list>
 
 			<md-list class="md-dense" ng-if="ctrl.isAllowed('showShares', item)">
-				<md-list-item ng-repeat="member in members" ng-init="m = user(member)" ng-click="goToProfile(member.id)"  class="md-3-line md-no-proxy" style="padding:0;">
+				<md-list-item ng-repeat="member in members" ng-init="m = user(member)" ng-click="goToProfile(member.id)"  class="md-2-line md-no-proxy" style="padding:0;">
 					<img alt="{{ member.firstname }} {{ member.lastname }}" ng-src="{{ member.picture || 'img/account.jpg' }}" class="md-avatar"
 					/>
 					<div class="md-list-item-text" layout="column">
-						<h3 class="warn">{{ member.firstname }} {{ member.lastname }}</h3>
-						<p style="color:gray;">({{ member.role }})</p>
-						<p class="md-primary md-hue-2">{{member.credits | number:2}} ({{member.share*100 | number:2}}% gap:{{member.delta*100 | number:2}}%)</p>
+						<h3 class="warn" style="line-height: 1.2em;">{{ member.firstname }} {{ member.lastname }}</h3>
+						<p style="line-height: 1.2em;"><strong>Credits: {{member.credits | number:2}}</strong><br /><i>(Share: {{member.share*100 | number:2}}% Gap:{{member.delta*100 | number:2}}%)</i></p>
+						<md-progress-linear class="md-primary md-hue-2" md-mode="determinate" value="{{member.share*100}}"></md-progress-bar>
 					</div>
 				</md-list-item>
 			</md-list>
