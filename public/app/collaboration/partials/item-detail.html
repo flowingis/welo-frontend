@@ -53,12 +53,12 @@
 			<!-- TODO: print current value for item -->
 			<p class="font-size14" style="margin-top: -8px;">
 				Current Value:
-				<span data-ng-if="item.estimation" style="line-height: 14px;" class="md-subhead">{{item.estimation}}&nbsp;Credits</span>
-				<span data-ng-if="!item.estimation" style="line-height: 14px;" class="md-subhead">To Be estimated</span></p>
-			<p class="font-size14" style="margin-top: -8px;">
-				<span class="color-primary" ng-if="!yourEstimation">You've not estimated yet.</span>
-				<span class="color-primary" ng-if="yourEstimation < 0">You've skipped the estimate.</span>
-				<span class="color-primary" ng-if="yourEstimation > 0">Your estimation: {{yourEstimation}}</span>
+			<span data-ng-if="item.estimation" style="line-height: 14px;" class="md-subhead">{{item.estimation}}&nbsp;credits</span>
+			<span data-ng-if="!item.estimation" style="line-height: 14px;" class="md-subhead">To Be estimated</span></p>
+			<p class="font-size14" style="margin-top: -8px;" >
+			<span class="color-primary" ng-if="!yourEstimation">You've not estimated yet.</span>
+			<span class="color-primary" ng-if="yourEstimation < 0">You've skipped the estimate.</span>
+			<span class="color-primary" ng-if="yourEstimation > 0">Your estimation: {{yourEstimation}} credits</span>
 			</p>
 			<p class="font-size14" style="margin-top: -8px;" data-ng-if="showPriority(item)">
 				Priority:
