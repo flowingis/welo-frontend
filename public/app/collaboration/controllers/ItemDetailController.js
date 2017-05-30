@@ -75,6 +75,7 @@ angular.module('app.collaboration')
 			var onLoadItem = function (data) {
 				$scope.author = itemService.getAuthor(data);
 				$scope.owner = itemService.getOwner(data);
+				$scope.yourEstimation = itemService.yourEstimation(data);
 				$scope.item = data;
 				$scope.busy = false;
 				$scope.attachments = data.attachments || [];
@@ -277,8 +278,8 @@ angular.module('app.collaboration')
 				itemService.remindItemEstimate(item, $log.info, onHttpGenericError);
 			};
 
-			this.updateItem = function (item) {
-				$scope.item = item;
+			this.updateItem = function(item) {
+				itemService.get($stateParams.orgId, $stateParams.itemId, onLoadItem, this.onLoadingError);
 			};
 
 			this.closeItem = function (item) {

@@ -365,6 +365,13 @@ var ItemService = function(
 				}
 				return true;
 			},
+			yourEstimation: function(item) {
+				if (item && item.members && item.members.hasOwnProperty(this.getIdentity().getId())) {
+					return item.members[this.getIdentity().getId()].estimation;
+				} else {
+					return false;
+				}
+			},
 			countEstimators: function(item) {
 				var n = 0;
 				if(item) {

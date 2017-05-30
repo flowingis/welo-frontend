@@ -53,8 +53,12 @@
 			<!-- TODO: print current value for item -->
 			<p class="font-size14" style="margin-top: -8px;">
 				Current Value:
-				<span data-ng-if="item.estimation" style="line-height: 14px;" class="md-subhead">{{item.estimation}}&nbspCredits</span>
-				<span data-ng-if="!item.estimation" style="line-height: 14px;" class="md-subhead">To Be estimated</span>
+				<span data-ng-if="item.estimation" style="line-height: 14px;" class="md-subhead">{{item.estimation}}&nbsp;Credits</span>
+				<span data-ng-if="!item.estimation" style="line-height: 14px;" class="md-subhead">To Be estimated</span></p>
+			<p class="font-size14" style="margin-top: -8px;">
+				<span class="color-primary" ng-if="!yourEstimation">You've not estimated yet.</span>
+				<span class="color-primary" ng-if="yourEstimation < 0">You've skipped the estimate.</span>
+				<span class="color-primary" ng-if="yourEstimation > 0">Your estimation: {{yourEstimation}}</span>
 			</p>
 			<p class="font-size14" style="margin-top: -8px;" data-ng-if="showPriority(item)">
 				Priority:
@@ -98,12 +102,15 @@
 			<span style="font-size: 14px;" class="md-title">Partecipants List</span>
 
 			<md-list class="md-dense" ng-if="item.status != 50">
-				<md-list-item ng-repeat="member in members" ng-init="m = user(member)" ng-click="goToProfile(member.id)"  class="md-2-line md-no-proxy" style="padding:0;">
+				<md-list-item ng-repeat="member in members" ng-init="m = user(member)" ng-click="goToProfile(member.id)" class="md-2-line md-no-proxy"
+				 style="padding:0;">
 					<img alt="{{ member.firstname }} {{ member.lastname }}" ng-src="{{ member.picture || 'img/account.jpg' }}" class="md-avatar"
 					/>
 					<div class="md-list-item-text" layout="column">
 						<h3 class="warn">{{ member.firstname }} {{ member.lastname }}</h3>
-						<p style="color:gray;"><!--({{ member.role }})--></p>
+						<p style="color:gray;">
+							<!--({{ member.role }})-->
+						</p>
 					</div>
 					<md-button class="md-icon-button">
 						<md-tooltip md-direction="top" ng-if="member.estimatedAt">Estimate At {{member.estimatedAt | date:"dd/MM/yyyy 'at' HH:mm"}}</md-tooltip>
@@ -114,7 +121,7 @@
 						<md-tooltip md-direction="top" ng-if="member.shares">Shares assigned</md-tooltip>
 						<md-tooltip md-direction="top" ng-if="!member.shares">Shares not yet assigned</md-tooltip>
 						<md-icon ng-class="{'md-primary': member.shares}" class="material-icons">&#xE043;</md-icon>
-					</md-button>						
+					</md-button>
 					<md-button class="md-secondary md-icon-button" aria-label="delete" ng-click="ctrl.removeTaskMember($event,item,member)" data-ng-if="ctrl.isAllowed('removeTaskMember', item.organization)">
 						<md-icon class="md-warn material-icons">delete</md-icon>
 					</md-button>
@@ -122,7 +129,8 @@
 			</md-list>
 
 			<md-list class="md-dense" ng-if="ctrl.isAllowed('showShares', item)">
-				<md-list-item ng-repeat="member in members" ng-init="m = user(member)" ng-click="goToProfile(member.id)"  class="md-2-line md-no-proxy" style="padding:0;">
+				<md-list-item ng-repeat="member in members" ng-init="m = user(member)" ng-click="goToProfile(member.id)" class="md-2-line md-no-proxy"
+				 style="padding:0;">
 					<img alt="{{ member.firstname }} {{ member.lastname }}" ng-src="{{ member.picture || 'img/account.jpg' }}" class="md-avatar"
 					/>
 					<div class="md-list-item-text" layout="column">

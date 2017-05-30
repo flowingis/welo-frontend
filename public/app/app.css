@@ -353,8 +353,8 @@ i.hideelement {
     color: #f44336;
 }
 
-.success {
-    color: #00B000;
+.color-primary {
+    color: #00838f;
 }
 
 a.md-button.md-default-theme.md-raised, a.md-button.md-raised, .md-button.md-default-theme.md-raised, .md-button.md-raised {
