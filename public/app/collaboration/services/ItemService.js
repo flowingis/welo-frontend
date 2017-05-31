@@ -516,7 +516,7 @@ var ItemService = function(
 				showMyEstimation: function(resource) {
 					return resource && 
 					this.getIdentity().isAuthenticated() && 
-					resource.status == this.ITEM_STATUS.ONGOING &&
+					resource.status >= this.ITEM_STATUS.ONGOING &&
 					this.hasJoined(resource, this.getIdentity().getId());
 				},
 				closeItem: function(resource) {

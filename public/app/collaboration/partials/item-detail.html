@@ -56,9 +56,9 @@
 			<span data-ng-if="item.estimation" style="line-height: 14px;" class="md-subhead">{{item.estimation}}&nbsp;credits</span>
 			<span data-ng-if="!item.estimation" style="line-height: 14px;" class="md-subhead">To Be estimated</span></p>
 			<p class="font-size14" style="margin-top: -8px;" >
-			<span class="color-primary" ng-if="ctrl.isAllowed('estimateItem', item) && !yourEstimation">You've not estimated yet.</span>
-			<span class="color-primary" ng-if="ctrl.isAllowed('estimateItem', item) && yourEstimation < 0">You've skipped the estimate.</span>
-			<span class="color-primary" ng-if="ctrl.isAllowed('estimateItem', item) && yourEstimation > 0">Your estimation: {{yourEstimation}} credits</span>
+			<span class="color-primary" ng-if="ctrl.isAllowed('showMyEstimation', item) && !yourEstimation">You've not estimated yet.</span>
+			<span class="color-primary" ng-if="ctrl.isAllowed('showMyEstimation', item) && yourEstimation < 0">You've skipped the estimate.</span>
+			<span class="color-primary" ng-if="ctrl.isAllowed('showMyEstimation', item) && yourEstimation > 0">Your estimation: {{yourEstimation}} credits</span>
 			</p>
 			<p class="font-size14" style="margin-top: -8px;" data-ng-if="showPriority(item)">
 				Priority:
