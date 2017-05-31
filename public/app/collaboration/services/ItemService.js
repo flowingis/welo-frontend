@@ -513,6 +513,12 @@ var ItemService = function(
 					this.getIdentity().isAuthenticated() &&
 					resource.status == this.ITEM_STATUS.CLOSED;
 				},
+				showMyEstimation: function(resource) {
+					return resource && 
+					this.getIdentity().isAuthenticated() && 
+					resource.status == this.ITEM_STATUS.ONGOING &&
+					this.hasJoined(resource, this.getIdentity().getId());
+				},
 				closeItem: function(resource) {
 					return resource &&
 					this.getIdentity().isAuthenticated() &&
