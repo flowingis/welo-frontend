@@ -365,6 +365,13 @@ var ItemService = function(
 				}
 				return true;
 			},
+			yourEstimation: function(item) {
+				if (item && item.members && item.members.hasOwnProperty(this.getIdentity().getId())) {
+					return item.members[this.getIdentity().getId()].estimation;
+				} else {
+					return false;
+				}
+			},
 			countEstimators: function(item) {
 				var n = 0;
 				if(item) {
@@ -505,6 +512,12 @@ var ItemService = function(
 					return resource &&
 					this.getIdentity().isAuthenticated() &&
 					resource.status == this.ITEM_STATUS.CLOSED;
+				},
+				showMyEstimation: function(resource) {
+					return resource && 
+					this.getIdentity().isAuthenticated() && 
+					resource.status >= this.ITEM_STATUS.ONGOING &&
+					this.hasJoined(resource, this.getIdentity().getId());
 				},
 				closeItem: function(resource) {
 					return resource &&
