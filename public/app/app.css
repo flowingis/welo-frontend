@@ -254,7 +254,7 @@ i.hideelement {
 }
 
 .margin-right-10 {
-    maegin-right: 10px;
+    margin-right: 10px;
 }
 
 .margin-top-10 {
@@ -351,6 +351,10 @@ i.hideelement {
 
 .warn {
     color: #f44336;
+}
+
+.success {
+    color: #00B000;
 }
 
 a.md-button.md-default-theme.md-raised, a.md-button.md-raised, .md-button.md-default-theme.md-raised, .md-button.md-raised {
