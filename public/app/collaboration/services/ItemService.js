@@ -323,6 +323,9 @@ var ItemService = function(
                 }
                 return null;
             },
+            isAuthor: function(item, userId){
+            	return item && item.author && item.author.id === userId;
+            },
 			getOwner: function(item) {
 				if(item) {
 					for(var id in item.members) {
@@ -423,7 +426,7 @@ var ItemService = function(
 				},
 				editItem: function(resource) {
 					return this.getIdentity().isAuthenticated() &&
-					this.isOwner(resource, this.getIdentity().getId());
+					(this.isOwner(resource, this.getIdentity().getId()) || this.isAuthor(resource, this.getIdentity().getId()));
 				},
 				deleteItem: function(resource) {
 					return resource &&
