@@ -98,9 +98,8 @@
                 </p>
             </div>
         </md-card-header-text>
-        <md-card-media layout="column" layout-align="start end" class="margin-top-10"
-                       ng-if="item.status != ITEM_STATUS.OPEN">
-            <div ng-show="item.status == ITEM_STATUS.IDEA">
+        <md-card-media layout="column" layout-align="start end" class="margin-top-10">
+            <div ng-show="item.status <= ITEM_STATUS.OPEN">
                 <div>
                     <img style="max-width: 40px; border-radius: 50%" ng-src="{{ author.picture || 'img/account.jpg' }}"
                          alt="{{ author.firstname }} {{ author.lastname}}" title="{{ author.firstname }} {{ author.lastname}}">
@@ -108,7 +107,7 @@
                 <p class="margin-top-10 no-margin" style="font-size: 14px; font-weight: bold">author:</p>
                 <p class="font-size12 no-margin" style="text-align:right;">{{ author.firstname }} {{ author.lastname}} </p>
             </div>
-            <div ng-show="item.status != ITEM_STATUS.IDEA">
+            <div ng-show="item.status > ITEM_STATUS.OPEN">
                 <div>
                     <img style="max-width: 40px; border-radius: 50%" ng-src="{{ owner.picture || 'img/account.jpg' }}"
                          alt="{{ owner.firstname }} {{ owner.lastname}}" title="{{ owner.firstname }} {{ owner.lastname}}">
