@@ -85,6 +85,7 @@
 	<md-card-header>
 		<md-card-header-text>
 			<md-button class="md-raised md-primary" ng-if="ctrl.isAllowed('editItem', item)" ng-click="ctrl.openEditItem($event,item)">Edit this item</md-button>
+			<md-button class="md-raised md-primary" data-ng-if="ctrl.isAllowed('deleteItem', item)" data-ng-click="ctrl.deleteItem($event,item)">Delete</md-button>
 		</md-card-header-text>
 	</md-card-header>
 	<md-divider></md-divider>

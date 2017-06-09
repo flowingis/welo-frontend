@@ -430,11 +430,12 @@ var ItemService = function(
 					(this.isOwner(resource, this.getIdentity().getId()) || this.isAuthor(resource, this.getIdentity().getId()));
 				},
 				deleteItem: function(resource) {
-					return resource &&
-					this.getIdentity().isAuthenticated() &&
-					resource.status < this.ITEM_STATUS.COMPLETED &&
-					this.isOwner(resource, this.getIdentity().getId()) &&
-					!this.isDeleteItemExpired(resource, new Date());
+					return 'admin' === this.getIdentity().getMembershipRole(resource.organization.id);
+					// return resource &&
+					// this.getIdentity().isAuthenticated() &&
+					// resource.status < this.ITEM_STATUS.COMPLETED &&
+					// this.isOwner(resource, this.getIdentity().getId()) &&
+					// !this.isDeleteItemExpired(resource, new Date());
 				},
 				joinItem: function(resource) {
 					return resource &&
