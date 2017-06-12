@@ -404,17 +404,6 @@ var ItemService = function(
 				}
 				return true;
 			},
-			isDeleteItemExpired: function(item, ref){
-				if(item){
-					if(item.createdAt){
-						var mCreatedAt = moment(new Date(item.createdAt));
-						var mRef = moment(ref);
-						mCreatedAt.add(24, 'hours');
-						return mCreatedAt.isBefore(mRef);
-					}
-				}
-				return true;
-			},
 			visibilityCriteria: {
 				removeTaskMember: function(organization){
 					return 'admin' === this.getIdentity().getMembershipRole(organization.id);
@@ -430,12 +419,18 @@ var ItemService = function(
 					(this.isOwner(resource, this.getIdentity().getId()) || this.isAuthor(resource, this.getIdentity().getId()));
 				},
 				deleteItem: function(resource) {
-					return 'admin' === this.getIdentity().getMembershipRole(resource.organization.id);
-					// return resource &&
-					// this.getIdentity().isAuthenticated() &&
-					// resource.status < this.ITEM_STATUS.COMPLETED &&
-					// this.isOwner(resource, this.getIdentity().getId()) &&
-					// !this.isDeleteItemExpired(resource, new Date());
+
+					var allowedStatuses = [
+						this.ITEM_STATUS.IDEA,
+						this.ITEM_STATUS.OPEN,
+						this.ITEM_STATUS.ONGOING,
+						this.ITEM_STATUS.REJECTED
+					];
+
+					var isAdmin = 'admin' === this.getIdentity().getMembershipRole(resource.organization.id);
+					var isAllowedStatus = allowedStatuses.indexOf(resource.status) !== -1;
+
+					return isAdmin && isAllowedStatus;
 				},
 				joinItem: function(resource) {
 					return resource &&
