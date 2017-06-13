@@ -176,8 +176,19 @@ angular.module('app.collaboration')
 					}
 				}).then(this.updateItem);
 			};
-			this.executeItem = function (item) {
-				itemService.executeItem(item, this.updateItem, onHttpGenericError);
+			this.executeItem = function (ev, item) {
+				var that = this;
+				var confirm = $mdDialog.confirm()
+					.title("ARE YOU STARTING THIS WORK ITEM?")
+					.textContent("You are about to start the activities on this work item, becoming its \"owner\". This means you are willing to coordinate and facilitate its work, while other users can join you in this effort. Do you confirm?")
+					.targetEvent(ev)
+					.ok("Yes")
+					.cancel("No");
+				$mdDialog.show(confirm)
+					.then(function () {
+						itemService.executeItem(item, that.updateItem, onHttpGenericError);
+					});
+				// itemService.executeItem(item, this.updateItem, onHttpGenericError);
 			};
 			this.reExecuteItem = function (ev, item) {
 				var that = this;
