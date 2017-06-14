@@ -20,7 +20,9 @@
 		<div class="md-list-item-text md-padding">
 			<p class="flow-type">{{card.type | flowTypeLabel}}</p>
 			<h1 class="flow-title"  >{{card.title}}</h1>
-			<p class="flow-description justify padding-right-30">{{card.content.description}}</p>
+			<p class="flow-description justify padding-right-30">
+				{{card.content.description | limitTo: 140}} {{card.content.description.length <= 140 ? '' : '...'}}
+			</p>
 			<br ng-if="card.type == 'ItemClosed'"/>
 
 			<div class="flow-description justify padding-right-30" ng-if="card.type == 'ItemClosed'">

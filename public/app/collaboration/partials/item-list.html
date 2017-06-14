@@ -81,7 +81,7 @@
                     {{ lanesNames[item.lane] }}
                 </span>
                 <span style="font-size: 13px; line-height: 14px;" class="md-subhead padding-right-20 justify">
-                    {{item.description}}
+                    {{item.description | limitTo: 140}} {{item.description.length <= 140 ? '' : '...'}}
                 </span>
             <div layout="row" class="padding-right-20">
                 <p style="font-size: 14px;">
