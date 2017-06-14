@@ -21,7 +21,7 @@
 			<p class="flow-type">{{card.type | flowTypeLabel}}</p>
 			<h1 class="flow-title"  >{{card.title}}</h1>
 			<p class="flow-description justify padding-right-30">
-				{{card.content.description | limitTo: 140}} {{card.content.description.length <= 140 ? '' : '...'}}
+				{{card.content.description | limitTo: 140}}<span data-ng-if="card.content.description.length > 140">...</span>
 			</p>
 			<br ng-if="card.type == 'ItemClosed'"/>
 
