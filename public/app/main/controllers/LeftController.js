@@ -14,4 +14,7 @@ angular.module('app')
 					$log.debug("close LEFT is done");
 				});
 		};
+
+		$scope.ver = ver;
+		$scope.t = t;
 });

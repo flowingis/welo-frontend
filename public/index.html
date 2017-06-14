@@ -55,7 +55,22 @@
 	<!-- build:[src] https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.8.2/lodash.min.js -->
 	<script src="components/lodash/dist/lodash.min.js"></script>
 	<!-- /build -->
-	<!-- build:js js/app.js -->
+	<!-- build:template
+	<script>
+	    var ver = "<%= ver%>";
+		var t = "<%= t%>";
+	</script>	
+	/build -->
+	<!-- build:remove -->
+	<script>
+	    var ver = "DEV";
+		var t = "DEV";
+	</script>
+	<!-- /build -->
+	<!-- build:template
+	<script src="js/app-<%= ver%>-<%= t%>.js"></script>
+	/build -->
+	<!-- build:remove -->
 	<script src="app/main/module.js"></script>
 	<script src="app/main/filters/PercentageFilter.js"></script>
 	<script src="app/main/filters/NewLineFilter.js"></script>
