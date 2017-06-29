@@ -1,6 +1,9 @@
 module.exports = function(grunt) {
 	require('load-grunt-tasks')(grunt);
 
+	var tBuild = Date.now();
+	var pkg =  grunt.file.readJSON('package.json');
+
 	// Project configuration.
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
@@ -26,7 +29,7 @@ module.exports = function(grunt) {
 					'public/app/kanbanize/**/*.js',
 					'!**/*.spec.js'
 				],
-				dest: 'build/js/app.js'
+				dest: 'build/js/app-' + pkg.version + '-' + tBuild + '.js'
 			},
 			css: {
 				src: 'public/app/**/*.css',
@@ -39,7 +42,7 @@ module.exports = function(grunt) {
 			},
 			js: {
 				files: {
-					'build/js/app.min.js': ['build/js/app.js']
+					['build/js/app-' + pkg.version + '-' + tBuild + '.min.js']: ['build/js/app-' + pkg.version + '-' + tBuild + '.js']
 				}
 			}
 		},
@@ -73,6 +76,12 @@ module.exports = function(grunt) {
 			}
 		},
 		processhtml: {
+			options: {
+				data: {
+					ver: pkg.version,
+					t: tBuild
+				}
+    		},
 			dist: {
 				files: {
 					'build/index.html': ['public/index.html']
