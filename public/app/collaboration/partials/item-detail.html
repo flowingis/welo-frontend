@@ -54,7 +54,7 @@
 			<p class="font-size14" style="margin-top: -8px;">
 				Current Value:
 				<span data-ng-if="item.estimation" style="line-height: 14px;" class="md-subhead">{{item.estimation}}&nbsp;credits</span>
-				<span data-ng-if="!item.estimation" style="line-height: 14px;" class="md-subhead">To Be estimated</span></p>
+				<span data-ng-if="!item.estimation" style="line-height: 14px;" class="md-subhead">Yet to be estimated</span></p>
 			<p class="font-size14" style="margin-top: -8px;">
 				<span class="color-primary" ng-if="ctrl.isAllowed('showMyEstimation', item) && !yourEstimation">You've not estimated yet.</span>
 				<span class="color-primary" ng-if="ctrl.isAllowed('showMyEstimation', item) && yourEstimation < 0">You've skipped the estimate.</span>
@@ -167,7 +167,7 @@
 	<md-divider></md-divider>
 	<md-card-header>
 		<md-card-header-text>
-			<span style="font-size: 14px;" class="md-title">Log Activity</span>
+			<span style="font-size: 14px;" class="md-title">Activity Log</span>
 			<div style="margin-top: -10px; margin-bottom: -15px;" layout="row" data-ng-repeat="h in history">
 				<p style=" font-size: 14px; color: gray; margin-left: 2px;">{{h | logActivityFilter}}</p>
 			</div>
