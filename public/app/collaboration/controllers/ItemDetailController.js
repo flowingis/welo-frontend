@@ -178,16 +178,29 @@ angular.module('app.collaboration')
 			};
 			this.executeItem = function (ev, item) {
 				var that = this;
+				console.log("QUI CONTROLLO IL LIVELLO DI PRIORITA");
+				console.log(item.position);
+
 				var confirm = $mdDialog.confirm()
 					.title("ARE YOU STARTING THIS WORK ITEM?")
 					.textContent("You are about to start the activities on this work item, becoming its \"owner\". This means you are willing to coordinate and facilitate its work, while other users can join you in this effort. Do you confirm?")
 					.targetEvent(ev)
 					.ok("YES, I DO!")
 					.cancel("NOT NOW");
-				$mdDialog.show(confirm)
-					.then(function () {
-						itemService.executeItem(item, that.updateItem, onHttpGenericError);
-					});
+
+				var alertBlockPtiorityCheck = $mdDialog.alert()
+					.title("Attention")
+					.textContent("You can't start this item because there are items with higher priority")
+					.ok("Close");
+
+				if (item.position > 2) {
+					$mdDialog.show(alertBlockPtiorityCheck);
+				} else {
+					$mdDialog.show(confirm)
+						.then(function () {
+							itemService.executeItem(item, that.updateItem, onHttpGenericError);
+						});
+				}
 			};
 			this.reExecuteItem = function (ev, item) {
 				var that = this;
@@ -288,7 +301,7 @@ angular.module('app.collaboration')
 				itemService.remindItemEstimate(item, $log.info, onHttpGenericError);
 			};
 
-			this.updateItem = function(item) {
+			this.updateItem = function (item) {
 				itemService.get($stateParams.orgId, $stateParams.itemId, onLoadItem, this.onLoadingError);
 			};
 
