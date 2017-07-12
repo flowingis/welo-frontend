@@ -178,8 +178,6 @@ angular.module('app.collaboration')
 			};
 			this.executeItem = function (ev, item) {
 				var that = this;
-				console.log("QUI CONTROLLO IL LIVELLO DI PRIORITA");
-				console.log(item.position);
 
 				var confirm = $mdDialog.confirm()
 					.title("ARE YOU STARTING THIS WORK ITEM?")
@@ -189,13 +187,26 @@ angular.module('app.collaboration')
 					.cancel("NOT NOW");
 
 				var alertBlockPtiorityCheck = $mdDialog.alert()
-					.title("Attention")
+					.title("ATTENTION")
 					.textContent("You can't start this item because there are items with higher priority")
+					.targetEvent(ev)
 					.ok("Close");
+
+				var confirmPriorityCheck = $mdDialog.confirm()
+					.title("ATTENTION: ARE YOU STARTING THIS WORK ITEM?")
+					.htmlContent("<p class=\"warn\">ATTENTION: You are going to start  a work item with priority lower than than the top one!</p><p>You are about to start the activities on this work item, becoming its \"owner\". This means you are willing to coordinate and facilitate its work, while other users can join you in this effort. Do you confirm?</p>")
+					.targetEvent(ev)
+					.ok("YES, I DO!")
+					.cancel("NOT NOW");
 
 				if (item.position > 2) {
 					$mdDialog.show(alertBlockPtiorityCheck);
-				} else {
+				} else if (item.position === 2) {
+					$mdDialog.show(confirmPriorityCheck)
+						.then(function () {
+							itemService.executeItem(item, that.updateItem, onHttpGenericError);
+						});
+				} else {	
 					$mdDialog.show(confirm)
 						.then(function () {
 							itemService.executeItem(item, that.updateItem, onHttpGenericError);
