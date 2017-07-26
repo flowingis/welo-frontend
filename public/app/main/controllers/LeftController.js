@@ -28,7 +28,7 @@ angular.module('app')
 			} else {
 				return false;
 			}
-		}
+		};
 
 
 		$scope.close = function () {
