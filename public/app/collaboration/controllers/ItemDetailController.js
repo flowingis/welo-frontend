@@ -194,7 +194,7 @@ angular.module('app.collaboration')
 
 				var confirmPriorityCheck = $mdDialog.confirm()
 					.title("ATTENTION: ARE YOU STARTING THIS WORK ITEM?")
-					.htmlContent("<p class=\"warn\">ATTENTION: You are going to start  a work item with priority lower than than the top one!</p><p>You are about to start the activities on this work item, becoming its \"owner\". This means you are willing to coordinate and facilitate its work, while other users can join you in this effort. Do you confirm?</p>")
+					.htmlContent("<p class=\"warn\">WARNING: ARE YOU STARTING THIS WORK ITEM EVEN IF IT IS NOT THE ONE WITH TOP PRIORITY?</p><p>You are about to start the activities on this work item, becoming its \"owner\", even though there is another one with higher priority. This means you are willing to coordinate and facilitate the work on this item, while other users can join you in this effort. Do you confirm?</p>")
 					.targetEvent(ev)
 					.ok("YES, I DO!")
 					.cancel("NOT NOW");
