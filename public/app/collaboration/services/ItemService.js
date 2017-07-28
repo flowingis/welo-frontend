@@ -51,11 +51,11 @@ var ItemService = function(
 				headers: { 'GOOGLE-JWT': identity.getToken() },
 				params: { controller: 'acceptances' }
 			},
-			remindItemEstimate: {
+			/*remindItemEstimate: {
 				method: 'POST',
 				headers: { 'GOOGLE-JWT': identity.getToken() },
 				params: { controller: 'reminders', type: 'add-estimation' }
-			},
+			},*/
 			executeItem: {
 				method: 'POST',
 				headers: { 'GOOGLE-JWT': identity.getToken() },
@@ -188,9 +188,9 @@ var ItemService = function(
 				return resource.estimateItem({ orgId: item.organization.id, itemId: item.id }, { value: -1 }, success, error);
 			};
 
-			this.remindItemEstimate = function(item, success, error) {
+			/*this.remindItemEstimate = function(item, success, error) {
 				return resource.remindItemEstimate({ orgId: item.organization.id, itemId: item.id }, { action: 'accept' }, success, error);
-			};
+			};*/
 
 			this.executeItem = function(item, success, error) {
 				return resource.executeItem({ orgId: item.organization.id, itemId: item.id }, { action: 'execute' }, success, error);
@@ -493,13 +493,13 @@ var ItemService = function(
 					this.getIdentity().getMembershipRole(resource.organization.id) !== 'contributor' &&
 					resource.approvals[this.getIdentity().getId()]=== undefined;
 				},
-				remindItemEstimate: function(resource) {
+				/*remindItemEstimate: function(resource) {
 					return resource &&
 					this.getIdentity().isAuthenticated() &&
 					resource.status == this.ITEM_STATUS.ONGOING &&
 					this.isOwner(resource, this.getIdentity().getId()) &&
 					!this.isEstimationCompleted(resource);
-				},
+				},*/
 				assignShares: function(resource) {
 					var shares = resource && resource.members && resource.members[this.getIdentity().getId()] && resource.members[this.getIdentity().getId()].shares || [];
 

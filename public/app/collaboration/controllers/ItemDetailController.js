@@ -132,12 +132,12 @@ angular.module('app.collaboration')
 				return null;
 			};
 			this.isAllowed = itemService.isAllowed.bind(itemService);
-			this.hasMore = function (item) {
+			/*this.hasMore = function (item) {
 				return this.isAllowed('editItem', item) ||
 					this.isAllowed('deleteItem', item) ||
 					this.isAllowed('unjoinItem', item) ||
 					this.isAllowed('reExecuteItem', item);
-			};
+			};*/
 			this.parseDate = function (when) {
 				return Date.parse(when);
 			};
@@ -235,7 +235,7 @@ angular.module('app.collaboration')
 						});
 				}
 			};
-			this.reExecuteItem = function (ev, item) {
+			/*this.reExecuteItem = function (ev, item) {
 				var that = this;
 				var confirm = $mdDialog.confirm()
 					.title("Would you revert this item to ongoing?")
@@ -248,7 +248,7 @@ angular.module('app.collaboration')
 					.then(function () {
 						that.executeItem(item);
 					});
-			};
+			};*/
 			this.completeItem = function (ev, item) {
 				var that = this;
 				var confirm = $mdDialog.confirm()
@@ -347,13 +347,13 @@ angular.module('app.collaboration')
 				});
 			};
 
-			this.remindItemEstimate = function (item) {
+			/*this.remindItemEstimate = function (item) {
 				$scope.loading = true;
 				itemService.remindItemEstimate(item, function(response) {
 						$log.info(response);
 						$scope.loading = false;
 						}, onHttpGenericError);
-			};
+			};*/
 
 			this.updateItem = function (item) {
 				$scope.loading = true;
