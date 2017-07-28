@@ -178,16 +178,39 @@ angular.module('app.collaboration')
 			};
 			this.executeItem = function (ev, item) {
 				var that = this;
+
 				var confirm = $mdDialog.confirm()
 					.title("ARE YOU STARTING THIS WORK ITEM?")
 					.textContent("You are about to start the activities on this work item, becoming its \"owner\". This means you are willing to coordinate and facilitate its work, while other users can join you in this effort. Do you confirm?")
 					.targetEvent(ev)
 					.ok("YES, I DO!")
 					.cancel("NOT NOW");
-				$mdDialog.show(confirm)
-					.then(function () {
-						itemService.executeItem(item, that.updateItem, onHttpGenericError);
-					});
+
+				var alertBlockPtiorityCheck = $mdDialog.alert()
+					.title("ATTENTION")
+					.textContent("You can't start this item because there are items with higher priority")
+					.targetEvent(ev)
+					.ok("Close");
+
+				var confirmPriorityCheck = $mdDialog.confirm()
+					.htmlContent("<p class=\"md-title warn\">WARNING: ARE YOU STARTING THIS WORK ITEM EVEN IF IT IS NOT THE ONE WITH TOP PRIORITY?</p><p>You are about to start the activities on this work item, becoming its \"owner\", even though there is another one with higher priority. This means you are willing to coordinate and facilitate the work on this item, while other users can join you in this effort. Do you confirm?</p>")
+					.targetEvent(ev)
+					.ok("YES, I DO!")
+					.cancel("NOT NOW");
+
+				if (item.position > 2) {
+					$mdDialog.show(alertBlockPtiorityCheck);
+				} else if (item.position === 2) {
+					$mdDialog.show(confirmPriorityCheck)
+						.then(function () {
+							itemService.executeItem(item, that.updateItem, onHttpGenericError);
+						});
+				} else {	
+					$mdDialog.show(confirm)
+						.then(function () {
+							itemService.executeItem(item, that.updateItem, onHttpGenericError);
+						});
+				}
 			};
 			this.reExecuteItem = function (ev, item) {
 				var that = this;
@@ -288,7 +311,7 @@ angular.module('app.collaboration')
 				itemService.remindItemEstimate(item, $log.info, onHttpGenericError);
 			};
 
-			this.updateItem = function(item) {
+			this.updateItem = function (item) {
 				itemService.get($stateParams.orgId, $stateParams.itemId, onLoadItem, this.onLoadingError);
 			};
 

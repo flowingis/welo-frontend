@@ -1,4 +1,4 @@
-angular.module('app.collaboration', ['ui.router'])
+angular.module('app.collaboration', ['ui.router', 'ngSanitize'])
 	.config(['$stateProvider', '$urlRouterProvider',
 		function($stateProvider) {
 			$stateProvider
