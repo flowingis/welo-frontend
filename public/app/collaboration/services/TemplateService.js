@@ -14,10 +14,23 @@ angular.module('app.collaboration').service('templateService', ['$q',function($q
         value: "This item will solve the following problem:\n[add the description of the problem to be solved by this item]\n\nThis problem has been detected by / on:\n[add the name(s) of who detected the problem and when]\n\nThe expected outcome / deliverables will be:\n[insert list and descriptions of the results that are expected and that will be examined for acceptance]"
     }];
 
+    var DECISION_TEMPLATES = [{
+        name: "Decision",
+        value: "This decision should be taken because:\n[insert reasons for this decision]\n\nThe foreseen implications / constraints seem to be:\n[insert list and descriptions of the elements to take in account and that will be examined for acceptance]"
+    },{
+        name: "Urgent Decision",
+        value: "This decision should be taken because:\n[insert reasons for this decision]\n\nThis decision is particularly urgent because:\n[add reasons for its high urgency]\n\nThe foreseen implications / constraints seem to be:\n[insert list and descriptions of the elements to take in account and that will be examined for acceptance]"
+    }];
+
+    var templateOfItemType = {
+        'workItem': TEMPLATES,
+        'decisionItem': DECISION_TEMPLATES
+    };
+
     return {
-        list:function(){
+        list:function(itemType){
             var deferred = $q.defer();
-            deferred.resolve(TEMPLATES);
+            deferred.resolve(templateOfItemType[itemType]);
             return deferred.promise;
         }
     };
