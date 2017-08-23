@@ -86,6 +86,9 @@
 		<md-card-header-text>
 			<md-button class="md-raised md-primary" ng-if="ctrl.isAllowed('editItem', item)" ng-click="ctrl.openEditItem($event,item)" ng-disabled="loading">Edit this item</md-button>
 			<md-button class="md-raised md-primary" data-ng-if="ctrl.isAllowed('deleteItem', item)" data-ng-click="ctrl.deleteItem($event,item)" ng-disabled="loading">Delete</md-button>
+			<md-button class="md-raised md-primary" data-ng-if="ctrl.isAllowed('backToIdea', item)" data-ng-click="ctrl.backToIdea($event,item)" ng-disabled="loading">Back To Idea</md-button>
+			<md-button class="md-raised md-primary" data-ng-if="ctrl.isAllowed('backToOpen', item)" data-ng-click="ctrl.backToOpen($event,item)" ng-disabled="loading">Back To Open</md-button>
+			<md-button class="md-raised md-primary" data-ng-if="ctrl.isAllowed('backToOngoing', item)" data-ng-click="ctrl.backToOngoing($event,item)" ng-disabled="loading">Back To Ongoing</md-button>
 		</md-card-header-text>
 	</md-card-header>
 	<md-divider></md-divider>

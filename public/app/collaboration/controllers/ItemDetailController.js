@@ -172,6 +172,61 @@ angular.module('app.collaboration')
 					);
 				});
 			};
+
+			this.backToIdea = function (ev, item) {
+				var confirm = $mdDialog.confirm()
+					.title("Would you back to idea this item?")
+					.textContent("It removes all its informations and cannot be undone.")
+					.targetEvent(ev)
+					.ok("Yes")
+					.cancel("No");
+
+				$mdDialog.show(confirm).then(function () {
+					itemService.backToIdea(item,
+						function () {
+							$state.go('org.collaboration', { orgId: item.organization.id });
+						},
+						onHttpGenericError
+					);
+				});
+			};
+			
+			this.backToOpen = function (ev, item) {
+				var confirm = $mdDialog.confirm()
+					.title("Would you back to open this item?")
+					.textContent("It removes all its informations and cannot be undone.")
+					.targetEvent(ev)
+					.ok("Yes")
+					.cancel("No");
+
+				$mdDialog.show(confirm).then(function () {
+					itemService.backToOpen(item,
+						function () {
+							$state.go('org.collaboration', { orgId: item.organization.id });
+						},
+						onHttpGenericError
+					);
+				});
+			};
+			
+			this.backToOngoing = function (ev, item) {
+				var confirm = $mdDialog.confirm()
+					.title("Would you back to ongoing this item?")
+					.textContent("It removes all its informations and cannot be undone.")
+					.targetEvent(ev)
+					.ok("Yes")
+					.cancel("No");
+
+				$mdDialog.show(confirm).then(function () {
+					itemService.backToOngoing(item,
+						function () {
+							$state.go('org.collaboration', { orgId: item.organization.id });
+						},
+						onHttpGenericError
+					);
+				});
+			};
+
 			this.joinItem = function (item) {
 				$scope.loading = true;
 				itemService.joinItem(item, this.updateItem, onHttpGenericError);
