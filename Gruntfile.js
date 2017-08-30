@@ -101,8 +101,24 @@ module.exports = function(grunt) {
 		copy: {
 			main: {
 				files: [
-					{src: 'public/icon-set.svg',dest: 'build/icon-set.svg'},
-					{src: 'public/robots.txt',dest: 'build/robots.txt'},
+					{src: 'public/icon-set.svg', dest: 'build/icon-set.svg'},
+					{src: 'public/robots.txt', dest: 'build/robots.txt'},
+					{src: 'public/components/angular-material/angular-material.min.css', dest: 'build/components/angular-material/angular-material.min.css'},
+					{src: 'public/components/jquery/dist/jquery.min.js', dest: 'build/components/jquery/dist/jquery.min.js'},
+					{src: 'public/components/angular/angular.min.js', dest: 'build/components/angular/angular.min.js'},
+					{src: 'public/components/angular-resource/angular-resource.min.js', dest: 'build/components/angular-resource/angular-resource.min.js'},
+					{src: 'public/components/angular-sanitize/angular-sanitize.min.js', dest: 'build/components/angular-sanitize/angular-sanitize.min.js'},
+					{src: 'public/components/angular-aria/angular-aria.min.js', dest: 'build/components/angular-aria/angular-aria.min.js'},
+					{src: 'public/components/angular-animate/angular-animate.min.js', dest: 'build/components/angular-animate/angular-animate.min.js'},
+					{src: 'public/components/angular-messages/angular-messages.min.js', dest: 'build/components/angular-messages/angular-messages.min.js'},
+					{src: 'public/components/angular-cookies/angular-cookies.min.js', dest: 'build/components/angular-cookies/angular-cookies.min.js'},
+					{src: 'public/components/angular-cookies/angular-cookies.min.js', dest: 'build/components/angular-cookies/angular-cookies.min.js'},
+					{src: 'public/components/angular-material/angular-material.min.js', dest: 'build/components/angular-material/angular-material.min.js'},
+					{src: 'public/components/angular-ui-router/release/angular-ui-router.min.js', dest: 'build/components/angular-ui-router/release/angular-ui-router.min.js'},
+					{src: 'public/components/moment/min/moment.min.js', dest: 'build/components/moment/min/moment.min.js'},
+					{src: 'public/components/angular-moment/angular-moment.min.js', dest: 'build/components/angular-moment/angular-moment.min.js'},
+					{src: 'public/components/ngInfiniteScroll/build/ng-infinite-scroll.min.js', dest: 'build/components/ngInfiniteScroll/build/ng-infinite-scroll.min.js'},
+					{src: 'public/components/lodash/dist/lodash.min.js', dest: 'build/components/lodash/dist/lodash.min.js'},
 					{expand: true, cwd: 'public/img/', src: ['**'], dest: 'build/img/'}
 				]
 
