@@ -175,8 +175,8 @@ angular.module('app.collaboration')
 
 			this.backToIdea = function (ev, item) {
 				var confirm = $mdDialog.confirm()
-					.title("Would you back to idea this item?")
-					.textContent("It removes all its informations and cannot be undone.")
+					.title("Do you really want to take this item back to the \"Idea\" stage?")
+					.textContent("Please be careful: this action would remove all of its information and cannot be undone.")
 					.targetEvent(ev)
 					.ok("Yes")
 					.cancel("No");
@@ -193,8 +193,8 @@ angular.module('app.collaboration')
 			
 			this.backToOpen = function (ev, item) {
 				var confirm = $mdDialog.confirm()
-					.title("Would you back to open this item?")
-					.textContent("It removes all its informations and cannot be undone.")
+					.title("Do you really want to take this item back to the \"Open\" stage?")
+					.textContent("Please be careful: this action would remove all of its information and cannot be undone.")
 					.targetEvent(ev)
 					.ok("Yes")
 					.cancel("No");
@@ -211,8 +211,8 @@ angular.module('app.collaboration')
 			
 			this.backToOngoing = function (ev, item) {
 				var confirm = $mdDialog.confirm()
-					.title("Would you back to ongoing this item?")
-					.textContent("It removes all its informations and cannot be undone.")
+					.title("Do you really want to take this item back to the \"Ongoing\" stage?")
+					.textContent("Please be careful: this action would remove all of its information and cannot be undone.")
 					.targetEvent(ev)
 					.ok("Yes")
 					.cancel("No");
