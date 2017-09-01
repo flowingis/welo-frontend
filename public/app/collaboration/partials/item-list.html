@@ -15,11 +15,11 @@
         </md-button>
     </md-fab-trigger>
     <md-fab-actions>
-        <md-button aria-label="New Item" class="md-fab md-raised md-mini" ng-click="ctrl.openNewItem($event, false)"
+        <md-button aria-label="New Item" class="md-fab md-raised md-mini" ng-click="ctrl.openNewItem($event, false, 'workItem')"
                    ng-if="ctrl.isAllowed('createItem', organization)">
             <md-icon md-svg-icon="addItem" title="New Item" style="color: black"></md-icon>
         </md-button>
-        <md-button aria-label="New Decision" class="md-fab md-raised md-mini" ng-click="ctrl.openNewItem($event, true)"
+        <md-button aria-label="New Decision" class="md-fab md-raised md-mini" ng-click="ctrl.openNewItem($event, true, 'decisionItem')"
                    ng-if="ctrl.isAllowed('createItem', organization)">
             <i class="material-icons" title="New Item" style="margin-top: 6px; color: black">&#xE90E;</i>
         </md-button>

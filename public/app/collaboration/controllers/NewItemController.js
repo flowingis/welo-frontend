@@ -7,6 +7,7 @@ function NewItemController(
 	orgId,
 	streams,
 	decisionMode,
+	itemType,
 	lanes) {
 
 	$scope.saving = false;
@@ -17,9 +18,11 @@ function NewItemController(
 
 	$scope.streams = streams;
 
+	$scope.itemType = itemType;
+
 	console.log($scope.streams);
 
-	templateService.list().then(function(templates){
+	templateService.list($scope.itemType).then(function(templates){
 		$scope.templates = templates;
 	});
 

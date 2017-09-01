@@ -168,7 +168,7 @@ angular.module('app.collaboration')
 				}).then(this.addStream);
 			};
 
-			this.openNewItem = function(ev, decision) {
+			this.openNewItem = function(ev, decision, itemType) {
 				$mdDialog.show({
 					controller: NewItemController,
 					controllerAs: 'dialogCtrl',
@@ -179,7 +179,8 @@ angular.module('app.collaboration')
 						orgId: $stateParams.orgId,
 						streams: [$scope.stream],
 						decisionMode: decision,
-						lanes: $scope.lanes
+						lanes: $scope.lanes,
+						itemType: itemType
 					}
 				}).then(this.onItemAdded);
 			};
