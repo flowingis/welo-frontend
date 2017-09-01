@@ -136,7 +136,7 @@ angular.module('app.collaboration')
 				return this.isAllowed('backToIdea', item) ||
 					this.isAllowed('deleteItem', item) || 
 					this.isAllowed('backToOpen', item) || 
-					this.isAllowed('backToOngoing', item)
+					this.isAllowed('backToOngoing', item);
 			};
 			this.parseDate = function (when) {
 				return Date.parse(when);
