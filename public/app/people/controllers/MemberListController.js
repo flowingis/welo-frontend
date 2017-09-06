@@ -20,8 +20,16 @@ angular.module('app.people')
 
 		$scope.loading = true;
 		memberService.query({ orgId: $stateParams.orgId },function(data){
-			$scope.membersArray = _.values(data['_embedded']['ora:member']);
-			console.log($scope.membersArray);
+			$scope.membersArray = _.orderBy(_.values(data['_embedded']['ora:member']), function(p) {
+				return p.firstname + p.lastname;
+			}, "asc");
+			$scope.membersArray = _.orderBy($scope.membersArray, function(p) {
+				if (p.role==="admin") {
+					p.role = "member";
+				}
+
+				return p.role;
+			}, "desc");
 			$scope.loading = false;
 		},function(){
 			$scope.loading = false;
