@@ -25,6 +25,9 @@ angular.module('app.people')
 			$scope.profile = memberService.get({ orgId: $stateParams.orgId, memberId: $stateParams.memberId },function(){
 				$scope.profile.editable = $scope.profile.email==identity.getEmail();
 				$scope.profile.newSecondaryEmails = $scope.profile.secondaryEmails;
+				if ($scope.profile.role === "admin") {
+					$scope.profile.role = "member and admin";
+				}
 			});
 
 			$scope.credits = accountService.userStats({ orgId: $stateParams.orgId, memberId: $stateParams.memberId },function(){
