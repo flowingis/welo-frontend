@@ -20,7 +20,7 @@ angular.module('app.people')
 
 		$scope.loading = true;
 		memberService.query({ orgId: $stateParams.orgId },function(data){
-			$scope.membersArray = _.orderBy(_.values(data['_embedded']['ora:member']), function(p) {
+			$scope.membersArray = _.orderBy(_.values(data._embedded['ora:member']), function(p) {
 				return p.firstname + p.lastname;
 			}, "asc");
 			$scope.membersArray = _.orderBy($scope.membersArray, function(p) {
