@@ -491,6 +491,24 @@ div:focus {
     overflow-y: scroll;
 }
 
+@media (min-width: 0) and (max-width: 959px) and (orientation: portrait) {
+    .content-wrapper {
+        top: 56px;
+    }
+    .full-content-wrapper {
+        top: 56px;
+    }
+}
+
+@media (min-width: 0) and (max-width: 959px) and (orientation: landscape) {
+    .content-wrapper {
+        top: 48px;
+    }
+    .full-content-wrapper {
+        top: 48px;
+    }
+}
+
 .navigation-wrapper {
     position: fixed;
     left: 0;
