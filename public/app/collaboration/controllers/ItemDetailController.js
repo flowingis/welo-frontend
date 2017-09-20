@@ -25,6 +25,7 @@ angular.module('app.collaboration')
 			var onHttpGenericError = function (httpResponse) {
 				alert('Generic Error during server communication (error: ' + httpResponse.status + ' ' + httpResponse.statusText + ') ');
 				$log.warn(httpResponse);
+				$scope.loading = false;
 			};
 
 			$scope.attachments = [];
@@ -34,16 +35,19 @@ angular.module('app.collaboration')
 			$scope.myId = identity.getId();
 
 			$scope.busy = true;
+			$scope.loading = false;
 
 			$scope.history = [];
 
 			$scope.lanes = [];
+			$scope.loading = true;
 			kanbanizeLaneService.getLanes($stateParams.orgId).then(function (lanes) {
 				lanes.forEach(function (lane) {
 					if (lane.lcid !== null) {
 						$scope.lanes[lane.lcid] = lane.lcname;
 					}
 				});
+				$scope.loading = false;
 			});
 
 			this.iVoted = function (elm) {
@@ -80,12 +84,12 @@ angular.module('app.collaboration')
 				$scope.busy = false;
 				$scope.attachments = data.attachments || [];
 				$scope.members = _.values(data.members);
-				console.log(data);
 
 				$scope.item.laneName = ($scope.item.lane && $scope.item.lane.length) ? $scope.lanes[$scope.item.lane] : '';
 
 				itemService.getHistory($scope.item).then(function (response) {
 					$scope.history = response.data;
+					$scope.loading = false;
 				}, onHttpGenericError);
 			};
 
@@ -96,7 +100,12 @@ angular.module('app.collaboration')
 			};
 
 			$scope.streams = null;
-			streamService.query($stateParams.orgId, function (data) { $scope.streams = data; }, onHttpGenericError);
+			$scope.loading = true;
+			streamService.query($stateParams.orgId, function (data) { 
+				$scope.streams = data;
+				$scope.loading = false;
+			 }, onHttpGenericError);
+			
 			this.onLoadingError = function (error) {
 				$log.debug(error);
 				switch (error.status) {
@@ -107,9 +116,13 @@ angular.module('app.collaboration')
 						alert('Generic Error during server communication (error: ' + httpResponse.status + ' ' + httpResponse.statusText + ') ');
 						$log.warn(httpResponse);
 				}
+				$scope.loading = false;
 			};
+
 			$scope.item = null;
 			$scope.ITEM_STATUS = itemService.ITEM_STATUS;
+
+			$scope.loading = true;
 			itemService.get($stateParams.orgId, $stateParams.itemId, onLoadItem, this.onLoadingError);
 
 			this.stream = function (item) {
@@ -119,12 +132,12 @@ angular.module('app.collaboration')
 				return null;
 			};
 			this.isAllowed = itemService.isAllowed.bind(itemService);
-			this.hasMore = function (item) {
+			/*this.hasMore = function (item) {
 				return this.isAllowed('editItem', item) ||
 					this.isAllowed('deleteItem', item) ||
 					this.isAllowed('unjoinItem', item) ||
 					this.isAllowed('reExecuteItem', item);
-			};
+			};*/
 			this.parseDate = function (when) {
 				return Date.parse(when);
 			};
@@ -149,8 +162,10 @@ angular.module('app.collaboration')
 					.cancel("No");
 
 				$mdDialog.show(confirm).then(function () {
+					$scope.loading = true;
 					itemService.delete(item,
 						function () {
+							$scope.loading = false;
 							$state.go('org.collaboration', { orgId: item.organization.id });
 						},
 						onHttpGenericError
@@ -158,12 +173,15 @@ angular.module('app.collaboration')
 				});
 			};
 			this.joinItem = function (item) {
+				$scope.loading = true;
 				itemService.joinItem(item, this.updateItem, onHttpGenericError);
 			};
 			this.unjoinItem = function (item) {
+				$scope.loading = true;
 				itemService.unjoinItem(item, this.updateItem, onHttpGenericError);
 			};
 			this.openEstimateItem = function (ev, item) {
+				var that = this;
 				$mdDialog.show({
 					controller: EstimateItemController,
 					controllerAs: 'dialogCtrl',
@@ -174,7 +192,10 @@ angular.module('app.collaboration')
 						item: item,
 						prevEstimation: item.members[$scope.identity.getId()].estimation
 					}
-				}).then(this.updateItem);
+				}).then(function() {
+					$scope.loading = true;
+					that.updateItem();
+				});
 			};
 			this.executeItem = function (ev, item) {
 				var that = this;
@@ -203,16 +224,18 @@ angular.module('app.collaboration')
 				} else if (item.position === 2) {
 					$mdDialog.show(confirmPriorityCheck)
 						.then(function () {
+							$scope.loading = true;
 							itemService.executeItem(item, that.updateItem, onHttpGenericError);
 						});
 				} else {	
 					$mdDialog.show(confirm)
 						.then(function () {
+							$scope.loading = true;
 							itemService.executeItem(item, that.updateItem, onHttpGenericError);
 						});
 				}
 			};
-			this.reExecuteItem = function (ev, item) {
+			/*this.reExecuteItem = function (ev, item) {
 				var that = this;
 				var confirm = $mdDialog.confirm()
 					.title("Would you revert this item to ongoing?")
@@ -225,7 +248,7 @@ angular.module('app.collaboration')
 					.then(function () {
 						that.executeItem(item);
 					});
-			};
+			};*/
 			this.completeItem = function (ev, item) {
 				var that = this;
 				var confirm = $mdDialog.confirm()
@@ -241,9 +264,11 @@ angular.module('app.collaboration')
 					});
 			};
 			this.reCompleteItem = function (item) {
+				$scope.loading = true;
 				itemService.completeItem(item, this.updateItem, onHttpGenericError);
 			};
 			this.acceptItem = function (ev, item) {
+				var that = this;
 				$mdDialog.show({
 					controller: ApproveIdeaController,
 					controllerAs: 'dialogCtrl',
@@ -259,9 +284,13 @@ angular.module('app.collaboration')
 							reject: itemService.rejectCompletedItem
 						}
 					}
-				}).then(this.updateItem);
+				}).then(function () {
+					$scope.loading = true;
+					that.updateItem();
+				});
 			};
 			this.openAssignShares = function (ev, item) {
+				var that = this;
 				$mdDialog.show({
 					controller: AssignSharesController,
 					controllerAs: 'dialogCtrl',
@@ -272,7 +301,10 @@ angular.module('app.collaboration')
 					locals: {
 						item: item
 					}
-				}).then(this.updateItem);
+				}).then(function () {
+					$scope.loading = true;
+					that.updateItem();
+				});
 			};
 
 			this.removeTaskMember = function (ev, item, member) {
@@ -284,11 +316,16 @@ angular.module('app.collaboration')
 					.cancel("No");
 
 				$mdDialog.show(confirm).then(function () {
-					itemService.removeTaskMember(item.organization.id, item.id, member.id).then($log.info, onHttpGenericError);
+					$scope.loading = true;
+					itemService.removeTaskMember(item.organization.id, item.id, member.id).then(function(response) {
+						$log.info(response);
+						$scope.loading = false;
+						}, onHttpGenericError);
 				});
 			};
 
 			this.openApproveIdea = function (ev, item) {
+				var that = this;
 				$mdDialog.show({
 					controller: ApproveIdeaController,
 					controllerAs: 'dialogCtrl',
@@ -304,29 +341,46 @@ angular.module('app.collaboration')
 							reject: itemService.rejectIdeaItem
 						}
 					}
-				}).then(this.updateItem);
+				}).then(function () {
+					$scope.loading = true;
+					that.updateItem();
+				});
 			};
 
-			this.remindItemEstimate = function (item) {
-				itemService.remindItemEstimate(item, $log.info, onHttpGenericError);
-			};
+			/*this.remindItemEstimate = function (item) {
+				$scope.loading = true;
+				itemService.remindItemEstimate(item, function(response) {
+						$log.info(response);
+						$scope.loading = false;
+						}, onHttpGenericError);
+			};*/
 
 			this.updateItem = function (item) {
+				$scope.loading = true;
 				itemService.get($stateParams.orgId, $stateParams.itemId, onLoadItem, this.onLoadingError);
 			};
 
 			this.closeItem = function (item) {
+				$scope.loading = true;
 				itemService.closeItem(item, this.updateItem, onHttpGenericError);
 			};
 
 			this.addAttachment = function (file) {
+				$scope.loading = true;
 				$scope.attachments.push(file);
-				itemService.setAttachments($stateParams.orgId, $stateParams.itemId, $scope.attachments).then($log.info, onHttpGenericError);
+				itemService.setAttachments($stateParams.orgId, $stateParams.itemId, $scope.attachments).then(function(response) {
+						$log.info(response);
+						$scope.loading = false;
+						}, onHttpGenericError);
 			};
 
 			this.deleteAttachment = function (file) {
+				$scope.loading = true;
 				$scope.attachments = _.without($scope.attachments, file);
-				itemService.setAttachments($stateParams.orgId, $stateParams.itemId, $scope.attachments).then($log.info, onHttpGenericError);
+				itemService.setAttachments($stateParams.orgId, $stateParams.itemId, $scope.attachments).then(function(response) {
+						$log.info(response);
+						$scope.loading = false;
+						}, onHttpGenericError);
 			};
 
 			$scope.showPriority = function (item) {
@@ -346,8 +400,10 @@ angular.module('app.collaboration')
 						owner: $scope.owner
 					}
 				}).then(function (owner) {
+					$scope.loading = true;
 					itemService.changeOwner(item, owner).then(function () {
-						itemService.query($stateParams.orgId, $stateParams.itemId, onLoadItem);
+						//itemService.query($stateParams.orgId, $stateParams.itemId, onLoadItem);
+						itemService.get($stateParams.orgId, $stateParams.itemId, onLoadItem, this.onLoadingError);
 					}, onHttpGenericError);
 				});
 			};
