@@ -20,8 +20,6 @@ function NewItemController(
 
 	$scope.itemType = itemType;
 
-	console.log($scope.streams);
-
 	templateService.list($scope.itemType).then(function(templates){
 		$scope.templates = templates;
 	});
