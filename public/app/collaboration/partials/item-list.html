@@ -4,11 +4,7 @@
 <div data-ng-if="menu.open" class="tooltip" style=" width: 120px;right:85px;bottom: 194px;">
     Create Decision Item
 </div>
-<md-fab-speed-dial
-        md-open="menu.open"
-        md-direction="up"
-        class="md-scale ora-fab"
-        ng-if="lanes && !decisions">
+<md-fab-speed-dial md-open="menu.open" md-direction="up" class="md-scale ora-fab" ng-if="lanes && !decisions">
     <md-fab-trigger>
         <md-button aria-label="Item Menu" class="md-fab md-warn md-hue-1">
             <md-icon md-svg-icon="add"></md-icon>
@@ -16,24 +12,77 @@
     </md-fab-trigger>
     <md-fab-actions>
         <md-button aria-label="New Item" class="md-fab md-raised md-mini" ng-click="ctrl.openNewItem($event, false, 'workItem')"
-                   ng-if="ctrl.isAllowed('createItem', organization)">
+            ng-if="ctrl.isAllowed('createItem', organization)">
             <md-icon md-svg-icon="addItem" title="New Item" style="color: black"></md-icon>
         </md-button>
         <md-button aria-label="New Decision" class="md-fab md-raised md-mini" ng-click="ctrl.openNewItem($event, true, 'decisionItem')"
-                   ng-if="ctrl.isAllowed('createItem', organization)">
+            ng-if="ctrl.isAllowed('createItem', organization)">
             <i class="material-icons" title="New Item" style="margin-top: 6px; color: black">&#xE90E;</i>
         </md-button>
     </md-fab-actions>
 </md-fab-speed-dial>
 <md-toolbar class="filterBar" style="min-height:37px">
     <div class="md-toolbar-tools" style="height:37px">
-        <md-button ng-click="showFilter=!showFilter" style="width:100%">
-            <span style="text-transform: uppercase;font-size: 10px;font-weight:600">Filter items by:</span>
-
-            <md-icon style="font-size: 18px;margin-top:5px" class="material-icons">&#xE5C5;</md-icon>
+        <md-button aria-label="Filter" ng-click="showFilter=!showFilter">
+            <md-icon class="material-icons">&#xE152;</md-icon> <span style="text-transform: uppercase;font-size: 10px;font-weight:600">Filter items</span>
+        </md-button>
+        <h2 flex></h2>
+        <md-button aria-label="Filter" ng-click="showOrder=!showOrder">
+            <span style="text-transform: uppercase;font-size: 10px;font-weight:600">Sort items</span>
+            <md-icon class="material-icons">&#xE164;</md-icon>
         </md-button>
     </div>
 </md-toolbar>
+<md-content class="filterBar" style="padding:12px" ng-show="showFilter">
+    <div layout="row">
+        <div flex>
+            <span class="font-size12" style="text-transform: uppercase;font-size: 10px;font-weight:600">by status</span>
+            <span style="display: inline-block; position:relative;padding:2px;vertical-align:middle" class="font-size12">
+                <md-select ng-model="filters.status" style="margin:0">
+                    <md-option selected ng-value="All">All</md-option>
+                    <md-option ng-repeat="status in ITEM_STATUS" ng-value="status">{{ status | itemStatusLabel }}
+                    </md-option>
+                </md-select>
+            </span>
+            <span class="font-size12"> and </span>
+            <span style="display: inline-block; position:relative;padding:2px;vertical-align:middle" class="font-size12">
+                <md-select ng-model="filters.memberId" placeholder="All Items" style="margin:0">
+                    <md-option selected ng-value="">All Items</md-option>
+                    <md-option ng-value="currentUserId">My Items</md-option>
+                </md-select>
+            </span>
+        </div>
+        <div style="max-width:40px">
+            <md-button class="md-icon-button" aria-label="chiudi" ng-click="showFilter=false">
+                <md-icon style="color:rgba(0,0,0,0.87);" class="material-icons font-size20">&#xE5CD;</md-icon>
+            </md-button>
+        </div>
+    </div>
+</md-content>
+<md-content class="filterBar" style="padding:12px" ng-show="showOrder">
+    <div layout="row">
+        <div flex>
+            <span style="text-transform: uppercase;font-size: 10px;font-weight:600">by</span>
+            <span style="display: inline-block; position:relative;padding:2px;vertical-align:middle;cursor:pointer" class="font-size12"
+                ng-click="ctrl.invertUpdateTime()">Update Time</span>
+            <md-button style="margin-left:0px;padding-left:0px;" class="md-icon-button" ng-click="ctrl.invertUpdateTime()">
+                <md-icon data-ng-if="!changeUpdateTime" style="margin-top:4px;margin-left:0px;padding-left:0px;font-size: 18px; color: black;"
+                    class="material-icons">
+                    &#xE313;</md-icon>
+                <md-icon data-ng-if="changeUpdateTime" style="margin-top:4px;margin-left:0px;padding-left:0px;font-size: 18px; color: black;"
+                    class="material-icons">
+                    &#xE316;</md-icon>
+            </md-button>
+        </div>
+        <div style="max-width:40px">
+            <md-button class="md-icon-button" aria-label="chiudi" ng-click="showOrder=false">
+                <md-icon style="color:rgba(0,0,0,0.87);" class="material-icons font-size20">&#xE5CD;</md-icon>
+            </md-button>
+        </div>
+    </div>
+
+</md-content>
+<!--
 <md-content ng-show="showFilter" class="filterBar" layout-padding>
     <div layout="row" layout-align="space-around center" class="no-padding">
 
@@ -57,60 +106,53 @@
             </md-button>
         </div>
     </div>
-</md-content>
+</md-content>-->
 <md-progress-linear data-ng-if="loadingItems" md-mode="query"></md-progress-linear>
-        <!-- infinite-scroll="ctrl.loadMore()" -->
-<md-card
-        data-ng-click="goToDetail($event,item)"
-        class="card-item" ng-repeat="item in items._embedded['ora:task']"
-        ng-init="owner = ctrl.getOwner(item); author = ctrl.getAuthor(item)"
-        infinite-scroll-distance="1"
-        infinite-scroll-parent="true"
-        infinite-scroll-disabled="items.total == items.count || isLoadingMore"
-        infinite-scroll-immediate-check="false">
+<!-- infinite-scroll="ctrl.loadMore()" -->
+<md-card data-ng-click="goToDetail($event,item)" class="card-item" ng-repeat="item in items._embedded['ora:task']" ng-init="owner = ctrl.getOwner(item); author = ctrl.getAuthor(item)"
+    infinite-scroll-distance="1" infinite-scroll-parent="true" infinite-scroll-disabled="items.total == items.count || isLoadingMore"
+    infinite-scroll-immediate-check="false">
     <md-card-header item-card-color card="item" class="margin-top-10">
         <md-card-header-text>
             <div layout="row">
-                <span style="font-size: 13px; color:#5f6b76; margin-bottom:5px;"
-                      data-ng-show="item.decision === 'true'">Decision</span>
+                <span style="font-size: 13px; color:#5f6b76; margin-bottom:5px;" data-ng-show="item.decision === 'true'">Decision</span>
             </div>
-                <span class="padding-right-20 padding-top-10 padding-bottom-5 item-title">
+            <span class="padding-right-20 padding-top-10 padding-bottom-5 item-title">
                     {{ item.subject }}
                 </span>
-                <span class="padding-right-20 padding-top-5 padding-bottom-10 item-lane">
+            <span class="padding-right-20 padding-top-5 padding-bottom-10 item-lane">
                     {{ lanesNames[item.lane] }}
                 </span>
-                <span style="font-size: 13px; line-height: 14px;" class="md-subhead padding-right-20 justify">
+            <span style="font-size: 13px; line-height: 14px;" class="md-subhead padding-right-20 justify">
                     {{item.description | limitTo: 140}}<span data-ng-if="item.description.length > 140">...</span>
-                </span>
+            </span>
             <div layout="row" class="padding-right-20">
                 <p style="font-size: 14px;">
                     Status:
-                        <span style="line-height: 16px" class="md-subhead">
+                    <span style="line-height: 16px" class="md-subhead">
                             {{item.status | itemStatusLabel}}
                         </span>
                 </p>
                 <p style=" font-size: 14px; padding-left:20px;">
                     Current Value:
                     <span data-ng-if="item.estimation" style="line-height: 16px;" class="md-subhead">{{item.estimation}}&nbspCredits</span>
-                    <span data-ng-if="!item.estimation" style="line-height: 16px;"
-                          class="md-subhead">Yet to be estimated</span>
+                    <span data-ng-if="!item.estimation" style="line-height: 16px;" class="md-subhead">Yet to be estimated</span>
                 </p>
             </div>
         </md-card-header-text>
         <md-card-media layout="column" layout-align="start end" class="margin-top-10">
             <div ng-show="item.status <= ITEM_STATUS.OPEN">
                 <div>
-                    <img style="max-width: 40px; border-radius: 50%" ng-src="{{ author.picture || 'img/account.jpg' }}"
-                         alt="{{ author.firstname }} {{ author.lastname}}" title="{{ author.firstname }} {{ author.lastname}}">
+                    <img style="max-width: 40px; border-radius: 50%" ng-src="{{ author.picture || 'img/account.jpg' }}" alt="{{ author.firstname }} {{ author.lastname}}"
+                        title="{{ author.firstname }} {{ author.lastname}}">
                 </div>
                 <p class="margin-top-10 no-margin" style="font-size: 14px; font-weight: bold">author:</p>
                 <p class="font-size12 no-margin" style="text-align:right;">{{ author.firstname }} {{ author.lastname}} </p>
             </div>
             <div ng-show="item.status > ITEM_STATUS.OPEN">
                 <div>
-                    <img style="max-width: 40px; border-radius: 50%" ng-src="{{ owner.picture || 'img/account.jpg' }}"
-                         alt="{{ owner.firstname }} {{ owner.lastname}}" title="{{ owner.firstname }} {{ owner.lastname}}">
+                    <img style="max-width: 40px; border-radius: 50%" ng-src="{{ owner.picture || 'img/account.jpg' }}" alt="{{ owner.firstname }} {{ owner.lastname}}"
+                        title="{{ owner.firstname }} {{ owner.lastname}}">
                 </div>
                 <p class="margin-top-10 no-margin" style="font-size: 14px; font-weight: bold">owner:</p>
                 <p class="font-size12 no-margin" style="text-align:right;">{{ owner.firstname }} {{ owner.lastname}} </p>
@@ -124,7 +166,7 @@
     <div layout="row" style="margin-top: -32px;">
         <p style=" font-size: 12px; margin-top: 12px; margin-left: 16px;">
             Last activity:
-                <span style="letter-spacing: .010em; color: rgba(0,0,0,0.54);">
+            <span style="letter-spacing: .010em; color: rgba(0,0,0,0.54);">
                     {{item.mostRecentEditAt | date:'dd/MM/yyyy'}}
                 </span>
         </p>
@@ -135,8 +177,7 @@
         </p>
     </div>
     <md-card-action layout="row" layout-align="end center">
-        <div data-ng-if="ctrl.checkImIn(item)" class="md-toolbar-tools padding-left-16"
-             style="height: 40px; width: 150px;  ">
+        <div data-ng-if="ctrl.checkImIn(item)" class="md-toolbar-tools padding-left-16" style="height: 40px; width: 150px;  ">
             <div class="im-in-icon">
                 <i style="font-size:16px;" class="material-icons">person</i>
             </div>
@@ -148,10 +189,7 @@
     </md-card-action>
 </md-card>
 <div layout="row" layout-align="center">
-    <md-button 
-        aria-label="Load More"
-        class="md-raised md-primary md-button md-ink-ripple"
-        data-ng-if="items._embedded['ora:task'].length < items.total" 
+    <md-button aria-label="Load More" class="md-raised md-primary md-button md-ink-ripple" data-ng-if="items._embedded['ora:task'].length < items.total"
         data-ng-click="loadMore()">
         LOAD MORE
     </md-button>
