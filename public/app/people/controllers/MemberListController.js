@@ -13,17 +13,26 @@ angular.module('app.people')
 		$mdDialog) {
 
 		$scope.isMe = function(person){
+			//console.log("EEEE");
+			//console.log(person);
 			return person.id === $scope.identity.getId();
 		};
 
-		$scope.$on('$stateChangeSuccess',function(){
-			$scope.loading = true;
-			memberService.query({ orgId: $stateParams.orgId },function(data){
-				$scope.members = data;
-				$scope.loading = false;
-			},function(){
-				$scope.loading = false;
-			});
+		$scope.loading = true;
+		memberService.query({ orgId: $stateParams.orgId },function(data){
+			$scope.membersArray = _.orderBy(_.values(data._embedded['ora:member']), function(p) {
+				return p.firstname + p.lastname;
+			}, "asc");
+			$scope.membersArray = _.orderBy($scope.membersArray, function(p) {
+				if (p.role==="admin") {
+					p.role = "member";
+				}
+
+				return p.role;
+			}, "desc");
+			$scope.loading = false;
+		},function(){
+			$scope.loading = false;
 		});
 
 		$scope.orgId = $stateParams.orgId;
@@ -76,7 +85,7 @@ angular.module('app.people')
 			$mdDialog.show(confirm).then(function() {
 				memberService.removeUserFromOrganization($stateParams.orgId,member.id).then(function(){
 					memberService.query({ orgId: $stateParams.orgId },function(data){
-						$scope.members = data;
+						//$scope.members = data;
 					});
 				});
 			});
