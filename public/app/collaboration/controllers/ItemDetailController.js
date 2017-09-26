@@ -132,12 +132,12 @@ angular.module('app.collaboration')
 				return null;
 			};
 			this.isAllowed = itemService.isAllowed.bind(itemService);
-			/*this.hasMore = function (item) {
-				return this.isAllowed('editItem', item) ||
-					this.isAllowed('deleteItem', item) ||
-					this.isAllowed('unjoinItem', item) ||
-					this.isAllowed('reExecuteItem', item);
-			};*/
+			this.hasMore = function (item) {
+				return this.isAllowed('backToIdea', item) ||
+					this.isAllowed('deleteItem', item) || 
+					this.isAllowed('backToOpen', item) || 
+					this.isAllowed('backToOngoing', item);
+			};
 			this.parseDate = function (when) {
 				return Date.parse(when);
 			};
@@ -153,6 +153,13 @@ angular.module('app.collaboration')
 					}
 				}).then(this.updateItem);
 			};
+
+			var originatorEv;
+			this.openMenu = function ($mdMenu, ev) {
+				originatorEv = ev;
+				$mdMenu.open(ev);
+			};
+
 			this.deleteItem = function (ev, item) {
 				var confirm = $mdDialog.confirm()
 					.title("Would you delete this item?")
@@ -171,7 +178,70 @@ angular.module('app.collaboration')
 						onHttpGenericError
 					);
 				});
+
+				originatorEv = null;
 			};
+
+			this.backToIdea = function (ev, item) {
+				var confirm = $mdDialog.confirm()
+					.title("Do you really want to take this item back to the \"Idea\" stage?")
+					.textContent("Please be careful: this action would remove all of its information and cannot be undone.")
+					.targetEvent(ev)
+					.ok("Yes")
+					.cancel("No");
+
+				$mdDialog.show(confirm).then(function () {
+					itemService.backToIdea(item,
+						function () {
+							$state.go('org.collaboration', { orgId: item.organization.id });
+						},
+						onHttpGenericError
+					);
+				});
+
+				originatorEv = null;
+			};
+			
+			this.backToOpen = function (ev, item) {
+				var confirm = $mdDialog.confirm()
+					.title("Do you really want to take this item back to the \"Open\" stage?")
+					.textContent("Please be careful: this action would remove all of its information and cannot be undone.")
+					.targetEvent(ev)
+					.ok("Yes")
+					.cancel("No");
+
+				$mdDialog.show(confirm).then(function () {
+					itemService.backToOpen(item,
+						function () {
+							$state.go('org.collaboration', { orgId: item.organization.id });
+						},
+						onHttpGenericError
+					);
+				});
+
+				originatorEv = null;
+			};
+			
+			this.backToOngoing = function (ev, item) {
+				var confirm = $mdDialog.confirm()
+					.title("Do you really want to take this item back to the \"Ongoing\" stage?")
+					.textContent("Please be careful: this action would remove all of its information and cannot be undone.")
+					.targetEvent(ev)
+					.ok("Yes")
+					.cancel("No");
+
+				$mdDialog.show(confirm).then(function () {
+					itemService.backToOngoing(item,
+						function () {
+							$state.go('org.collaboration', { orgId: item.organization.id });
+						},
+						onHttpGenericError
+					);
+				});
+
+				originatorEv = null;
+			};
+
 			this.joinItem = function (item) {
 				$scope.loading = true;
 				itemService.joinItem(item, this.updateItem, onHttpGenericError);

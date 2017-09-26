@@ -95,6 +95,13 @@ var ItemService = function(
 			}
 		});
 
+		var resourceRollback = $resource('api/:orgId/task-management/tasks/:itemId/transitions', { orgId: '@orgId' }, {
+			rollbackItem: {
+				method: 'POST',
+				headers: { 'GOOGLE-JWT': identity.getToken() }
+			}
+		});
+
 		this.getIdentity = function() {
 			return identity;
 		};
@@ -202,6 +209,18 @@ var ItemService = function(
 
 			this.acceptItem = function(item, success, error) {
 				return resource.acceptItem({ orgId: item.organization.id, itemId: item.id}, { action: 'accept' }, success, error);
+			};
+
+			this.backToIdea = function(item, success, error) {
+				return resourceRollback.rollbackItem({ orgId: item.organization.id, itemId: item.id}, { action: 'backToIdea' }, success, error);
+			};
+
+			this.backToOpen = function(item, success, error) {
+				return resourceRollback.rollbackItem({ orgId: item.organization.id, itemId: item.id}, { action: 'backToOpen' }, success, error);
+			};
+
+			this.backToOngoing = function(item, success, error) {
+				return resourceRollback.rollbackItem({ orgId: item.organization.id, itemId: item.id}, { action: 'backToOngoing' }, success, error);
 			};
 
 			this.assignShares = function(item, shares, success, error) {
@@ -433,6 +452,40 @@ var ItemService = function(
 					var isAllowedStatus = allowedStatuses.indexOf(resource.status) !== -1;
 
 					return isAdmin && isAllowedStatus;
+				},
+				backToIdea: function(resource) {
+
+					var allowedStatuses = [
+						this.ITEM_STATUS.OPEN,
+						this.ITEM_STATUS.REJECTED
+					];
+
+					var isAdmin = 'admin' === this.getIdentity().getMembershipRole(resource.organization.id);
+					var isAllowedStatus = allowedStatuses.indexOf(resource.status) !== -1;
+
+					return (isAdmin || this.isOwner(resource, this.getIdentity().getId()) || this.isAuthor(resource, this.getIdentity().getId())) && isAllowedStatus;
+				},
+				backToOpen: function(resource) {
+
+					var allowedStatuses = [
+						this.ITEM_STATUS.ONGOING
+					];
+
+					var isAdmin = 'admin' === this.getIdentity().getMembershipRole(resource.organization.id);
+					var isAllowedStatus = allowedStatuses.indexOf(resource.status) !== -1;
+
+					return (isAdmin || this.isOwner(resource, this.getIdentity().getId()) || this.isAuthor(resource, this.getIdentity().getId())) && isAllowedStatus;
+				},
+				backToOngoing: function(resource) {
+
+					var allowedStatuses = [
+						this.ITEM_STATUS.COMPLETED
+					];
+
+					var isAdmin = 'admin' === this.getIdentity().getMembershipRole(resource.organization.id);
+					var isAllowedStatus = allowedStatuses.indexOf(resource.status) !== -1;
+
+					return (isAdmin || this.isOwner(resource, this.getIdentity().getId()) || this.isAuthor(resource, this.getIdentity().getId())) && isAllowedStatus;
 				},
 				joinItem: function(resource) {
 					return resource &&
