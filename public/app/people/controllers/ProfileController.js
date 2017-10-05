@@ -30,6 +30,12 @@ angular.module('app.people')
 				}
 			});
 
+			memberService.getHistory($stateParams.orgId, $stateParams.memberId).then(function(res){
+				$scope.profileHistory = _.sortBy(res.data, function(historyEvent){
+					return historyEvent.on;
+				});
+			});
+
 			$scope.credits = accountService.userStats({ orgId: $stateParams.orgId, memberId: $stateParams.memberId },function(){
 			});
 
