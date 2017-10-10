@@ -1,9 +1,3 @@
-// HistoryNameToLabelFilter.js
-
-// People\OrganizationMemberAdded
-// People\OrganizationMemberRoleChanged
-// People\OrganizationMemberRemoved
-
 var labelTranslation = {
     "People\\OrganizationMemberAdded": "joined on",
     "People\\OrganizationMemberRoleChanged": "changed role to",

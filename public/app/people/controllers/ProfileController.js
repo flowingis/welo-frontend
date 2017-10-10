@@ -30,10 +30,16 @@ angular.module('app.people')
 				}
 			});
 
+			$scope.historyVisible = false;
+
+			$scope.showHistory = function() {
+				$scope.historyVisible = !$scope.historyVisible;
+			};
+
 			memberService.getHistory($stateParams.orgId, $stateParams.memberId).then(function(res){
 				$scope.profileHistory = _.sortBy(res.data, function(historyEvent){
 					return historyEvent.on;
-				});
+				}).reverse();
 			});
 
 			$scope.credits = accountService.userStats({ orgId: $stateParams.orgId, memberId: $stateParams.memberId },function(){
