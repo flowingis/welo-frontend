@@ -2,7 +2,7 @@ var labelTranslation = {
     "People\\OrganizationMemberAdded": "joined on",
     "People\\OrganizationMemberRoleChanged": "changed role to",
     "People\\OrganizationMemberRemoved": "leaved on"
-}
+};
 
 angular.module('app.collaboration').filter('historyNameToLabel', function() {
         return function(name, role) {
