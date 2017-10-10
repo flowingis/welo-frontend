@@ -38,7 +38,7 @@ var MemberService = function($http,$resource, identity) {
 			url: '/api/'+organizationId+'/people/members/'+memberId+'/history',
 			headers: { 'GOOGLE-JWT': identity.getToken() }
 		});
-	}
+	};
 
 	this.joinOrganization = function(organization, success, error) {
 		resource.save({ orgId: organization.id }, success, error);
