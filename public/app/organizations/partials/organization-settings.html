@@ -121,40 +121,40 @@
 			</div>
 			<div layout="row">
 				<md-input-container>
-					<label class="md-container-ignore">Organization shiftout min credits limit</label>
-					<input type="text"
-						data-ng-model="orgSettings.shiftout_min_credits"
-						name="shiftout_min_credits"
-						aria-label="Organization shiftout min credits limit"
-						required>
-					<div ng-messages="orgSettingsForm.shiftout_min_credits.$error" role="alert">
-						<div ng-message="required">Organization shiftout min credits limit is required</div>
-					</div>
-				</md-input-container>
-			</div>
-			<div layout="row">
-				<md-input-container>
-					<label class="md-container-ignore">Organization shiftout min item limit</label>
-					<input type="text"
-						data-ng-model="orgSettings.shiftout_min_item"
-						name="shiftout_min_item"
-						aria-label="Organization shiftout min item limit"
-						required>
-					<div ng-messages="orgSettingsForm.shiftout_min_item.$error" role="alert">
-						<div ng-message="required">Organization shiftout min item limit is required</div>
-					</div>
-				</md-input-container>
-			</div>
-			<div layout="row">
-				<md-input-container>
-					<label class="md-container-ignore">Organization shiftout days limit</label>
+					<label class="md-container-ignore">Inactivity threshold: past days to be considered</label>
 					<input type="text"
 						data-ng-model="orgSettings.shiftout_days"
 						name="shiftout_days"
-						aria-label="Organization shiftout days limit"
+						aria-label="Inactivity threshold: past days to be considered"
 						required>
 					<div ng-messages="orgSettingsForm.shiftout_days.$error" role="alert">
-						<div ng-message="required">Organization shiftout days limit is required</div>
+						<div ng-message="required">Inactivity threshold: past days to be considered is required</div>
+					</div>
+				</md-input-container>
+			</div>
+			<div layout="row">
+				<md-input-container>
+					<label class="md-container-ignore">Inactivity threshold: min number of items</label>
+					<input type="text"
+						data-ng-model="orgSettings.shiftout_min_item"
+						name="shiftout_min_item"
+						aria-label="Inactivity threshold: min number of items"
+						required>
+					<div ng-messages="orgSettingsForm.shiftout_min_item.$error" role="alert">
+						<div ng-message="required">Inactivity threshold: min number of items is required</div>
+					</div>
+				</md-input-container>
+			</div>
+			<div layout="row">
+				<md-input-container>
+					<label class="md-container-ignore">Inactivity threshold: min credits per item</label>
+					<input type="text"
+						data-ng-model="orgSettings.shiftout_min_credits"
+						name="shiftout_min_credits"
+						aria-label="Inactivity threshold: min credits per item"
+						required>
+					<div ng-messages="orgSettingsForm.shiftout_min_credits.$error" role="alert">
+						<div ng-message="required">Inactivity threshold: min credits per item is required</div>
 					</div>
 				</md-input-container>
 			</div>
