@@ -260,7 +260,12 @@
 		</md-tab>
 </md-tabs>
 	<md-subheader class="member-since-label" data-ng-if="profile.createdAt">
-		{{organization.name}} joined on {{profile.createdAt | date:'dd/MM/yyyy'}}
+		<div data-ng-if="!historyVisible" data-ng-click="showHistory()" style="margin-top: -10px; margin-bottom: -15px; cursor: pointer;" layout="row" layout-align="space-between center">
+			<p>{{profileHistory[0].name | historyNameToLabel: profileHistory[0].user.role}} {{profileHistory[0].on | date:'dd/MM/yyyy'}}</p><i data-ng-if="profileHistory.length>1" class="material-icons">&#xE5CF;</i>
+		</div>
+		<div data-ng-if="historyVisible" data-ng-click="showHistory()" style="margin-top: -10px; margin-bottom: -15px; cursor: pointer;" layout="row" layout-align="space-between center" data-ng-repeat="historyEvent in profileHistory">
+			<p>{{historyEvent.name | historyNameToLabel: historyEvent.user.role}} {{historyEvent.on | date:'dd/MM/yyyy'}}</p><i data-ng-if="$first && (profileHistory.length>1)" class="material-icons">&#xE5CE;</i>
+		</div>
 	</md-subheader>
 	<md-card>
 		<md-card-header>

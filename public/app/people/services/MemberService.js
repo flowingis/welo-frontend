@@ -6,6 +6,10 @@ var MemberService = function($http,$resource, identity) {
 			method: 'GET',
 			headers: { 'GOOGLE-JWT': identity.getToken() }
 		},
+		getHistory: {
+			method: 'GET',
+			headers: { 'GOOGLE-JWT': identity.getToken() }
+		},
 		query: {
 			method: 'GET',
 			isArray: false,
@@ -27,6 +31,14 @@ var MemberService = function($http,$resource, identity) {
 
 	this.query = resource.query;
 	this.get   = resource.get;
+
+	this.getHistory = function(organizationId, memberId){
+		return $http({
+			method: 'GET',
+			url: '/api/'+organizationId+'/people/members/'+memberId+'/history',
+			headers: { 'GOOGLE-JWT': identity.getToken() }
+		});
+	};
 
 	this.joinOrganization = function(organization, success, error) {
 		resource.save({ orgId: organization.id }, success, error);
