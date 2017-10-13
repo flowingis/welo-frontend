@@ -256,11 +256,8 @@ var ItemService = function(
 
 			this.removeTaskMember = function(organizationId,itemId,memberId){
 				return $http({
-					url:'api/' + organizationId + '/task-management/tasks/' + itemId + '/members',
+					url:'api/' + organizationId + '/task-management/tasks/' + itemId + '/members/' + memberId,
 					method:'DELETE',
-					data:{
-						memberId:memberId
-					},
 					headers: { 'GOOGLE-JWT': identity.getToken() }
 				});
 			};
