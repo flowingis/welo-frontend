@@ -13,8 +13,24 @@ angular.module('app', [
 	'app.accounting',
 	'app.kanbanize'
 ])
-	.config(['$stateProvider', '$urlRouterProvider',
-		function($stateProvider, $urlRouterProvider) {
+	.config(['$stateProvider', '$urlRouterProvider', "$httpProvider",
+		function($stateProvider, $urlRouterProvider, $httpProvider) {
+			$httpProvider.interceptors.push(function($q) {
+				return {
+					'request': function(config) {
+						if(config.headers){
+							config.headers["GOOGLE-JWT"] = '';
+						}
+						return config;
+					},
+					'responseError': function(rejection) {
+						if(rejection.status === 401){
+							// TODO: go to login
+						}
+					}
+				}
+			});
+
 			$urlRouterProvider.otherwise(function($injector) {
 				var $state = $injector.get("$state");
 
