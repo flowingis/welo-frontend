@@ -17,15 +17,13 @@ angular.module('app', [
 		function($stateProvider, $urlRouterProvider, $httpProvider) {
 			$httpProvider.interceptors.push(function($q) {
 				return {
-					'request': function(config) {
-						if(config.headers){
-							config.headers["GOOGLE-JWT"] = '';
-						}
-						return config;
-					},
 					'responseError': function(rejection) {
 						if(rejection.status === 401){
-							// TODO: go to login
+							alert("you are not authorized to view this page, probably the session is ended, please do login again");
+							var auth2 = gapi.auth2.getAuthInstance();
+							auth2.signOut().then(function () {
+								window.location.reload();
+							});
 						}
 					}
 				}
