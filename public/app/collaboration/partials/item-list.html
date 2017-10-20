@@ -142,13 +142,17 @@
             </div>
         </md-card-header-text>
         <md-card-media layout="column" layout-align="start end" class="margin-top-10">
-            <div ng-show="item.status <= ITEM_STATUS.OPEN">
+            <div ng-show="item.status < ITEM_STATUS.OPEN">
                 <div>
                     <img style="max-width: 40px; border-radius: 50%" ng-src="{{ author.picture || 'img/account.jpg' }}" alt="{{ author.firstname }} {{ author.lastname}}"
                         title="{{ author.firstname }} {{ author.lastname}}">
                 </div>
                 <p class="margin-top-10 no-margin" style="font-size: 14px; font-weight: bold">author:</p>
                 <p class="font-size12 no-margin" style="text-align:right;">{{ author.firstname }} {{ author.lastname}} </p>
+            </div>
+            <div ng-show="item.status === ITEM_STATUS.OPEN && showPriority(item)">
+                <p class="margin-top-10 no-margin" style="font-size: 14px; font-weight: bold">priority:</p>
+                <p class="font-size12 no-margin" style="text-align:right;">{{item.position}}</p>
             </div>
             <div ng-show="item.status > ITEM_STATUS.OPEN">
                 <div>
@@ -159,10 +163,10 @@
                 <p class="font-size12 no-margin" style="text-align:right;">{{ owner.firstname }} {{ owner.lastname}} </p>
             </div>
         </md-card-media>
-        <div layout="column" layout-align="start end" class="margin-top-10" ng-if="showPriority(item)">
+        <!-- <div layout="column" layout-align="start end" class="margin-top-10" ng-if="showPriority(item)">
             <p class="margin-top-10 no-margin priority-title-label">Priority</p>
             <p class="font-size24 no-margin priority-value">{{item.position}}</p>
-        </div>
+        </div> -->
     </md-card-header>
     <div layout="row" style="margin-top: -32px;">
         <p style=" font-size: 12px; margin-top: 12px; margin-left: 16px;">
