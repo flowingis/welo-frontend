@@ -19,7 +19,7 @@ angular.module('app', [
 				return {
 					'responseError': function(rejection) {
 						if(rejection.status === 401){
-							alert("you are not authorized to view this page, probably the session is ended, please do login again");
+							alert("This page might be private. You could be able to view it after login. press ok to repeat your login");
 							var auth2 = gapi.auth2.getAuthInstance();
 							auth2.signOut().then(function () {
 								window.location.reload();
