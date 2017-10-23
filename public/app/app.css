@@ -500,6 +500,30 @@ div:focus {
     }
 }
 
+@media (min-width: 0) and (max-width: 420px) and (orientation: portrait) {
+    .partecipantsListText {
+        width: 150px;
+    }
+}
+
+@media (min-width: 0) and (max-width: 375px) and (orientation: portrait) {
+    .partecipantsListText {
+        width: 110px;
+    }
+}
+
+@media (min-width: 0) and (max-width: 360px) and (orientation: portrait) {
+    .partecipantsListText {
+        width: 90px;
+    }
+}
+
+@media (min-width: 0) and (max-width: 320px) and (orientation: portrait) {
+    .partecipantsListText {
+        width: 55px;
+    }
+}
+
 @media (min-width: 0) and (max-width: 959px) and (orientation: landscape) {
     .content-wrapper {
         top: 48px;
