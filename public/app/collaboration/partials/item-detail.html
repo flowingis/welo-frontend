@@ -153,7 +153,7 @@
 			<span style="font-size: 14px;" class="md-title">Partecipants List</span>
 
 			<md-list class="md-dense" ng-if="item.status != 50">
-				<md-list-item ng-repeat="member in members" ng-init="m = user(member)" ng-click="goToProfile(member.id)" class="md-2-line md-no-proxy"
+				<md-list-item ng-repeat="member in members" ng-init="m = member" ng-click="goToProfile(member.id)" class="md-2-line md-no-proxy"
 				 style="padding:0;">
 					<img alt="{{ member.firstname }} {{ member.lastname }}" ng-src="{{ member.picture || 'img/account.jpg' }}" class="md-avatar"
 					/>
@@ -180,7 +180,7 @@
 			</md-list>
 
 			<md-list class="md-dense" ng-if="ctrl.isAllowed('showShares', item)">
-				<md-list-item ng-repeat="member in members" ng-init="m = user(member)" ng-click="goToProfile(member.id)" class="md-2-line md-no-proxy"
+				<md-list-item ng-repeat="member in members" ng-init="m = member" ng-click="goToProfile(member.id)" class="md-2-line md-no-proxy"
 				 style="padding:0;">
 					<img alt="{{ member.firstname }} {{ member.lastname }}" ng-src="{{ member.picture || 'img/account.jpg' }}" class="md-avatar"
 					/>

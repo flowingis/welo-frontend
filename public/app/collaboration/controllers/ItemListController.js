@@ -54,6 +54,7 @@ angular.module('app.collaboration')
 					function(data) {
 						$scope.loadingItems = false;
 						$scope.items = data;
+						console.log($scope.items);
 					},
 					function(response) {
 						$scope.loadingItems = false;
@@ -116,12 +117,12 @@ angular.module('app.collaboration')
 			};
 			this.getOwner = function(item) {
 				var member = itemService.getOwner(item);
-				return $scope.user(member);
+				return member;//$scope.user(member);
 			};
 
 			this.getAuthor = function(item) {
 				var member = itemService.getAuthor(item);
-				return $scope.user(member);
+				return member;//$scope.user(member);
 			};
 
 			this.checkImIn = function(item){
