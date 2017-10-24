@@ -26,7 +26,7 @@ angular.module('app', [
 							});
 						}
 					}
-				}
+				};
 			});
 
 			$urlRouterProvider.otherwise(function($injector) {
