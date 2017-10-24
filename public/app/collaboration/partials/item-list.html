@@ -151,8 +151,18 @@
                 <p class="font-size12 no-margin" style="text-align:right;">{{ author.firstname }} {{ author.lastname}} </p>
             </div>
             <div ng-show="item.status === ITEM_STATUS.OPEN && showPriority(item)">
-                <p class="margin-top-10 no-margin" style="font-size: 14px; font-weight: bold">priority:</p>
-                <p class="font-size12 no-margin" style="text-align:right;">{{item.position}}</p>
+                <p class="font-size12 no-margin margin-top-10" style="
+                text-align: center;
+                width: 32px;
+                height:32px;
+                border-radius: 50%;
+                background-color:#00838f;
+                font-size: 18px;
+                color:#FFFFFF;
+                padding: 0 0 0 0px;
+                line-height: 30px;
+                font-weight: bold;">{{item.position}}</p>
+                <p class="no-margin" style="font-size: 12px;">priority</p>
             </div>
             <div ng-show="item.status > ITEM_STATUS.OPEN">
                 <div>
