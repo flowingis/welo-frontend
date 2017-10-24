@@ -502,25 +502,25 @@ div:focus {
 
 @media (min-width: 0) and (max-width: 420px) and (orientation: portrait) {
     .partecipantsListText {
-        width: 150px;
+        width: 170px;
     }
 }
 
 @media (min-width: 0) and (max-width: 375px) and (orientation: portrait) {
     .partecipantsListText {
-        width: 110px;
+        width: 130px;
     }
 }
 
 @media (min-width: 0) and (max-width: 360px) and (orientation: portrait) {
     .partecipantsListText {
-        width: 90px;
+        width: 120px;
     }
 }
 
 @media (min-width: 0) and (max-width: 320px) and (orientation: portrait) {
     .partecipantsListText {
-        width: 55px;
+        width: 80px;
     }
 }
 
