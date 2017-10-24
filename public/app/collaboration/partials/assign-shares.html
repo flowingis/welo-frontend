@@ -8,7 +8,7 @@
 					<div ng-message="remote">{{ form.$error.remote }}</div>
 				</div>
 				<md-list>
-					<md-list-item ng-repeat="member in item.members" ng-init="m = user(member)">
+					<md-list-item ng-repeat="member in item.members" ng-init="m = member">
 						<img ng-src="{{ m.picture  || 'img/account.jpg'}} " class="md-avatar" alt="{{ m.firstname }} {{ m.lastname}}" title="{{ m.firstname }} {{ m.lastname}}">
 						<md-input-container flex>
 							<label>{{ m.firstname }} {{ m.lastname }}</label>
