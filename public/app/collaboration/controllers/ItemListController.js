@@ -54,7 +54,6 @@ angular.module('app.collaboration')
 					function(data) {
 						$scope.loadingItems = false;
 						$scope.items = data;
-						console.log($scope.items);
 					},
 					function(response) {
 						$scope.loadingItems = false;
