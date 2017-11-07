@@ -549,6 +549,12 @@ div:focus {
     .navigation-wrapper {
         left: 320px;
     }
+    .withoutSideMenu .content-wrapper {
+        left: 0px;
+    }
+    .withoutSideMenu .navigation-wrapper {
+        left: 0px;
+    }
 }
 
 .ora-fab {

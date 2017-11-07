@@ -43,6 +43,7 @@ angular.module('app')
 					window.history.back();
 				};
                 $scope.pillar = {};
+                
                 $scope.$on('$stateChangeSuccess',
                     function(event, toState) {
                         if(toState.data && toState.data.pillarName){
@@ -60,8 +61,10 @@ angular.module('app')
 						if(toState.data){
                             $scope.fullHeight = toState.data.fullHeight;
                         }
+
                     }
                 );
+
                 var selectedOrganizationId = SelectedOrganizationId.get();
                     if(selectedOrganizationId){
                         $scope.organizationId = selectedOrganizationId;

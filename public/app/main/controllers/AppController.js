@@ -7,6 +7,7 @@ angular.module('app')
         '$log',
         '$stateParams',
         'SelectedOrganizationId',
+        '$state',
         function(
             $scope,
             $timeout,
@@ -14,18 +15,39 @@ angular.module('app')
             $mdUtil,
             $log,
             $stateParams,
-            SelectedOrganizationId) {
+            SelectedOrganizationId,
+            $state) {
 
             $scope.$on('$stateChangeSuccess', function() {
                 if ($stateParams.orgId) {
                     SelectedOrganizationId.set($stateParams.orgId);
                     $scope.organizationId = $stateParams.orgId;
                 }
+                
             });
 
             $scope.toggleLeft = buildToggler('left');
             $scope.toggleRight = buildToggler('right');
             $scope.closeLeft = buildClose('left');
+
+            $scope.menulocked = function() {
+                if ($state.current.name === "org.kanban") {
+                    return false;
+                } else {
+                    return true;
+                }    
+            };
+
+            $scope.clsWithoutSideMenu = function() {
+                console.log("fff");
+                if ($state.current.name === "org.kanban") {
+                    return "withoutSideMenu";
+                } else {
+                    return "";
+                }   
+            }
+
+
             /**
              * Build handler to open/close a SideNav; when animation finishes
              * report completion in console
