@@ -39,7 +39,6 @@ angular.module('app')
             };
 
             $scope.clsWithoutSideMenu = function() {
-                console.log("fff");
                 if ($state.current.name === "org.kanban") {
                     return "withoutSideMenu";
                 } else {

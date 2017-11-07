@@ -16,14 +16,16 @@ angular.module('app')
 			SelectedOrganizationId,
 			$state) {
 
-                var STATES = ['org.collaboration','org.organizationStatement','org.flow','org.decisions','org.people','org.kanban'];
+                var STATES = ['org.collaboration','org.organizationStatement','org.flow','org.decisions','org.people', 'org.kanban'];
                 var MINORSTATES = {
                     "org.item":"org.collaboration"
                 };
 
                 var checkSelectedStateIndex = function(currentState) {
                     //currentState = MINORSTATES[currentState] || currentState;
-                    return _.indexOf(STATES,currentState);
+                    var currentState = _.indexOf(STATES,currentState);
+                    currentState = (currentState==5)?0:currentState;
+                    return currentState;
                 };
     			if(!SelectedOrganizationId.get()){
     				$state.go("organizations");
