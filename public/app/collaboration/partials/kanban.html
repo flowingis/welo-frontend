@@ -45,17 +45,7 @@
     </div>
     <div class="kanban__column">
       <div class="kanban__column__title">closed</div>
-      <div class="kanban__item">
-        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
-        <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
-        <div class="kanban__item__decision"></div>
-        <img class="kanban__item__involved" ng-src="img/im-involved.svg" />
-      </div>
-      <div class="kanban__item">
-        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
-        <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
-        <img class="kanban__item__involved" ng-src="img/im-involved.svg" />
-      </div>
+      <item-kanban-card ng-repeat="item in lane.cols[ITEM_STATUS.CLOSED]" item="item" my-id="currentUserId"></item-kanban-card>
     </div>
   </div>  
   

@@ -117,9 +117,11 @@ angular.module('app.collaboration')
 						getItemForStatus($scope.ITEM_STATUS.ONGOING,kanbanItems).then(function() {
 							getItemForStatus($scope.ITEM_STATUS.COMPLETED,kanbanItems).then(function() {
 								getItemForStatus($scope.ITEM_STATUS.ACCEPTED,kanbanItems).then(function() {
-									$scope.loadingItems = false;
-									$scope.kanbanItems = kanbanItems;
-									console.log($scope.kanbanItems);
+									getItemForStatus($scope.ITEM_STATUS.CLOSED,kanbanItems).then(function() {
+										$scope.loadingItems = false;
+										$scope.kanbanItems = kanbanItems;
+										//console.log($scope.kanbanItems);
+									})
 								})
 							})
 						})
