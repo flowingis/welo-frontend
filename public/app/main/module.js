@@ -13,8 +13,22 @@ angular.module('app', [
 	'app.accounting',
 	'app.kanbanize'
 ])
-	.config(['$stateProvider', '$urlRouterProvider',
-		function($stateProvider, $urlRouterProvider) {
+	.config(['$stateProvider', '$urlRouterProvider', "$httpProvider",
+		function($stateProvider, $urlRouterProvider, $httpProvider) {
+			$httpProvider.interceptors.push(function($q) {
+				return {
+					'responseError': function(rejection) {
+						if(rejection.status === 401){
+							alert("This page might be private. You could be able to view it after login. press ok to repeat your login");
+							var auth2 = gapi.auth2.getAuthInstance();
+							auth2.signOut().then(function () {
+								window.location.reload();
+							});
+						}
+					}
+				};
+			});
+
 			$urlRouterProvider.otherwise(function($injector) {
 				var $state = $injector.get("$state");
 
