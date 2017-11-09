@@ -28,6 +28,8 @@ angular.module('app.collaboration')
 				open:false
 			};
 
+			$scope.closeLeft();
+
 			$scope.currentUserId = $scope.identity.getId();
 			$scope.decisions = $state.$current.data.decisions;
 			$scope.changeUpdateTime = false;
@@ -86,8 +88,8 @@ angular.module('app.collaboration')
                     if (lane.lcid!==null) {
                         $scope.lanesNames[lane.lcid] = lane.lcname;
                     }
-                });
-
+				});
+				
 				$scope.$watchGroup(['filters.status','filters.memberId','filters.orderType'],function(newValue,oldValue){
 					if (newValue!=oldValue) {
 						getItems();

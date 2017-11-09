@@ -2,12 +2,10 @@ angular.module('app')
 	.controller('LeftController', function ($scope, $mdSidenav, $log, identity, $location, cronService, $mdDialog) {
 
 		$scope.goProfilePage = function () {
-			console.log(identity.getId());
-			console.log($scope.identity.getId());
+			//console.log(identity.getId());
+			//console.log($scope.identity.getId());
 		};
 
-		console.log(identity.getEmail());
-		console.log($location.host());
 
 		$scope.showForceCron = false;
 		if (($location.host() == "localhost") || 

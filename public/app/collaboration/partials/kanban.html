@@ -1,32 +1,33 @@
 <div data-ng-if="menu.open" class="tooltip" style=" width: 120px;right:85px;bottom: 142px;">
-    Create Work Item
+  Create Work Item
 </div>
 <div data-ng-if="menu.open" class="tooltip" style=" width: 120px;right:85px;bottom: 194px;">
-    Create Decision Item
+  Create Decision Item
 </div>
 <md-fab-speed-dial md-open="menu.open" md-direction="up" class="md-scale ora-fab" ng-if="lanes && !decisions">
-    <md-fab-trigger>
-        <md-button aria-label="Item Menu" class="md-fab md-warn md-hue-1">
-            <md-icon md-svg-icon="add"></md-icon>
-        </md-button>
-    </md-fab-trigger>
-    <md-fab-actions>
-        <md-button aria-label="New Item" class="md-fab md-raised md-mini" ng-click="ctrl.openNewItem($event, false, 'workItem')"
-            ng-if="ctrl.isAllowed('createItem', organization)">
-            <md-icon md-svg-icon="addItem" title="New Item" style="color: black"></md-icon>
-        </md-button>
-        <md-button aria-label="New Decision" class="md-fab md-raised md-mini" ng-click="ctrl.openNewItem($event, true, 'decisionItem')"
-            ng-if="ctrl.isAllowed('createItem', organization)">
-            <i class="material-icons" title="New Item" style="margin-top: 6px; color: black">&#xE90E;</i>
-        </md-button>
-    </md-fab-actions>
+  <md-fab-trigger>
+    <md-button aria-label="Item Menu" class="md-fab md-warn md-hue-1">
+      <md-icon md-svg-icon="add"></md-icon>
+    </md-button>
+  </md-fab-trigger>
+  <md-fab-actions>
+    <md-button aria-label="New Item" class="md-fab md-raised md-mini" ng-click="ctrl.openNewItem($event, false, 'workItem')"
+      ng-if="ctrl.isAllowed('createItem', organization)">
+      <md-icon md-svg-icon="addItem" title="New Item" style="color: black"></md-icon>
+    </md-button>
+    <md-button aria-label="New Decision" class="md-fab md-raised md-mini" ng-click="ctrl.openNewItem($event, true, 'decisionItem')"
+      ng-if="ctrl.isAllowed('createItem', organization)">
+      <i class="material-icons" title="New Item" style="margin-top: 6px; color: black">&#xE90E;</i>
+    </md-button>
+  </md-fab-actions>
 </md-fab-speed-dial>
 
 <md-progress-linear data-ng-if="loadingItems" md-mode="query"></md-progress-linear>
 
 <div class="kanban">
-  <div class="kanban__lane">
-    <div class="kanban__lane__title">Infrastructure</div>
+
+  <div class="kanban__lane" ng-repeat="lane in lanes" ng-class="{'kanban__lane--even':$odd}">
+    <div class="kanban__lane__title">{{lane.lcname}}</div>
     <div class="kanban__column">
       <div class="kanban__column__title">idea</div>
       <div class="kanban__item">
@@ -51,17 +52,99 @@
       </div>
     </div>
     <div class="kanban__column">
+        <div class="kanban__column__title">ongoing</div>
+        <div class="kanban__item">
+          <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
+          <div class="kanban__item__title">Discover For Successful Living</div>
+        </div>
+        <div class="kanban__item">
+          <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
+          <div class="kanban__item__title">Living</div>
+        </div>
+      </div>
+      <div class="kanban__column">
+          <div class="kanban__column__title">completed</div>
+          <div class="kanban__item">
+            <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
+            <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
+          </div>
+          <div class="kanban__item">
+            <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
+            <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
+          </div>
+        </div>
+        <div class="kanban__column">
+            <div class="kanban__column__title">accepted</div>
+            <div class="kanban__item">
+              <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
+              <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
+              <div class="kanban__item__decision"></div>
+            </div>
+            <div class="kanban__item">
+              <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
+              <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
+            </div>
+          </div>
+          <div class="kanban__column">
+              <div class="kanban__column__title">closed</div>
+              <div class="kanban__item">
+                <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
+                <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
+                <div class="kanban__item__decision"></div>
+                <img class="kanban__item__involved" ng-src="img/im-involved.svg" />
+              </div>
+              <div class="kanban__item">
+                <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
+                <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
+                <img class="kanban__item__involved" ng-src="img/im-involved.svg" />
+              </div>
+            </div>
+  </div>
+
+
+
+
+
+
+
+
+  <!--<div class="kanban__lane"> -->
+    <!--<div class="kanban__lane__title">Infrastructure</div>-->
+    <!--<div class="kanban__column">
+      <div class="kanban__column__title">idea</div>
+      <div class="kanban__item">
+        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
+        <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
+      </div>
+      <div class="kanban__item">
+        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
+        <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
+      </div>
+    </div>-->
+    <!--<div class="kanban__column">
+      <div class="kanban__column__title">open</div>
+      <div class="kanban__item">
+        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
+        <div class="kanban__item__title">Discover Little Known Secrets For Successful Living Secrets For Successful Living</div>
+        <div class="kanban__item__decision"></div>
+      </div>
+      <div class="kanban__item">
+        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
+        <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
+      </div>
+    </div>
+    <div class="kanban__column">
       <div class="kanban__column__title">ongoing</div>
       <div class="kanban__item">
         <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
-        <div class="kanban__item__title">Discover  For Successful Living</div>
+        <div class="kanban__item__title">Discover For Successful Living</div>
       </div>
       <div class="kanban__item">
         <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
         <div class="kanban__item__title">Living</div>
       </div>
-    </div>
-    <div class="kanban__column">
+    </div>-->
+    <!--<div class="kanban__column">
       <div class="kanban__column__title">completed</div>
       <div class="kanban__item">
         <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
@@ -71,8 +154,8 @@
         <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
         <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
       </div>
-    </div>
-    <div class="kanban__column">
+    </div>-->
+    <!--<div class="kanban__column">
       <div class="kanban__column__title">accepted</div>
       <div class="kanban__item">
         <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
@@ -83,22 +166,22 @@
         <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
         <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
       </div>
-    </div>
-    <div class="kanban__column">
+    </div>-->
+    <!--<div class="kanban__column">
       <div class="kanban__column__title">closed</div>
       <div class="kanban__item">
         <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
         <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
         <div class="kanban__item__decision"></div>
-        <img class="kanban__item__involved" ng-src="img/im-involved.svg"/>
+        <img class="kanban__item__involved" ng-src="img/im-involved.svg" />
       </div>
       <div class="kanban__item">
         <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
         <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
-        <img class="kanban__item__involved" ng-src="img/im-involved.svg"/>
+        <img class="kanban__item__involved" ng-src="img/im-involved.svg" />
       </div>
-    </div>
-  </div>
+    </div>-->
+  <!--</div>-->
   <div class="kanban__lane kanban__lane--even">
     <div class="kanban__lane__title">Infrastructure</div>
     <div class="kanban__column">
@@ -128,7 +211,7 @@
       <div class="kanban__column__title">ongoing</div>
       <div class="kanban__item">
         <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
-        <div class="kanban__item__title">Discover  For Successful Living</div>
+        <div class="kanban__item__title">Discover For Successful Living</div>
       </div>
       <div class="kanban__item">
         <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
@@ -164,160 +247,12 @@
         <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
         <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
         <div class="kanban__item__decision"></div>
-        <img class="kanban__item__involved" ng-src="img/im-involved.svg"/>
+        <img class="kanban__item__involved" ng-src="img/im-involved.svg" />
       </div>
       <div class="kanban__item">
         <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
         <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
-        <img class="kanban__item__involved" ng-src="img/im-involved.svg"/>
-      </div>
-    </div>
-  </div>
-  <div class="kanban__lane">
-    <div class="kanban__lane__title">Infrastructure</div>
-    <div class="kanban__column">
-      <div class="kanban__column__title">idea</div>
-      <div class="kanban__item">
-        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
-        <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
-      </div>
-      <div class="kanban__item">
-        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
-        <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
-      </div>
-    </div>
-    <div class="kanban__column">
-      <div class="kanban__column__title">open</div>
-      <div class="kanban__item">
-        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
-        <div class="kanban__item__title">Discover Little Known Secrets For Successful Living Secrets For Successful Living</div>
-        <div class="kanban__item__decision"></div>
-      </div>
-      <div class="kanban__item">
-        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
-        <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
-      </div>
-    </div>
-    <div class="kanban__column">
-      <div class="kanban__column__title">ongoing</div>
-      <div class="kanban__item">
-        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
-        <div class="kanban__item__title">Discover  For Successful Living</div>
-      </div>
-      <div class="kanban__item">
-        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
-        <div class="kanban__item__title">Living</div>
-      </div>
-    </div>
-    <div class="kanban__column">
-      <div class="kanban__column__title">completed</div>
-      <div class="kanban__item">
-        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
-        <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
-      </div>
-      <div class="kanban__item">
-        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
-        <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
-      </div>
-    </div>
-    <div class="kanban__column">
-      <div class="kanban__column__title">accepted</div>
-      <div class="kanban__item">
-        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
-        <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
-        <div class="kanban__item__decision"></div>
-      </div>
-      <div class="kanban__item">
-        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
-        <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
-      </div>
-    </div>
-    <div class="kanban__column">
-      <div class="kanban__column__title">closed</div>
-      <div class="kanban__item">
-        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
-        <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
-        <div class="kanban__item__decision"></div>
-        <img class="kanban__item__involved" ng-src="img/im-involved.svg"/>
-      </div>
-      <div class="kanban__item">
-        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
-        <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
-        <img class="kanban__item__involved" ng-src="img/im-involved.svg"/>
-      </div>
-    </div>
-  </div>
-  <div class="kanban__lane kanban__lane--even">
-    <div class="kanban__lane__title">Infrastructure</div>
-    <div class="kanban__column">
-      <div class="kanban__column__title">idea</div>
-      <div class="kanban__item">
-        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
-        <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
-      </div>
-      <div class="kanban__item">
-        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
-        <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
-      </div>
-    </div>
-    <div class="kanban__column">
-      <div class="kanban__column__title">open</div>
-      <div class="kanban__item">
-        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
-        <div class="kanban__item__title">Discover Little Known Secrets For Successful Living Secrets For Successful Living</div>
-        <div class="kanban__item__decision"></div>
-      </div>
-      <div class="kanban__item">
-        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
-        <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
-      </div>
-    </div>
-    <div class="kanban__column">
-      <div class="kanban__column__title">ongoing</div>
-      <div class="kanban__item">
-        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
-        <div class="kanban__item__title">Discover  For Successful Living</div>
-      </div>
-      <div class="kanban__item">
-        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
-        <div class="kanban__item__title">Living</div>
-      </div>
-    </div>
-    <div class="kanban__column">
-      <div class="kanban__column__title">completed</div>
-      <div class="kanban__item">
-        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
-        <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
-      </div>
-      <div class="kanban__item">
-        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
-        <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
-      </div>
-    </div>
-    <div class="kanban__column">
-      <div class="kanban__column__title">accepted</div>
-      <div class="kanban__item">
-        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
-        <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
-        <div class="kanban__item__decision"></div>
-      </div>
-      <div class="kanban__item">
-        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
-        <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
-      </div>
-    </div>
-    <div class="kanban__column">
-      <div class="kanban__column__title">closed</div>
-      <div class="kanban__item">
-        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
-        <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
-        <div class="kanban__item__decision"></div>
-        <img class="kanban__item__involved" ng-src="img/im-involved.svg"/>
-      </div>
-      <div class="kanban__item">
-        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
-        <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
-        <img class="kanban__item__involved" ng-src="img/im-involved.svg"/>
+        <img class="kanban__item__involved" ng-src="img/im-involved.svg" />
       </div>
     </div>
   </div>
@@ -350,7 +285,7 @@
       <div class="kanban__column__title">ongoing</div>
       <div class="kanban__item">
         <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
-        <div class="kanban__item__title">Discover  For Successful Living</div>
+        <div class="kanban__item__title">Discover For Successful Living</div>
       </div>
       <div class="kanban__item">
         <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
@@ -386,12 +321,12 @@
         <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
         <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
         <div class="kanban__item__decision"></div>
-        <img class="kanban__item__involved" ng-src="img/im-involved.svg"/>
+        <img class="kanban__item__involved" ng-src="img/im-involved.svg" />
       </div>
       <div class="kanban__item">
         <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
         <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
-        <img class="kanban__item__involved" ng-src="img/im-involved.svg"/>
+        <img class="kanban__item__involved" ng-src="img/im-involved.svg" />
       </div>
     </div>
   </div>
@@ -424,7 +359,7 @@
       <div class="kanban__column__title">ongoing</div>
       <div class="kanban__item">
         <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
-        <div class="kanban__item__title">Discover  For Successful Living</div>
+        <div class="kanban__item__title">Discover For Successful Living</div>
       </div>
       <div class="kanban__item">
         <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
@@ -460,12 +395,160 @@
         <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
         <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
         <div class="kanban__item__decision"></div>
-        <img class="kanban__item__involved" ng-src="img/im-involved.svg"/>
+        <img class="kanban__item__involved" ng-src="img/im-involved.svg" />
       </div>
       <div class="kanban__item">
         <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
         <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
-        <img class="kanban__item__involved" ng-src="img/im-involved.svg"/>
+        <img class="kanban__item__involved" ng-src="img/im-involved.svg" />
+      </div>
+    </div>
+  </div>
+  <div class="kanban__lane">
+    <div class="kanban__lane__title">Infrastructure</div>
+    <div class="kanban__column">
+      <div class="kanban__column__title">idea</div>
+      <div class="kanban__item">
+        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
+        <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
+      </div>
+      <div class="kanban__item">
+        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
+        <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
+      </div>
+    </div>
+    <div class="kanban__column">
+      <div class="kanban__column__title">open</div>
+      <div class="kanban__item">
+        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
+        <div class="kanban__item__title">Discover Little Known Secrets For Successful Living Secrets For Successful Living</div>
+        <div class="kanban__item__decision"></div>
+      </div>
+      <div class="kanban__item">
+        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
+        <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
+      </div>
+    </div>
+    <div class="kanban__column">
+      <div class="kanban__column__title">ongoing</div>
+      <div class="kanban__item">
+        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
+        <div class="kanban__item__title">Discover For Successful Living</div>
+      </div>
+      <div class="kanban__item">
+        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
+        <div class="kanban__item__title">Living</div>
+      </div>
+    </div>
+    <div class="kanban__column">
+      <div class="kanban__column__title">completed</div>
+      <div class="kanban__item">
+        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
+        <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
+      </div>
+      <div class="kanban__item">
+        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
+        <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
+      </div>
+    </div>
+    <div class="kanban__column">
+      <div class="kanban__column__title">accepted</div>
+      <div class="kanban__item">
+        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
+        <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
+        <div class="kanban__item__decision"></div>
+      </div>
+      <div class="kanban__item">
+        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
+        <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
+      </div>
+    </div>
+    <div class="kanban__column">
+      <div class="kanban__column__title">closed</div>
+      <div class="kanban__item">
+        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
+        <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
+        <div class="kanban__item__decision"></div>
+        <img class="kanban__item__involved" ng-src="img/im-involved.svg" />
+      </div>
+      <div class="kanban__item">
+        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
+        <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
+        <img class="kanban__item__involved" ng-src="img/im-involved.svg" />
+      </div>
+    </div>
+  </div>
+  <div class="kanban__lane kanban__lane--even">
+    <div class="kanban__lane__title">Infrastructure</div>
+    <div class="kanban__column">
+      <div class="kanban__column__title">idea</div>
+      <div class="kanban__item">
+        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
+        <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
+      </div>
+      <div class="kanban__item">
+        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
+        <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
+      </div>
+    </div>
+    <div class="kanban__column">
+      <div class="kanban__column__title">open</div>
+      <div class="kanban__item">
+        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
+        <div class="kanban__item__title">Discover Little Known Secrets For Successful Living Secrets For Successful Living</div>
+        <div class="kanban__item__decision"></div>
+      </div>
+      <div class="kanban__item">
+        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
+        <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
+      </div>
+    </div>
+    <div class="kanban__column">
+      <div class="kanban__column__title">ongoing</div>
+      <div class="kanban__item">
+        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
+        <div class="kanban__item__title">Discover For Successful Living</div>
+      </div>
+      <div class="kanban__item">
+        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
+        <div class="kanban__item__title">Living</div>
+      </div>
+    </div>
+    <div class="kanban__column">
+      <div class="kanban__column__title">completed</div>
+      <div class="kanban__item">
+        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
+        <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
+      </div>
+      <div class="kanban__item">
+        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
+        <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
+      </div>
+    </div>
+    <div class="kanban__column">
+      <div class="kanban__column__title">accepted</div>
+      <div class="kanban__item">
+        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
+        <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
+        <div class="kanban__item__decision"></div>
+      </div>
+      <div class="kanban__item">
+        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
+        <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
+      </div>
+    </div>
+    <div class="kanban__column">
+      <div class="kanban__column__title">closed</div>
+      <div class="kanban__item">
+        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
+        <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
+        <div class="kanban__item__decision"></div>
+        <img class="kanban__item__involved" ng-src="img/im-involved.svg" />
+      </div>
+      <div class="kanban__item">
+        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
+        <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
+        <img class="kanban__item__involved" ng-src="img/im-involved.svg" />
       </div>
     </div>
   </div>
