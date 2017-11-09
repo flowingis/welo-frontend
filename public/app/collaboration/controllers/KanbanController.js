@@ -9,6 +9,7 @@ angular.module('app.collaboration')
 		'itemService',
 		'$state',
 		'kanbanizeLaneService',
+		'$q',
 		function (
 			$scope,
 			$log,
@@ -18,7 +19,8 @@ angular.module('app.collaboration')
 			streamService,
 			itemService,
 			$state,
-			kanbanizeLaneService) {
+			kanbanizeLaneService,
+			$q) {
 
 			$scope.menu = {
 				open:false
@@ -71,32 +73,46 @@ angular.module('app.collaboration')
 					});
 				});
 			};
-            
 
-   /*          $scope.filters = {
-				offset: 0,
-				limit: 20,
-				status: "All",
-				cardType: "All",
-				memberId: null,
-				orderBy: 'mostRecentEditAt', //exeption for handle sort without break signature method
-				orderType: ($scope.changeUpdateTime ? "asc" : "desc") //exeption for handle sort without break signature method
-			}; */
-
-/* 			var getItems = function() {
-				$scope.loadingItems = true;
-				$scope.filters.offset = 0;
-				itemService.query($stateParams.orgId, $scope.filters,
+			var getItemForStatus = function(stateId) {
+				var deferred = $q.defer();
+				var filters = {
+					/*offset: 0,
+					limit: 20,*/
+					status: stateId,
+					cardType: "All",
+					memberId: null,
+					orderBy: 'position', 
+					orderType: "desc"
+				}
+				itemService.query($stateParams.orgId, filters,
 					function(data) {
-						$scope.loadingItems = false;
-						$scope.items = data;
+						$log.info("STATO:"+stateId);
+						$log.info(data);
+						deferred.resolve();
 					},
 					function(response) {
-						$scope.loadingItems = false;
 						that.onLoadingError(response);
-				});
+						deferred.reject();
+					});
+				return deferred.promise;	
+			}
+
+
+			var getItemForKanban = function() {
+				$scope.loadingItems = true;
+
+				$log.info($scope.ITEM_STATUS);
+				//LEGGIAMO LE IDEAS
+				getItemForStatus($scope.ITEM_STATUS.IDEA).then(function(){
+					getItemForStatus($scope.ITEM_STATUS.OPEN).then(function() {
+						$scope.loadingItems = false;
+					})
+				})
 			};
- */
+            
+
+  
 			/* $scope.loadMore = function() {
 				$scope.loadingItems = true;
 				$scope.filters.offset = $scope.items._embedded['ora:task'].length;
@@ -209,10 +225,6 @@ angular.module('app.collaboration')
 						break;
 				}
 			}; */
-			/* this.invertUpdateTime = function() {
-				$scope.changeUpdateTime = !$scope.changeUpdateTime;
-				$scope.filters.orderType = ($scope.changeUpdateTime ? "asc" : "desc");
-			}; */
 			/* this.invertStatusTime = function() {
 				$scope.changeStatusTime = !$scope.changeStatusTime;
 			}; */
@@ -259,6 +271,7 @@ angular.module('app.collaboration')
 				//});
 				//getItems();
 				$scope.loadingItems = false;
+				getItemForKanban();
 
 
 			}, function (httpResponse) {
