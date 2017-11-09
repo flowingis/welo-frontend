@@ -89,6 +89,15 @@ angular.module('app.collaboration')
                         $scope.lanesNames[lane.lcid] = lane.lcname;
                     }
 				});
+
+				//Manage organization without lane as organization with lane
+				console.log(lanes);
+				if (!lanes.length) {
+					$scope.lanes = [{
+						lcid:0,
+						lcname:"Kanban"
+					}];
+				}
 				
 				$scope.$watchGroup(['filters.status','filters.memberId','filters.orderType'],function(newValue,oldValue){
 					if (newValue!=oldValue) {
