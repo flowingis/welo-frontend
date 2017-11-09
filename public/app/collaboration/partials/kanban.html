@@ -22,18 +22,11 @@
 
 <div class="kanban">
 
-  <div class="kanban__lane" ng-repeat="lane in lanes" ng-class="{'kanban__lane--even':$odd}">
-    <div class="kanban__lane__title">{{lane.lcname}}</div>
+  <div class="kanban__lane" ng-repeat="lane in kanbanItems" ng-class="{'kanban__lane--even':$odd}">
+    <div class="kanban__lane__title">{{lane.name}}</div>
     <div class="kanban__column">
       <div class="kanban__column__title">idea</div>
-      <div class="kanban__item">
-        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
-        <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
-      </div>
-      <div class="kanban__item">
-        <img class="kanban__item__owner" src="http://placehold.it/30x30" alt="">
-        <div class="kanban__item__title">Discover Little Known Secrets For Successful Living</div>
-      </div>
+      <item-kanban-card ng-repeat="item in lane.cols[ITEM_STATUS.IDEA]" item="item"></item-kanban-card>
     </div>
     <div class="kanban__column">
       <div class="kanban__column__title">open</div>

@@ -35,6 +35,7 @@ angular.module('app.collaboration')
 			//$scope.isLoadingMore = false;
 			$scope.loadingItems = true;
 			$scope.ITEM_STATUS = itemService.ITEM_STATUS;
+			$scope.kanbanItems = {};
 
 			$scope.isAllowed = function(command, resource) {
 				return itemService.isAllowed(command, resource);
@@ -74,7 +75,7 @@ angular.module('app.collaboration')
 				});
 			};
 
-			var getItemForStatus = function(stateId) {
+			var getItemForStatus = function(stateId, kanbanItems) {
 				var deferred = $q.defer();
 				var filters = {
 					/*offset: 0,
@@ -87,13 +88,27 @@ angular.module('app.collaboration')
 				}
 				itemService.query($stateParams.orgId, filters,
 					function(data) {
-						$log.info("STATO:"+stateId);
-						$log.info(data);
-						deferred.resolve();
+						/* this.getOwner = function(item) {
+						var member = itemService.getOwner(item);
+						return member;//$scope.user(member);
+						}; */
+
+						_(kanbanItems).each(function(lane, idlane){
+							lane.cols[stateId] = _.filter(data._embedded['ora:task'],function(item) {
+								console.log("DDDDD");
+								console.log(item);
+								if (item.lane == idlane) {
+									return true;
+								} else {
+									return false;
+								}
+							});
+						});
+						deferred.resolve(kanbanItems);
 					},
 					function(response) {
 						that.onLoadingError(response);
-						deferred.reject();
+						deferred.reject(response);
 					});
 				return deferred.promise;	
 			}
@@ -103,10 +118,12 @@ angular.module('app.collaboration')
 				$scope.loadingItems = true;
 
 				$log.info($scope.ITEM_STATUS);
-				//LEGGIAMO LE IDEAS
-				getItemForStatus($scope.ITEM_STATUS.IDEA).then(function(){
-					getItemForStatus($scope.ITEM_STATUS.OPEN).then(function() {
+
+				getItemForStatus($scope.ITEM_STATUS.IDEA, $scope.kanbanItems).then(function(kanbanItems){
+					getItemForStatus($scope.ITEM_STATUS.OPEN,kanbanItems).then(function() {
 						$scope.loadingItems = false;
+						$scope.kanbanItems = kanbanItems;
+						console.log($scope.kanbanItems);
 					})
 				})
 			};
@@ -135,18 +152,6 @@ angular.module('app.collaboration')
 			}; */
 
 			
-
-			
-			/* this.getOwner = function(item) {
-				var member = itemService.getOwner(item);
-				return member;//$scope.user(member);
-			}; */
-
-			/* this.getAuthor = function(item) {
-				var member = itemService.getAuthor(item);
-				return member;//$scope.user(member);
-			}; */
-
 			/* this.checkImIn = function(item){
 				return itemService.isIn(item,$scope.identity.getId());
 			}; */
@@ -248,20 +253,21 @@ angular.module('app.collaboration')
 			//INIT
 			kanbanizeLaneService.getLanes($stateParams.orgId).then(function (lanes) {
 				$scope.lanes = lanes;
-				$scope.lanesNames = [];
-
-				lanes.forEach(function (lane) {
-					if (lane.lcid !== null) {
-						$scope.lanesNames[lane.lcid] = lane.lcname;
-					}
-				});
 
 				//Manage organization without lane as organization with lane
 				if (!lanes.length) {
-					$scope.lanes = [{
-						lcid: 0,
-						lcname: "Kanban"
-					}];
+					$scope.kanbanItems[0] = {
+						name: "Kanban"
+					}
+				} else {
+					lanes.forEach(function (lane) {
+						if (lane.lcid !== null) {
+							$scope.kanbanItems[lane.lcid] = {
+								name: lane.lcname,
+								cols: {}
+							}
+						}
+					});
 				}
 
 				//$scope.$watchGroup(['filters.status','filters.memberId','filters.orderType'],function(newValue,oldValue){
