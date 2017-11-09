@@ -105,7 +105,6 @@ angular.module('app.collaboration')
 						deferred.resolve(kanbanItems);
 					},
 					function(response) {
-						that.onLoadingError(response);
 						deferred.reject(response);
 					});
 				return deferred.promise;	
@@ -128,7 +127,10 @@ angular.module('app.collaboration')
 							})
 						})
 					})
-				})
+				}, function(response){
+					onHttpGenericError(response);
+				});
+
 			};
 
 			$scope.goToDetail = function($event,item){
@@ -136,7 +138,11 @@ angular.module('app.collaboration')
 				$event.stopPropagation();
 				$state.go("org.item",{ orgId: item.organization.id, itemId: item.id });
 			}; 
-            
+			
+			var onHttpGenericError  = function(httpResponse) {
+				alert('Generic Error during server communication (error: ' + httpResponse.status + ' ' + httpResponse.statusText + ') ');
+				$log.warn(httpResponse);
+			};
 
   
 			/* $scope.loadMore = function() {
@@ -153,19 +159,6 @@ angular.module('app.collaboration')
 						$scope.loadingItems = false;
 						that.onLoadingError(response);
 				});
-			}; */
-
-			/* var onHttpGenericError  = function(httpResponse) {
-				alert('Generic Error during server communication (error: ' + httpResponse.status + ' ' + httpResponse.statusText + ') ');
-				$log.warn(httpResponse);
-			}; */
-
-			
-			/* this.onLoadingError = function(error) {
-				switch (error.status) {
-					case 401:
-						break;
-				}
 			}; */
 
 			//INIT
@@ -190,9 +183,8 @@ angular.module('app.collaboration')
 				$scope.loadingItems = false;
 				getItemForKanban();
 			}, function (httpResponse) {
-				if (httpResponse.status === 500) {
-					alert('Generic Error during server communication');
-				}
+				onHttpGenericError(httpResponse);
+				$scope.loadingItems = false;
 			});
 
 
