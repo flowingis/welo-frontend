@@ -1,4 +1,6 @@
 <div class="kanban__item">
     <img class="kanban__item__owner" ng-src="{{picture}}" alt="{{ownerAuthorName}}" title="{{ownerAuthorName}}" style="max-width: 30px;">
     <div class="kanban__item__title">{{subject}}</div>
+    <div ng-if="isDecision" class="kanban__item__decision"></div>
+    <img ng-if="imInvolved" class="kanban__item__involved" ng-src="img/im-involved.svg" />
 </div>

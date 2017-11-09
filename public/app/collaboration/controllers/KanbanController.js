@@ -27,7 +27,7 @@ angular.module('app.collaboration')
 			};
 			$scope.closeLeft();
 
-			//$scope.currentUserId = $scope.identity.getId();
+			$scope.currentUserId = $scope.identity.getId();
 			//$scope.changeUpdateTime = false;
 			//$scope.changeStatusTime = false;
 			//$scope.streams = null;
@@ -78,8 +78,8 @@ angular.module('app.collaboration')
 			var getItemForStatus = function(stateId, kanbanItems) {
 				var deferred = $q.defer();
 				var filters = {
-					/*offset: 0,
-					limit: 20,*/
+					offset: 0,
+					limit: 30,
 					status: stateId,
 					cardType: "All",
 					memberId: null,
@@ -88,15 +88,8 @@ angular.module('app.collaboration')
 				}
 				itemService.query($stateParams.orgId, filters,
 					function(data) {
-						/* this.getOwner = function(item) {
-						var member = itemService.getOwner(item);
-						return member;//$scope.user(member);
-						}; */
-
 						_(kanbanItems).each(function(lane, idlane){
 							lane.cols[stateId] = _.filter(data._embedded['ora:task'],function(item) {
-								console.log("DDDDD");
-								console.log(item);
 								if (item.lane == idlane) {
 									return true;
 								} else {
@@ -121,9 +114,15 @@ angular.module('app.collaboration')
 
 				getItemForStatus($scope.ITEM_STATUS.IDEA, $scope.kanbanItems).then(function(kanbanItems){
 					getItemForStatus($scope.ITEM_STATUS.OPEN,kanbanItems).then(function() {
-						$scope.loadingItems = false;
-						$scope.kanbanItems = kanbanItems;
-						console.log($scope.kanbanItems);
+						getItemForStatus($scope.ITEM_STATUS.ONGOING,kanbanItems).then(function() {
+							getItemForStatus($scope.ITEM_STATUS.COMPLETED,kanbanItems).then(function() {
+								getItemForStatus($scope.ITEM_STATUS.ACCEPTED,kanbanItems).then(function() {
+									$scope.loadingItems = false;
+									$scope.kanbanItems = kanbanItems;
+									console.log($scope.kanbanItems);
+								})
+							})
+						})
 					})
 				})
 			};
@@ -152,11 +151,6 @@ angular.module('app.collaboration')
 			}; */
 
 			
-			/* this.checkImIn = function(item){
-				return itemService.isIn(item,$scope.identity.getId());
-			}; */
-
-
 			/* this.openEstimateItem = function(ev, item) {
 				$mdDialog.show({
 					controller: EstimateItemController,
