@@ -158,22 +158,22 @@
 					<img alt="{{ member.firstname }} {{ member.lastname }}" ng-src="{{ member.picture || 'img/account.jpg' }}" class="md-avatar"
 					/>
 					<div class="md-list-item-text" layout="column">
-						<h3 class="warn">{{ member.firstname }} {{ member.lastname }}</h3>
+						<h3 class="warn partecipantsListText">{{ member.firstname }} {{ member.lastname }} Massacci</h3>
 						<p style="color:gray;">
 							<!--({{ member.role }})-->
 						</p>
 					</div>
-					<md-button class="md-icon-button">
+					<md-button class="md-icon-button" style="margin:0">
 						<md-tooltip md-direction="top" ng-if="member.estimatedAt">Estimate At {{member.estimatedAt | date:"dd/MM/yyyy 'at' HH:mm"}}</md-tooltip>
 						<md-tooltip md-direction="top" ng-if="!member.estimatedAt">Not yet estimated</md-tooltip>
 						<md-icon ng-class="{'md-primary': member.estimatedAt}" class="material-icons">&#xE85C;</md-icon>
 					</md-button>
-					<md-button class="md-icon-button">
+					<md-button class="md-icon-button" style="margin:0">
 						<md-tooltip md-direction="top" ng-if="member.shares">Shares assigned</md-tooltip>
 						<md-tooltip md-direction="top" ng-if="!member.shares">Shares not yet assigned</md-tooltip>
 						<md-icon ng-class="{'md-primary': member.shares}" class="material-icons">&#xE043;</md-icon>
 					</md-button>
-					<md-button class="md-secondary md-icon-button" aria-label="delete" ng-click="ctrl.removeTaskMember($event,item,member)" data-ng-if="ctrl.isAllowed('removeTaskMember', item.organization)">
+					<md-button class="md-secondary md-icon-button" aria-label="delete" ng-click="ctrl.removeTaskMember($event,item,member)" data-ng-if="ctrl.isAllowed('removeTaskMember', item.organization)" style="margin:0">
 						<md-icon class="md-warn material-icons">delete</md-icon>
 					</md-button>
 				</md-list-item>
