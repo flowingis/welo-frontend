@@ -89,7 +89,7 @@ angular.module('app.collaboration')
 				itemService.query($stateParams.orgId, filters,
 					function(data) {
 						_(kanbanItems).each(function(lane, idlane){
-							if (stateId!=0) {
+							if (idlane!=0) {
 								lane.cols[stateId] = _.filter(data._embedded['ora:task'],function(item) {
 									if (item.lane == idlane) {
 										return true;
@@ -115,8 +115,6 @@ angular.module('app.collaboration')
 			var getItemForKanban = function() {
 				$scope.loadingItems = true;
 
-				$log.info($scope.ITEM_STATUS);
-
 				getItemForStatus($scope.ITEM_STATUS.IDEA, $scope.kanbanItems).then(function(kanbanItems){
 					getItemForStatus($scope.ITEM_STATUS.OPEN,kanbanItems).then(function() {
 						getItemForStatus($scope.ITEM_STATUS.ONGOING,kanbanItems).then(function() {
@@ -125,7 +123,6 @@ angular.module('app.collaboration')
 									getItemForStatus($scope.ITEM_STATUS.CLOSED,kanbanItems).then(function() {
 										$scope.loadingItems = false;
 										$scope.kanbanItems = kanbanItems;
-										//console.log($scope.kanbanItems);
 									})
 								})
 							})
@@ -133,6 +130,12 @@ angular.module('app.collaboration')
 					})
 				})
 			};
+
+			$scope.goToDetail = function($event,item){
+				$event.preventDefault();
+				$event.stopPropagation();
+				$state.go("org.item",{ orgId: item.organization.id, itemId: item.id });
+			}; 
             
 
   
@@ -163,12 +166,6 @@ angular.module('app.collaboration')
 					case 401:
 						break;
 				}
-			}; */
-
-			/* $scope.goToDetail = function($event,item){
-				$event.preventDefault();
-				$event.stopPropagation();
-				$state.go("org.item",{ orgId: item.organization.id, itemId: item.id });
 			}; */
 
 			/* $scope.goToProfile = function($event,ownerId){
