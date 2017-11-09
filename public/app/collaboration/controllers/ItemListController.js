@@ -206,12 +206,6 @@ angular.module('app.collaboration')
 				$state.go("org.item",{ orgId: item.organization.id, itemId: item.id });
 			};
 
-			$scope.goToProfile = function($event,ownerId){
-				$event.preventDefault();
-				$event.stopPropagation();
-				$state.go("org.profile",{ memberId: ownerId });
-			};
-
 			$scope.showPriority = function(item){
 				return item.status == itemService.ITEM_STATUS.OPEN && !_.isNull(item.position);
 			};

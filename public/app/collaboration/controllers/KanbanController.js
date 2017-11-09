@@ -168,20 +168,9 @@ angular.module('app.collaboration')
 				}
 			}; */
 
-			/* $scope.goToProfile = function($event,ownerId){
-				$event.preventDefault();
-				$event.stopPropagation();
-				$state.go("org.profile",{ memberId: ownerId });
-			}; */
-
-			/* $scope.showPriority = function(item){
-				return item.status == itemService.ITEM_STATUS.OPEN && !_.isNull(item.position);
-			}; */
-
 			//INIT
 			kanbanizeLaneService.getLanes($stateParams.orgId).then(function (lanes) {
 				$scope.lanes = lanes;
-
 				//Manage organization without lane as organization with lane
 				if (!lanes.length) {
 					$scope.kanbanItems[0] = {
@@ -198,11 +187,8 @@ angular.module('app.collaboration')
 						}
 					});
 				}
-
 				$scope.loadingItems = false;
 				getItemForKanban();
-
-
 			}, function (httpResponse) {
 				if (httpResponse.status === 500) {
 					alert('Generic Error during server communication');
