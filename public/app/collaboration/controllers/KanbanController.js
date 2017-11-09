@@ -59,7 +59,7 @@ angular.module('app.collaboration')
 			};
 
 			$scope.onItemAdded = function(newItem){
-				//getItems();
+				getItemForKanban();
 				$mdDialog.show({
 					controller: "OnItemAddedDialogController",
 					templateUrl: "app/collaboration/partials/on-item-added-dialog.html",
@@ -89,13 +89,18 @@ angular.module('app.collaboration')
 				itemService.query($stateParams.orgId, filters,
 					function(data) {
 						_(kanbanItems).each(function(lane, idlane){
-							lane.cols[stateId] = _.filter(data._embedded['ora:task'],function(item) {
-								if (item.lane == idlane) {
-									return true;
-								} else {
-									return false;
-								}
-							});
+							if (stateId!=0) {
+								lane.cols[stateId] = _.filter(data._embedded['ora:task'],function(item) {
+									if (item.lane == idlane) {
+										return true;
+									} else {
+										return false;
+									}
+								});
+							} else {
+								lane.cols[stateId] = data._embedded['ora:task'];
+							}
+							
 						});
 						deferred.resolve(kanbanItems);
 					},
@@ -253,7 +258,8 @@ angular.module('app.collaboration')
 				//Manage organization without lane as organization with lane
 				if (!lanes.length) {
 					$scope.kanbanItems[0] = {
-						name: "Kanban"
+						name: "Kanban",
+						cols: {}
 					}
 				} else {
 					lanes.forEach(function (lane) {
@@ -266,12 +272,6 @@ angular.module('app.collaboration')
 					});
 				}
 
-				//$scope.$watchGroup(['filters.status','filters.memberId','filters.orderType'],function(newValue,oldValue){
-				//	if (newValue!=oldValue) {
-				//		getItems();
-				//	}
-				//});
-				//getItems();
 				$scope.loadingItems = false;
 				getItemForKanban();
 
