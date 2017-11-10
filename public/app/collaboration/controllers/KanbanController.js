@@ -83,8 +83,8 @@ angular.module('app.collaboration')
 					status: stateId,
 					cardType: "All",
 					memberId: null,
-					orderBy: 'position', 
-					orderType: "desc"
+					orderBy: "position", 
+					orderType: "asc"
 				}
 				itemService.query($stateParams.orgId, filters,
 					function(data) {
