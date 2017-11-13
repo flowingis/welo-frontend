@@ -89,7 +89,7 @@ angular.module('app.collaboration')
 				itemService.query($stateParams.orgId, filters,
 					function(data) {
 						_(kanbanItems).each(function(lane, idlane){
-							if (idlane!==0) {
+							if (idlane!=="0") {
 								lane.cols[stateId] = _.filter(data._embedded['ora:task'],function(item) {
 									if (item.lane == idlane) {
 										return true;
