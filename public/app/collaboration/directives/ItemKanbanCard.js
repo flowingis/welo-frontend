@@ -19,7 +19,7 @@
                         $scope.ownerAuthorName =  $scope.item.author.firstname + " " + $scope.item.author.lastname;
                         $scope.imInvolved = false;
                     } else if ($scope.item.status === itemService.ITEM_STATUS.OPEN) {
-                        $scope.picture = 'http://placehold.it/30x30';
+                        $scope.picture = "img/open-placeholder.svg";
                         $scope.ownerAuthorName =  "";
                         $scope.imInvolved = false;
                     } else {
