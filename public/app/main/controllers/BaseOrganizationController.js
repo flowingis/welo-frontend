@@ -23,7 +23,7 @@ angular.module('app')
 
                 var checkSelectedStateIndex = function(currentState) {
                     //currentState = MINORSTATES[currentState] || currentState;
-                    var currentState = _.indexOf(STATES,currentState);
+                    currentState = _.indexOf(STATES,currentState);
                     currentState = (currentState==5)?0:currentState;
                     return currentState;
                 };

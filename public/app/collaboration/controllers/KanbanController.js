@@ -85,11 +85,11 @@ angular.module('app.collaboration')
 					memberId: null,
 					orderBy: "position", 
 					orderType: "asc"
-				}
+				};
 				itemService.query($stateParams.orgId, filters,
 					function(data) {
 						_(kanbanItems).each(function(lane, idlane){
-							if (idlane!=0) {
+							if (idlane!==0) {
 								lane.cols[stateId] = _.filter(data._embedded['ora:task'],function(item) {
 									if (item.lane == idlane) {
 										return true;
@@ -108,7 +108,7 @@ angular.module('app.collaboration')
 						deferred.reject(response);
 					});
 				return deferred.promise;	
-			}
+			};
 
 
 			var getItemForKanban = function() {
@@ -122,11 +122,11 @@ angular.module('app.collaboration')
 									getItemForStatus($scope.ITEM_STATUS.CLOSED,kanbanItems).then(function() {
 										$scope.loadingItems = false;
 										$scope.kanbanItems = kanbanItems;
-									})
-								})
-							})
-						})
-					})
+									});
+								});
+							});
+						});
+					});
 				}, function(response){
 					onHttpGenericError(response);
 				});
@@ -169,14 +169,14 @@ angular.module('app.collaboration')
 					$scope.kanbanItems[0] = {
 						name: "Kanban",
 						cols: {}
-					}
+					};
 				} else {
 					lanes.forEach(function (lane) {
 						if (lane.lcid !== null) {
 							$scope.kanbanItems[lane.lcid] = {
 								name: lane.lcname,
 								cols: {}
-							}
+							};
 						}
 					});
 				}
