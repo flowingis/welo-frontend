@@ -167,7 +167,7 @@ angular.module('app.collaboration')
 				//Manage organization without lane as organization with lane
 				if (!lanes.length) {
 					$scope.kanbanItems[0] = {
-						name: "Kanban",
+						name: "Work Items",
 						cols: {}
 					};
 				} else {

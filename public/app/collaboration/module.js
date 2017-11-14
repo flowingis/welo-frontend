@@ -15,7 +15,7 @@ angular.module('app.collaboration', ['ui.router', 'ngSanitize'])
 					url: '/kanban',
 					templateUrl: 'app/collaboration/partials/kanban.html',
 					data: {
-						pillarName: 'Kanban',
+						pillarName: 'Items',
 						decisions: false
 					},
 					controller: 'KanbanController as ctrl'
