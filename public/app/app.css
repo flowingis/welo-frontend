@@ -686,6 +686,18 @@ div.content-wrapper.flex.scrolling > .tooltip {
 .kanban__column__title:last-child {
   border: 0;
 }
+.kanban__column__dropdown-link {
+  color: #7D676A;
+  display: inline-block;
+  font-size: 12px;
+  line-height: 60px;
+  margin-bottom: 10px;
+  text-decoration: none;
+  transition: color 0.3s ease-in-out;
+}
+.kanban__column__dropdown-link:hover {
+  color: #9A958F;
+}
 
 .kanban__item {
   align-items: center;
@@ -703,9 +715,22 @@ div.content-wrapper.flex.scrolling > .tooltip {
   margin: 0 10px;
   border-radius: 50%;
 }
+.kanban__item__position {
+  border-radius: 50%;
+  border: 1px solid rgba(0,0,0,0.2);
+  box-sizing: border-box;
+  color: rgba(0,0,0,0.5);
+  flex: 0 0 30px;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 28px;
+  margin: 0 10px;
+  text-align: center;
+}
 
 .kanban__item__title {
   display: block;
+  color: rgba(0,0,0,0.8);
   font-size: 13px;
   font-weight: 500;
   line-height: 15px;
@@ -715,16 +740,6 @@ div.content-wrapper.flex.scrolling > .tooltip {
   position: relative;
   text-align: left;
   width: 100%;
-}
-.kanban__item__title::after {
-  background: yellow;
-  bottom: 0;
-  content: '';
-  display: block;
-  height: 15px;
-  position: absolute;
-  right: 0;
-  width: 100px;
 }
 
 .kanban__item__decision {

@@ -30,6 +30,7 @@
     <div class="kanban__column">
       <div class="kanban__column__title">open</div>
       <item-kanban-card ng-repeat="item in lane.cols[ITEM_STATUS.OPEN]" item="item" my-id="currentUserId" ng-click="goToDetail($event,item)"></item-kanban-card>
+      <a href="#" class="kanban__column__dropdown-link">Show more <b>8</b> items</a>
     </div>
     <div class="kanban__column">
       <div class="kanban__column__title">ongoing</div>
@@ -47,8 +48,8 @@
       <div class="kanban__column__title">closed</div>
       <item-kanban-card ng-repeat="item in lane.cols[ITEM_STATUS.CLOSED]" item="item" my-id="currentUserId" ng-click="goToDetail($event,item)"></item-kanban-card>
     </div>
-  </div>  
-  
+  </div>
+
 </div>
 
 <div class="space-at-end"></div>
