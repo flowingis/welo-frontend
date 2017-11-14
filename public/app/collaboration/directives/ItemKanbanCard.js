@@ -13,13 +13,14 @@
                 replace: true,
                 templateUrl: 'app/collaboration/partials/item-kanban-card.html',
                 link: function($scope, element, attrs) {
-                    
+                    $scope.picture = null;
+                    $scope.position = null;
                     if ($scope.item.status === itemService.ITEM_STATUS.IDEA) {
                         $scope.picture = $scope.item.author.picture || 'img/account.jpg';
                         $scope.ownerAuthorName =  $scope.item.author.firstname + " " + $scope.item.author.lastname;
                         $scope.imInvolved = false;
                     } else if ($scope.item.status === itemService.ITEM_STATUS.OPEN) {
-                        $scope.picture = "img/open-placeholder.svg";
+                        $scope.position = $scope.item.position || "  ";
                         $scope.ownerAuthorName =  "";
                         $scope.imInvolved = false;
                     } else {

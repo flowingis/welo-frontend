@@ -724,6 +724,7 @@ div.content-wrapper.flex.scrolling > .tooltip {
   font-size: 14px;
   font-weight: 300;
   line-height: 28px;
+  height: 30px;
   margin: 0 10px;
   text-align: center;
 }
