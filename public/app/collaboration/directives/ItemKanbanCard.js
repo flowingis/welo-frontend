@@ -46,7 +46,7 @@
                             $scope.tooltip = "It's a decision";
                             break;
                         default:
-                            $scope.tooltip = ""
+                            $scope.tooltip = "";
                             break;
                     }
 
