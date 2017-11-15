@@ -709,6 +709,7 @@ div.content-wrapper.flex.scrolling > .tooltip {
   margin-bottom: 10px;
   overflow: hidden;
   position: relative;
+  cursor: pointer;
 }
 
 .kanban__item__owner {

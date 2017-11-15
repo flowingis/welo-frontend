@@ -3,7 +3,8 @@
 
     angular.module('app').directive('itemKanbanColumn',[
         'itemService',
-        function(itemService){
+        '$state',
+        function(itemService, $state){
             return {
                 restrict: 'E',
                 scope: {
