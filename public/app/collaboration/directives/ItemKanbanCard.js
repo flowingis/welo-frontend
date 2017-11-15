@@ -13,6 +13,7 @@
                 replace: true,
                 templateUrl: 'app/collaboration/partials/item-kanban-card.html',
                 link: function($scope, element, attrs) {
+
                     $scope.picture = null;
                     $scope.position = null;
                     if ($scope.item.status === itemService.ITEM_STATUS.IDEA) {

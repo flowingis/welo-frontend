@@ -1,0 +1,8 @@
+<div class="kanban__column">
+    <div class="kanban__column__title">{{columnTitle}}</div>
+    <item-kanban-card ng-repeat="item in columnItems" item="item" my-id="myId" ng-if="isVisible($index)" ng-click="goToDetail($event,item)"></item-kanban-card>
+    <a ng-if="hideElements()>0" href="#" class="kanban__column__dropdown-link" ng-click="toggleShowMore($event)">
+        <span ng-show="!showMoreIsActive">Show more <b>{{hideElements()}}</b> items</span>
+        <span ng-show="showMoreIsActive">Show less items</span>
+    </a>
+</div>

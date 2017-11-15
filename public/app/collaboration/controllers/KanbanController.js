@@ -28,11 +28,7 @@ angular.module('app.collaboration')
 			$scope.closeLeft();
 
 			$scope.currentUserId = $scope.identity.getId();
-			//$scope.changeUpdateTime = false;
-			//$scope.changeStatusTime = false;
-			//$scope.streams = null;
 			$scope.lanes = null;
-			//$scope.isLoadingMore = false;
 			$scope.loadingItems = true;
 			$scope.ITEM_STATUS = itemService.ITEM_STATUS;
 			$scope.kanbanItems = {};
@@ -133,33 +129,10 @@ angular.module('app.collaboration')
 
 			};
 
-			$scope.goToDetail = function($event,item){
-				$event.preventDefault();
-				$event.stopPropagation();
-				$state.go("org.item",{ orgId: item.organization.id, itemId: item.id });
-			}; 
-			
 			var onHttpGenericError  = function(httpResponse) {
 				alert('Generic Error during server communication (error: ' + httpResponse.status + ' ' + httpResponse.statusText + ') ');
 				$log.warn(httpResponse);
 			};
-
-  
-			/* $scope.loadMore = function() {
-				$scope.loadingItems = true;
-				$scope.filters.offset = $scope.items._embedded['ora:task'].length;
-				itemService.query($stateParams.orgId, $scope.filters,
-					function(data) {
-						$scope.isLoadingMore = false;
-						$scope.loadingItems = false;
-						$scope.items._embedded['ora:task'] = $scope.items._embedded['ora:task'].concat(data._embedded['ora:task']);
-					},
-					function(response) {
-						$scope.isLoadingMore = false;
-						$scope.loadingItems = false;
-						that.onLoadingError(response);
-				});
-			}; */
 
 			//INIT
 			kanbanizeLaneService.getLanes($stateParams.orgId).then(function (lanes) {
