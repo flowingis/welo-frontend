@@ -11,6 +11,15 @@ angular.module('app.collaboration', ['ui.router', 'ngSanitize'])
 					},
 					controller: 'ItemListController as ctrl'
 				})
+				.state('org.kanban', {
+					url: '/kanban',
+					templateUrl: 'app/collaboration/partials/kanban.html',
+					data: {
+						pillarName: 'Items',
+						decisions: false
+					},
+					controller: 'KanbanController as ctrl'
+				})
 				.state('org.decisions', {
 					url: '/decisions',
 					templateUrl: 'app/collaboration/partials/item-list.html',

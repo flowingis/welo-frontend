@@ -16,14 +16,16 @@ angular.module('app')
 			SelectedOrganizationId,
 			$state) {
 
-                var STATES = ['org.collaboration','org.organizationStatement','org.flow','org.decisions','org.people'];
+                var STATES = ['org.collaboration','org.organizationStatement','org.flow','org.decisions','org.people', 'org.kanban'];
                 var MINORSTATES = {
                     "org.item":"org.collaboration"
                 };
 
                 var checkSelectedStateIndex = function(currentState) {
                     //currentState = MINORSTATES[currentState] || currentState;
-                    return _.indexOf(STATES,currentState);
+                    currentState = _.indexOf(STATES,currentState);
+                    currentState = (currentState==5)?0:currentState;
+                    return currentState;
                 };
     			if(!SelectedOrganizationId.get()){
     				$state.go("organizations");
@@ -43,6 +45,7 @@ angular.module('app')
 					window.history.back();
 				};
                 $scope.pillar = {};
+                
                 $scope.$on('$stateChangeSuccess',
                     function(event, toState) {
                         if(toState.data && toState.data.pillarName){
@@ -60,8 +63,10 @@ angular.module('app')
 						if(toState.data){
                             $scope.fullHeight = toState.data.fullHeight;
                         }
+
                     }
                 );
+
                 var selectedOrganizationId = SelectedOrganizationId.get();
                     if(selectedOrganizationId){
                         $scope.organizationId = selectedOrganizationId;

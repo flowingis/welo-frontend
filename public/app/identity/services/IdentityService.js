@@ -41,7 +41,6 @@ var Identity = function($http, $log, $q) {
 
 	this.signInFromGoogle = function(googleUser) {
 		token = googleUser.getAuthResponse().id_token;
-		$log.info("ID Token: " + token);
 
 		// Useful data for your client-side scripts:
 		var profile = googleUser.getBasicProfile();
@@ -60,7 +59,6 @@ var Identity = function($http, $log, $q) {
 			email     = data.email;
 			avatar    = data.picture;
 			memberships = data._embedded['ora:organization-membership'];
-			$log.info('User ' + firstname + ' is member of ' + memberships.length + " organizations");
 		});
 	};
 

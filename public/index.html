@@ -84,6 +84,8 @@
 	<script src="app/collaboration/module.js"></script>
 	<script src="app/collaboration/directives/Template.js"></script>
 	<script src="app/collaboration/directives/ItemCardColor.js"></script>
+	<script src="app/collaboration/directives/ItemKanbanColumn.js"></script>
+	<script src="app/collaboration/directives/ItemKanbanCard.js"></script>
 	<script src="app/collaboration/services/ItemService.js"></script>
 	<script src="app/collaboration/services/StreamService.js"></script>
 	<script src="app/collaboration/services/TemplateService.js"></script>
@@ -99,6 +101,7 @@
   	<script src="app/collaboration/controllers/ApproveIdeaController.js"></script>
 	<script src="app/collaboration/controllers/ChangeOwnerController.js"></script>
 	<script src="app/collaboration/controllers/ItemListController.js"></script>
+	<script src="app/collaboration/controllers/KanbanController.js"></script>
 	<script src="app/collaboration/controllers/ItemDetailController.js"></script>
 	<script src="app/collaboration/controllers/AssignSharesController.js"></script>
 	<script src="app/collaboration/controllers/OnItemAddedDialogController.js"></script>
@@ -126,7 +129,7 @@
 	<!-- /build -->
 </head>
 <body layout="column" style="overflow-y: hidden;" ng-controller="AppController">
-	<section layout="row" flex ng-controller="IdentityController" data-ng-cloak>
+	<section ng-class="clsWithoutSideMenu()" layout="row" flex ng-controller="IdentityController" data-ng-cloak>
 		<left-menu></left-menu>
 		<md-content layout="column"   flex ui-view></md-content>
 	</section>
