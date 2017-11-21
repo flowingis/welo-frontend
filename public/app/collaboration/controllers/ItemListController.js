@@ -75,11 +75,15 @@ angular.module('app.collaboration')
 				});
 			};
 
-			if(selectedFilterService.get()){
+			var initFilter = function(){
 				$scope.filters = _.extend($scope.filters, selectedFilterService.get());
 				$scope.showFilter = true;
 				$scope.showOrder = true;
 				getItems();
+			};
+
+			if(selectedFilterService.get()){
+				initFilter();
 			}
 
 			$scope.loadMore = function() {
