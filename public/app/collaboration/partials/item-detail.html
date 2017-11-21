@@ -186,7 +186,7 @@
 					/>
 					<div class="md-list-item-text" layout="column">
 						<h3 class="warn" style="line-height: 1.2em;">{{ member.firstname }} {{ member.lastname }}</h3>
-						<p style="line-height: 1.2em;"><strong>Credits: {{member.credits | number:2}}</strong><br /><i>(Share: {{member.share*100 | number:2}}% Gap:{{member.delta*100 | number:2}}%)</i></p>
+						<p style="line-height: 1.2em;"><strong>Credits: {{member.credits | number:1}}</strong><br /><i>(Share: {{member.share*100 | number:1}}% Gap:{{member.delta*100 | number:1}}%)</i></p>
 						<md-progress-linear class="md-primary md-hue-2" md-mode="determinate" value="{{member.share*100}}"></md-progress-bar>
 					</div>
 				</md-list-item>
