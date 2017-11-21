@@ -11,6 +11,7 @@ angular.module('app.collaboration')
 		'$state',
 		'voteExtractor',
 		'kanbanizeLaneService',
+		'selectedFilterService',
 		function (
 			$scope,
 			$log,
@@ -22,7 +23,8 @@ angular.module('app.collaboration')
 			itemService,
 			$state,
 			voteExtractor,
-			kanbanizeLaneService) {
+			kanbanizeLaneService,
+			selectedFilterService) {
 
 			$scope.menu = {
 				open:false
@@ -73,6 +75,13 @@ angular.module('app.collaboration')
 				});
 			};
 
+			if(selectedFilterService.get()){
+				$scope.filters = _.extend($scope.filters, selectedFilterService.get());
+				$scope.showFilter = true;
+				$scope.showOrder = true;
+				getItems();
+			}
+
 			$scope.loadMore = function() {
 				$scope.loadingItems = true;
 				$scope.filters.offset = $scope.items._embedded['ora:task'].length;
@@ -101,6 +110,7 @@ angular.module('app.collaboration')
 
 				$scope.$watchGroup(['filters.status','filters.memberId','filters.orderType','filters.orderBy'],function(newValue,oldValue){
 					if (newValue!=oldValue) {
+						selectedFilterService.set($scope.filters);
 						getItems();
 					}
 				});
