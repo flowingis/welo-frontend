@@ -64,16 +64,14 @@
     <div layout="row">
         <div flex>
             <span style="text-transform: uppercase;font-size: 10px;font-weight:600">by</span>
-            <span style="display: inline-block; position:relative;padding:2px;vertical-align:middle;cursor:pointer" class="font-size12"
-                ng-click="ctrl.invertUpdateTime()">Update Time</span>
-            <md-button style="margin-left:0px;padding-left:0px;" class="md-icon-button" ng-click="ctrl.invertUpdateTime()">
-                <md-icon data-ng-if="!changeUpdateTime" style="margin-top:4px;margin-left:0px;padding-left:0px;font-size: 18px; color: black;"
-                    class="material-icons">
-                    &#xE313;</md-icon>
-                <md-icon data-ng-if="changeUpdateTime" style="margin-top:4px;margin-left:0px;padding-left:0px;font-size: 18px; color: black;"
-                    class="material-icons">
-                    &#xE316;</md-icon>
-            </md-button>
+            <span style="display: inline-block; position:relative;padding:2px;vertical-align:middle" class="font-size12">
+                <md-select data-ng-model="sorting" data-ng-change="updateSorting()" style="margin:0">
+                    <md-option selected value="mostRecentEditAt_desc">most recent</md-option>
+                    <md-option value="mostRecentEditAt_asc">less recent</md-option>
+                    <md-option value="position_desc">most priority</md-option>
+                    <md-option value="position_asc">less priority</md-option>
+                </md-select>
+            </span>
         </div>
         <div style="max-width:40px">
             <md-button class="md-icon-button" aria-label="chiudi" ng-click="showOrder=false">

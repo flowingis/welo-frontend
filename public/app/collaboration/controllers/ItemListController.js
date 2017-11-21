@@ -36,6 +36,7 @@ angular.module('app.collaboration')
 			$scope.lanes = null;
 			$scope.isLoadingMore = false;
 			$scope.loadingItems = true;
+			$scope.sorting = "mostRecentEditAt_desc";
 
 			$scope.filters = {
 				offset: 0,
@@ -45,6 +46,17 @@ angular.module('app.collaboration')
 				memberId: null,
 				orderBy: 'mostRecentEditAt', //exeption for handle sort without break signature method
 				orderType: ($scope.changeUpdateTime ? "asc" : "desc") //exeption for handle sort without break signature method
+			};
+
+			var sortingProps = {
+				"mostRecentEditAt_desc": {orderBy: "mostRecentEditAt", orderType: "desc"},
+				"mostRecentEditAt_asc": {orderBy: "mostRecentEditAt", orderType: "asc"},
+				"position_desc": {orderBy: "position", orderType: "desc"},
+				"position_asc": {orderBy: "position", orderType: "asc"}
+			};
+
+			var getFiltersWithSorting = function(filter, props){
+				return _.extend(filter, props);
 			};
 
 			var getItems = function() {
@@ -87,7 +99,7 @@ angular.module('app.collaboration')
                     }
                 });
 
-				$scope.$watchGroup(['filters.status','filters.memberId','filters.orderType'],function(newValue,oldValue){
+				$scope.$watchGroup(['filters.status','filters.memberId','filters.orderType','filters.orderBy'],function(newValue,oldValue){
 					if (newValue!=oldValue) {
 						getItems();
 					}
@@ -195,10 +207,9 @@ angular.module('app.collaboration')
 						break;
 				}
 			};
-			this.invertUpdateTime = function() {
-				$scope.changeUpdateTime = !$scope.changeUpdateTime;
-				$scope.filters.orderType = ($scope.changeUpdateTime ? "asc" : "desc");
-			};
+			$scope.updateSorting = function(){
+				$scope.filters = getFiltersWithSorting($scope.filters, sortingProps[$scope.sorting]);
+			}
 
 			$scope.goToDetail = function($event,item){
 				$event.preventDefault();
