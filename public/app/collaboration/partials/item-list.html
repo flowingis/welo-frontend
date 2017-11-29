@@ -108,98 +108,100 @@
 </md-content>-->
 <md-progress-linear data-ng-if="loadingItems" md-mode="query"></md-progress-linear>
 <!-- infinite-scroll="ctrl.loadMore()" -->
-<md-card data-ng-click="goToDetail($event,item)" class="card-item" ng-repeat="item in items._embedded['ora:task']" ng-init="owner = ctrl.getOwner(item); author = ctrl.getAuthor(item)"
+<md-card data-ng-click="goToDetail($event,item)" class="mobile-item" ng-repeat="item in items._embedded['ora:task']" ng-init="owner = ctrl.getOwner(item); author = ctrl.getAuthor(item)"
     infinite-scroll-distance="1" infinite-scroll-parent="true" infinite-scroll-disabled="items.total == items.count || isLoadingMore"
     infinite-scroll-immediate-check="false">
-    <md-card-header item-card-color card="item" class="margin-top-10">
-        <md-card-header-text>
-            <div layout="row">
-                <span style="font-size: 13px; color:#5f6b76; margin-bottom:5px;" data-ng-show="item.decision === 'true'">Decision</span>
-            </div>
-            <span class="padding-right-20 padding-top-10 padding-bottom-5 item-title">
-                    {{ item.subject }}
-                </span>
-            <span class="padding-right-20 padding-top-5 padding-bottom-10 item-lane">
-                    {{ lanesNames[item.lane] }}
-                </span>
-            <span style="font-size: 13px; line-height: 14px;" class="md-subhead padding-right-20 justify">
-                    {{item.description | limitTo: 140}}<span data-ng-if="item.description.length > 140">...</span>
-            </span>
-            <div layout="row" class="padding-right-20">
-                <p style="font-size: 14px;">
-                    Status:
-                    <span style="line-height: 16px" class="md-subhead">
-                            {{item.status | itemStatusLabel}}
-                        </span>
-                </p>
-                <p style=" font-size: 14px; padding-left:20px;">
-                    Current Value:
-                    <span data-ng-if="item.estimation" style="line-height: 16px;" class="md-subhead">{{item.estimation}}&nbspCredits</span>
-                    <span data-ng-if="!item.estimation" style="line-height: 16px;" class="md-subhead">Yet to be estimated</span>
-                </p>
-            </div>
-        </md-card-header-text>
-        <md-card-media layout="column" layout-align="start end" class="margin-top-10">
+    <md-card-header item-card-color card="item" class="">
+        <md-card-media class="mobile-item__media" layout="column" layout-align="start end">
             <div ng-show="item.status < ITEM_STATUS.OPEN">
-                <div>
-                    <img style="max-width: 40px; border-radius: 50%" ng-src="{{ author.picture || 'img/account.jpg' }}" alt="{{ author.firstname }} {{ author.lastname}}"
-                        title="{{ author.firstname }} {{ author.lastname}}">
-                </div>
-                <p class="margin-top-10 no-margin" style="font-size: 14px; font-weight: bold">author:</p>
-                <p class="font-size12 no-margin" style="text-align:right;">{{ author.firstname }} {{ author.lastname}} </p>
+                <img class="mobile-item__media__image" ng-src="{{ author.picture || 'img/account.jpg' }}" alt="{{ author.firstname }} {{ author.lastname}}" title="{{ author.firstname }} {{ author.lastname}}">
+                <p class="mobile-item__media__role">author</p>
+                <!-- OWNER NAME <p class="font-size12 no-margin" style="text-align:right;">{{ author.firstname }} {{ author.lastname}} </p> -->
             </div>
             <div ng-show="item.status === ITEM_STATUS.OPEN && showPriority(item)">
-                <p class="font-size12 no-margin margin-top-10" style="
-                text-align: center;
-                width: 32px;
-                height:32px;
-                border-radius: 50%;
-                background-color:#00838f;
-                font-size: 18px;
-                color:#FFFFFF;
-                padding: 0 0 0 0px;
-                line-height: 30px;
-                font-weight: bold;">{{item.position}}</p>
-                <p class="no-margin" style="font-size: 12px;">priority</p>
+              <div class="mobile-item__media__priority">{{item.position}}</div>
+              <p class="mobile-item__media__role">priority</p>
             </div>
             <div ng-show="item.status > ITEM_STATUS.OPEN">
                 <div>
-                    <img style="max-width: 40px; border-radius: 50%" ng-src="{{ owner.picture || 'img/account.jpg' }}" alt="{{ owner.firstname }} {{ owner.lastname}}"
+                    <img class="mobile-item__media__image" ng-src="{{ owner.picture || 'img/account.jpg' }}" alt="{{ owner.firstname }} {{ owner.lastname}}"
                         title="{{ owner.firstname }} {{ owner.lastname}}">
                 </div>
-                <p class="margin-top-10 no-margin" style="font-size: 14px; font-weight: bold">owner:</p>
-                <p class="font-size12 no-margin" style="text-align:right;">{{ owner.firstname }} {{ owner.lastname}} </p>
+                <p class="mobile-item__media__role">owner</p>
+                <div class="mobile-item__media__tooltip-name">{{ owner.firstname }} {{ owner.lastname}}</div>
             </div>
         </md-card-media>
+
+        <md-card-header-text>
+            <p class="mobile-item__title">
+              {{ item.subject }}
+            </p>
+            <!-- DESCRIPTION
+            <span style="font-size: 13px; line-height: 14px;" class="md-subhead padding-right-20 justify">
+                    {{item.description | limitTo: 140}}<span data-ng-if="item.description.length > 140">...</span>
+            </span> -->
+        </md-card-header-text>
         <!-- <div layout="column" layout-align="start end" class="margin-top-10" ng-if="showPriority(item)">
             <p class="margin-top-10 no-margin priority-title-label">Priority</p>
             <p class="font-size24 no-margin priority-value">{{item.position}}</p>
         </div> -->
     </md-card-header>
-    <div layout="row" style="margin-top: -32px;">
-        <p style=" font-size: 12px; margin-top: 12px; margin-left: 16px;">
-            Last activity:
-            <span style="letter-spacing: .010em; color: rgba(0,0,0,0.54);">
-                    {{item.mostRecentEditAt | date:'dd/MM/yyyy'}}
-                </span>
-        </p>
+    <div layout="row">
+        <span class="mobile-item__lane">
+              lane title {{ lanesNames[item.lane] }}
+        </span>
     </div>
     <div layout="row">
+        <div class="mobile-item__meta">
+            Last activity:
+            <span class="mobile-item__meta__last-activity">
+                {{item.mostRecentEditAt | date:'dd/MM/yyyy'}}
+            </span>
+            <div class="mobile-item__meta__icons">
+              <span class="mobile-item__meta__icon-container">
+                <i class="mobile-item__meta__icon-inner material-icons">people</i>
+                <span class="mobile-item__meta__icon-number">12</span>
+              </span>
+              <i class="mobile-item__meta__icon material-icons">assessment</i>
+              <i class="mobile-item__meta__icon material-icons">shuffle</i>
+            </div>
+        </div>
+    </div>
+    <!-- <div layout="row">
         <p style=" font-size: 12px; margin-top: 12px; margin-left: 16px;">
             {{printVote(item)}}
         </p>
-    </div>
+    </div> -->
+    <!--  OPEN CARD ACTION
     <md-card-action layout="row" layout-align="end center">
-        <div data-ng-if="ctrl.checkImIn(item)" class="md-toolbar-tools padding-left-16" style="height: 40px; width: 150px;  ">
-            <div class="im-in-icon">
-                <i style="font-size:16px;" class="material-icons">person</i>
-            </div>
-            <p class="margin-left-10" style="font-size: 14px; margin-top: 25px; color: #607D8B;; margin-bottom: 25px;">
-                I'm involved</p>
-        </div>
-        <span flex></span>
         <md-button class="md-button md-warn md-ink-ripple">VIEW ITEM</md-button>
-    </md-card-action>
+    </md-card-action> -->
+    <div class="mobile-item__status">
+        <div class="mobile-item__status__divider mobile-item__status__divider--one"></div>
+        <div class="mobile-item__status__divider mobile-item__status__divider--two"></div>
+        <div class="mobile-item__status__divider mobile-item__status__divider--three"></div>
+        <div class="mobile-item__status__divider mobile-item__status__divider--four"></div>
+        <div class="mobile-item__status__divider mobile-item__status__divider--five"></div>
+        <div class="mobile-item__status__label {{item.status | itemStatusLabel}}">
+            {{item.status | itemStatusLabel}}
+        </div>
+    </div>
+    <!-- CURRENT VALUE
+    <p style=" font-size: 14px; padding-left:20px;">
+        Current Value:
+        <span data-ng-if="item.estimation" style="line-height: 16px;" class="md-subhead">{{item.estimation}}&nbspCredits</span>
+        <span data-ng-if="!item.estimation" style="line-height: 16px;" class="md-subhead">Yet to be estimated</span>
+    </p> -->
+    <div class="mobile-item__decision" data-ng-show="item.decision === 'true'">
+      <span>Decision</span>
+    </div>
+    <div data-ng-if="ctrl.checkImIn(item)" class="mobile-item__involved">
+        <i class="mobile-item__involved__icon material-icons">account_circle</i>
+    </div>
+    <div class="mobile-item__tooltip-dec-inv">
+        <span class="mobile-item__tooltip-dec-inv__involved">I'm involved</span>
+        <span class="mobile-item__tooltip-dec-inv__decision">decision</span>
+    </div>
 </md-card>
 <div layout="row" layout-align="center">
     <md-button aria-label="Load More" class="md-raised md-primary md-button md-ink-ripple" data-ng-if="items._embedded['ora:task'].length < items.total"
