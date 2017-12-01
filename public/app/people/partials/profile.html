@@ -267,87 +267,90 @@
 			<p>{{historyEvent.name | historyNameToLabel: historyEvent.user.role}} {{historyEvent.on | date:'dd/MM/yyyy'}}</p><i data-ng-if="$first && (profileHistory.length>1)" class="material-icons">&#xE5CE;</i>
 		</div>
 	</md-subheader>
-	<md-card>
-		<md-card-header>
-			<md-card-header-text>
-				<span class="md-subheader" style="color: black; font-weight: 300;"> AVAILABLE CREDITS
-					<span class="md-title" style="margin-left: 10px;"> {{credits.balance}}
-				 </span>
-				 <span class="md-subheader" style="color: black; font-weight: 300; margin-top: 14px;"> TOTAL GENERATED CREDITS
- 					<span class="md-title" style="margin-left: 10px;"> {{credits.total}}
- 				 </span>
-				 <span class="md-subheader" style="color: black; font-weight: 300; margin-top: 14px;"> ITEM CONTRIBUTIONS
-				   <span class="md-title" style="margin-left: 10px;"> {{ stats.membershipsCount | number : 0 }}
-				 </span>
-				 <span class="md-subheader" style="color: black; font-weight: 300; margin-top: 14px;"> ITEM OWNERSHIPS
-				  	<span class="md-title" style="margin-left: 10px;"> {{ stats.ownershipsCount | number : 0 }}
-				 </span>
-				 <span data-ng-if="false" class="md-subheader" style="color: black; font-weight: 300; margin-top: 14px;"> EARNED CREDITS
-				  	<span class="md-title" style="margin-left: 10px;"> {{ stats.creditsCount | number : 2 }}
-				 </span>
-				 <span class="md-subheader" style="color: black; font-weight: 300; margin-top: 14px;"> AUTO-ASSESSMENT AVG GAP
-				  	<span class="md-title" style="margin-left: 10px;"> {{ stats.averageDelta | percentage:2:true }}
-				 </span>
-			</md-card-header-text>
-		</md-card-header>
-				<md-card-content layout="row" style="margin-top: -12px; padding-left:5px; padding-right: 5px;">
-					<div flex="33" layout="column">
-						<center>
-							<span class="md-subheader" style="color: black; font-weight: 300;">LAST 3 <br/> MONTHS</span>
-							<span class="md-title">{{credits.last3M}}</span>
-						</center>
-					</div>
-					<div flex="33" layout="column">
-						<center>
-							<span class="md-subheader" style="color: black; font-weight: 300;">LAST 6 <br/> MONTHS</span>
-							<span class="md-title">{{credits.last6M}}</span>
-						</center>
-					</div>
-					<div flex="33" layout="column">
-						<center>
-							<span class="md-subheader" style="color: black; font-weight: 300;">LAST 12 <br/> MONTHS</span>
-							<span class="md-title">{{credits.last1Y}}</span>
-						</center>
-					</div>
-				</md-card-content>
-	</md-card>
-	<md-card data-ng-if="isChangeUserAllowed()">
-		<md-button class="md-raised md-primary" data-ng-if="canChangeTo('contributor')" ng-click="askChangeRole($event,'contributor')">Change User Role to contributor</md-button>
-		<md-button class="md-raised md-primary" data-ng-if="canChangeTo('member')" ng-click="askChangeRole($event,'member')">Change User Role to member</md-button>
-		<md-button class="md-raised md-primary" data-ng-if="canChangeTo('admin')" ng-click="askChangeRole($event,'admin')">Change User Role to admin</md-button>
-	</md-card>
-	<md-card data-ng-if="isMakeAdminAllowed()">
-		<md-button class="md-raised md-primary" ng-click="askMakeAdmine($event)">Make Member Admin</md-button>
-	</md-card>
-	<md-card data-ng-if="isBackToMemberAllowed()">
-		<md-button class="md-raised md-primary" ng-click="askBackToMemberRole($event)">Release Admin to Member</md-button>
-	</md-card>
-	<md-card>
-		<md-card-header>
-			<md-card-header-text>
-					<span class="md-subheader" style="color: black; font-weight: 200;">ITEM CONTRIBUTIONS DETAILS</span>
-					<table class="profile-item-table">
-						<thead class="profile-item-table-header">
-							<tr>
-								<th>owned</th>
-								<th class="subject-column">subject</th>
-								<th>status</th>
-								<th>credits</th>
-								<th>gap</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr class="profile-item-table-row" data-ng-repeat="task in tasks">
-								<td class="col-20">{{isOwned(task) ? '&#x2713;' : '-'}}</td>
-								<td class="col-20 subject-column">{{task.subject}}</td>
-								<td class="col-20">{{task.status | itemStatusShortLabel}}</td>
-								<td class="col-20">{{getCredits(task)}}</td>
-								<td class="col-20" data-ng-show="getDelta(task)">{{(getDelta(task) * 100 | number:2) + ' %'}}</td>
-							</tr>
-						</tbody>
-					</table>
-			</md-card-header-text>
-		</md-card-header>
-	</md-card>
-	<div style="height: 48px;">
+	<md-progress-linear data-ng-if="loading" md-mode="query"></md-progress-linear>
+	<div data-ng-if="!loading">
+		<md-card>
+			<md-card-header>
+				<md-card-header-text>
+					<span class="md-subheader" style="color: black; font-weight: 300;"> AVAILABLE CREDITS
+						<span class="md-title" style="margin-left: 10px;"> {{credits.balance}}
+					 </span>
+					<span class="md-subheader" style="color: black; font-weight: 300; margin-top: 14px;"> TOTAL GENERATED CREDITS
+						<span class="md-title" style="margin-left: 10px;"> {{credits.total}}
+					</span>
+					<span class="md-subheader" style="color: black; font-weight: 300; margin-top: 14px;"> ITEM CONTRIBUTIONS
+						<span class="md-title" style="margin-left: 10px;"> {{ stats.membershipsCount | number : 0 }}
+					</span>
+					<span class="md-subheader" style="color: black; font-weight: 300; margin-top: 14px;"> ITEM OWNERSHIPS
+						<span class="md-title" style="margin-left: 10px;"> {{ stats.ownershipsCount | number : 0 }}
+					</span>
+					<span data-ng-if="false" class="md-subheader" style="color: black; font-weight: 300; margin-top: 14px;"> EARNED CREDITS
+						<span class="md-title" style="margin-left: 10px;"> {{ stats.creditsCount | number : 2 }}
+					</span>
+					<span class="md-subheader" style="color: black; font-weight: 300; margin-top: 14px;"> AUTO-ASSESSMENT AVG GAP
+						<span class="md-title" style="margin-left: 10px;"> {{ stats.averageDelta | percentage:2:true }}
+					</span>
+				</md-card-header-text>
+			</md-card-header>
+					<md-card-content layout="row" style="margin-top: -12px; padding-left:5px; padding-right: 5px;">
+						<div flex="33" layout="column">
+							<center>
+								<span class="md-subheader" style="color: black; font-weight: 300;">LAST 3 <br/> MONTHS</span>
+								<span class="md-title">{{credits.last3M}}</span>
+							</center>
+						</div>
+						<div flex="33" layout="column">
+							<center>
+								<span class="md-subheader" style="color: black; font-weight: 300;">LAST 6 <br/> MONTHS</span>
+								<span class="md-title">{{credits.last6M}}</span>
+							</center>
+						</div>
+						<div flex="33" layout="column">
+							<center>
+								<span class="md-subheader" style="color: black; font-weight: 300;">LAST 12 <br/> MONTHS</span>
+								<span class="md-title">{{credits.last1Y}}</span>
+							</center>
+						</div>
+					</md-card-content>
+		</md-card>
+		<md-card data-ng-if="isChangeUserAllowed()">
+			<md-button class="md-raised md-primary" data-ng-if="canChangeTo('contributor')" ng-click="askChangeRole($event,'contributor')">Change User Role to contributor</md-button>
+			<md-button class="md-raised md-primary" data-ng-if="canChangeTo('member')" ng-click="askChangeRole($event,'member')">Change User Role to member</md-button>
+			<md-button class="md-raised md-primary" data-ng-if="canChangeTo('admin')" ng-click="askChangeRole($event,'admin')">Change User Role to admin</md-button>
+		</md-card>
+		<md-card data-ng-if="isMakeAdminAllowed()">
+			<md-button class="md-raised md-primary" ng-click="askMakeAdmine($event)">Make Member Admin</md-button>
+		</md-card>
+		<md-card data-ng-if="isBackToMemberAllowed()">
+			<md-button class="md-raised md-primary" ng-click="askBackToMemberRole($event)">Release Admin to Member</md-button>
+		</md-card>
+		<md-card>
+			<md-card-header>
+				<md-card-header-text>
+						<span class="md-subheader" style="color: black; font-weight: 200;">ITEM CONTRIBUTIONS DETAILS</span>
+						<table class="profile-item-table">
+							<thead class="profile-item-table-header">
+								<tr>
+									<th>owned</th>
+									<th class="subject-column">subject</th>
+									<th>status</th>
+									<th>credits</th>
+									<th>gap</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="profile-item-table-row" data-ng-repeat="task in tasks">
+									<td class="col-20">{{isOwned(task) ? '&#x2713;' : '-'}}</td>
+									<td class="col-20 subject-column">{{task.subject}}</td>
+									<td class="col-20">{{task.status | itemStatusShortLabel}}</td>
+									<td class="col-20">{{getCredits(task)}}</td>
+									<td class="col-20" data-ng-show="getDelta(task)">{{(getDelta(task) * 100 | number:2) + ' %'}}</td>
+								</tr>
+							</tbody>
+						</table>
+				</md-card-header-text>
+			</md-card-header>
+		</md-card>
+		<div style="height: 48px;">
+		</div>
 	</div>

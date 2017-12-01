@@ -4,12 +4,14 @@ angular.module('app.accounting')
         '$stateParams',
         'accountService',
         '$state',
+        '$interval',
 		'$mdDialog',
 		function (
             $scope,
             $stateParams,
             accountService,
             $state,
+            $interval,
 			$mdDialog) {
 
 			$scope.menu = {
@@ -30,9 +32,6 @@ angular.module('app.accounting')
 			$scope.filters = {
 			};
 
-			$scope.myWallet = accountService.userStats({ orgId: $stateParams.orgId, memberId: $scope.identity.getId() });
-
-
 			$scope.statement = null;
 
 			$scope.emptyOrganizationTransactions = false;
@@ -52,17 +51,21 @@ angular.module('app.accounting')
 			$scope.personalStatement = null;
 			$scope.emptyPersonalTransactions = false;
 			$scope.loadingPersonalTransactions = true;
-			accountService.personalStatement($stateParams.orgId,{}, function(data) {
-				$scope.loadingPersonalTransactions = false;
-				var transactions = data._embedded.transactions || [];
-				if(transactions.length === 0){
-					$scope.emptyPersonalTransactions = true;
-				}
-				$scope.personalStatement = data;
-			}, function(error){
-				this.onLoadingError(error);
-				$scope.loadingPersonalTransactions = false;
-			});
+			var getPersonalStats = function(){
+				accountService.fullPersonalStats($stateParams.orgId, {}).then(function(data){
+					$scope.myWallet = data.userStats;
+					$scope.loadingPersonalTransactions = false;
+					var transactions = data.personalStatement._embedded.transactions || [];
+					if(transactions.length === 0){
+						$scope.emptyPersonalTransactions = true;
+					}
+					$scope.personalStatement = data.personalStatement;
+				}).catch(function(error){
+					this.onLoadingError(error);
+					$scope.loadingPersonalTransactions = false;
+				});
+			}
+			getPersonalStats();
 
 			$scope.isLoadingMore = false;
 			this.loadMore = function() {
@@ -94,17 +97,22 @@ angular.module('app.accounting')
 				};
 
 				var that = this;
-
-				accountService.personalStatement($stateParams.orgId, filters,
-					function(data) {
-						$scope.isLoadingMorePersonal = false;
-						$scope.personalStatement = data;
-					},
-					function(response) {
-						$scope.isLoadingMorePersonal = false;
-						that.onLoadingError(response);
-					});
+				accountService.fullPersonalStats($stateParams.orgId, filters).then(function(data){
+					$scope.isLoadingMorePersonal = false;
+					$scope.personalStatement = data.personalStatement;
+				}).catch(function(error){
+					$scope.isLoadingMorePersonal = false;
+					that.onLoadingError(error);
+				});
 			};
+
+			var pollingPersonalStats = $interval(function(){
+				getPersonalStats();
+			}, 2500);
+
+			$scope.$on("$destroy", function(){
+		        $interval.cancel(pollingPersonalStats);
+		    });
 
 			$scope.addTransaction = function(transaction) {
 				$scope.statement._embedded.transactions.unshift(transaction);
