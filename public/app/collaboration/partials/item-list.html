@@ -123,12 +123,12 @@
               <p class="mobile-item__media__role">priority</p>
             </div>
             <div ng-show="item.status > ITEM_STATUS.OPEN">
-                <div>
+                <div data-ng-click="showTooltipOwnerIcon($event, item)">
                     <img class="mobile-item__media__image" ng-src="{{ owner.picture || 'img/account.jpg' }}" alt="{{ owner.firstname }} {{ owner.lastname}}"
                         title="{{ owner.firstname }} {{ owner.lastname}}">
                 </div>
                 <p class="mobile-item__media__role">owner</p>
-                <div class="mobile-item__media__tooltip-name">{{ owner.firstname }} {{ owner.lastname}}</div>
+                <div class="mobile-item__media__tooltip-name" data-ng-if="tooltipType.ownerIcon[item.id]">{{ owner.firstname }} {{ owner.lastname}}</div>
             </div>
         </md-card-media>
 
@@ -148,7 +148,7 @@
     </md-card-header>
     <div layout="row">
         <span class="mobile-item__lane">
-              lane title {{ lanesNames[item.lane] }}
+            lane title {{ lanesNames[item.lane] }}
         </span>
     </div>
     <div layout="row">
@@ -159,8 +159,9 @@
             </span>
             <div class="mobile-item__meta__icons">
               <span class="mobile-item__meta__icon-container">
+                <!-- ng-class="{'md-primary': getItemMembersNumber(item).length > 0}"  -->
                 <i class="mobile-item__meta__icon-inner material-icons">people</i>
-                <span class="mobile-item__meta__icon-number">12</span>
+                <span class="mobile-item__meta__icon-number">{{getItemMembersNumber(item)}}</span> <!-- TODO: attiva se ci sono almeno 3 elementi -->
               </span>
               <i class="mobile-item__meta__icon material-icons">assessment</i>
               <i class="mobile-item__meta__icon material-icons">shuffle</i>
@@ -198,6 +199,14 @@
     <div data-ng-if="ctrl.checkImIn(item)" class="mobile-item__involved">
         <i class="mobile-item__involved__icon material-icons">account_circle</i>
     </div>
+    <!-- 
+        TODO:
+        quadrato/omino in basso a destra se clicko sopra:
+        solo I'm involved se c'è solo l'omino
+        solo decision se c'è solo il bordo
+        entrambi se ci sono entrambi
+        altrimenti non fa niente
+     -->
     <div class="mobile-item__tooltip-dec-inv">
         <span class="mobile-item__tooltip-dec-inv__involved">I'm involved</span>
         <span class="mobile-item__tooltip-dec-inv__decision">decision</span>

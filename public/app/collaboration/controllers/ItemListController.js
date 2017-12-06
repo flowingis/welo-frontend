@@ -266,4 +266,33 @@ angular.module('app.collaboration')
 				return item.status == itemService.ITEM_STATUS.OPEN && !_.isNull(item.position);
 			};
 
+			$scope.getItemMembersNumber = function(item){
+				var membersNumber = 0;
+				if(item.members){ membersNumber = _.keys(item.members).length; }
+				return membersNumber;
+			};
+
+			$scope.tooltipType = {
+				'ownerIcon': {},
+				'decInv': {}
+			};
+
+			var resetTooltipType = function(tooltipType){
+				_.each(tooltipType, function(type){
+					_.each(type, function(val, id){
+						type[id] = false;
+					});
+				});
+			};
+
+			$scope.showTooltipOwnerIcon = function($event, item){
+				$event.stopPropagation();
+				if(!$scope.tooltipType.ownerIcon[item.id]){
+					resetTooltipType($scope.tooltipType);
+					$scope.tooltipType.ownerIcon[item.id] = true;
+				}else{
+					$scope.tooltipType.ownerIcon[item.id] = false;
+				}
+			};
+
 		}]);
