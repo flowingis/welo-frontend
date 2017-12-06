@@ -114,8 +114,11 @@
     <md-card-header item-card-color card="item" class="">
         <md-card-media class="mobile-item__media" layout="column" layout-align="start end">
             <div ng-show="item.status < ITEM_STATUS.OPEN">
-                <img class="mobile-item__media__image" ng-src="{{ author.picture || 'img/account.jpg' }}" alt="{{ author.firstname }} {{ author.lastname}}" title="{{ author.firstname }} {{ author.lastname}}">
+                <div data-ng-click="showTooltipOwnerIcon($event, item)">
+                    <img class="mobile-item__media__image" ng-src="{{ author.picture || 'img/account.jpg' }}" alt="{{ author.firstname }} {{ author.lastname}}" title="{{ author.firstname }} {{ author.lastname}}">
+                </div>
                 <p class="mobile-item__media__role">author</p>
+                <div class="mobile-item__media__tooltip-name" data-ng-if="tooltipType.ownerIcon[item.id]">{{ author.firstname }} {{ author.lastname}}</div>
                 <!-- OWNER NAME <p class="font-size12 no-margin" style="text-align:right;">{{ author.firstname }} {{ author.lastname}} </p> -->
             </div>
             <div ng-show="item.status === ITEM_STATUS.OPEN && showPriority(item)">
