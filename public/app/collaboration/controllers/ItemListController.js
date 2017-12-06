@@ -223,7 +223,7 @@ angular.module('app.collaboration')
 			};
 			$scope.updateSorting = function(){
 				$scope.filters = getFiltersWithSorting($scope.filters, sortingProps[$scope.sorting]);
-			}
+			};
 
 			$scope.goToDetail = function($event,item){
 				$event.preventDefault();
