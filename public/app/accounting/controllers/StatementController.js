@@ -106,16 +106,13 @@ angular.module('app.accounting')
 				});
 			};
 
-			var pollingPersonalStats = $interval(function(){
-				getPersonalStats();
-			}, 2500);
-
 			$scope.$on("$destroy", function(){
 		        $interval.cancel(pollingPersonalStats);
 		    });
 
 			$scope.addTransaction = function(transaction) {
 				$scope.statement._embedded.transactions.unshift(transaction);
+				getPersonalStats();
 			};
 
 			this.openNewDeposit = function(ev) {
