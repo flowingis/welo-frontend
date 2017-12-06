@@ -39,17 +39,17 @@
         <div flex>
             <span class="font-size12" style="text-transform: uppercase;font-size: 10px;font-weight:600">by status</span>
             <span style="display: inline-block; position:relative;padding:2px;vertical-align:middle" class="font-size12">
-                <md-select ng-model="filters.status" style="margin:0">
-                    <md-option selected ng-value="All">All</md-option>
-                    <md-option ng-repeat="status in ITEM_STATUS" ng-value="status">{{ status | itemStatusLabel }}
+                <md-select data-ng-model="filtersStatus" data-ng-change="updateFiltersStatus()" style="margin:0">
+                    <md-option data-ng-selected="filtersStatus === 'All'" ng-value="All">All</md-option>
+                    <md-option ng-repeat="status in ITEM_STATUS" data-ng-selected="filtersStatus === status" ng-value="status">{{ status | itemStatusLabel }}
                     </md-option>
                 </md-select>
             </span>
             <span class="font-size12"> and </span>
             <span style="display: inline-block; position:relative;padding:2px;vertical-align:middle" class="font-size12">
-                <md-select ng-model="filters.memberId" placeholder="All Items" style="margin:0">
-                    <md-option selected ng-value="">All Items</md-option>
-                    <md-option ng-value="currentUserId">My Items</md-option>
+                <md-select ng-model="filtersMemberId" data-ng-change="updateFiltersMemberId()" placeholder="All Items" style="margin:0">
+                    <md-option data-ng-selected="!filtersMemberId" ng-value="null">All Items</md-option>
+                    <md-option data-ng-selected="filtersMemberId === currentUserId" ng-value="currentUserId">My Items</md-option>
                 </md-select>
             </span>
         </div>
@@ -66,10 +66,10 @@
             <span style="text-transform: uppercase;font-size: 10px;font-weight:600">by</span>
             <span style="display: inline-block; position:relative;padding:2px;vertical-align:middle" class="font-size12">
                 <md-select data-ng-model="sorting" data-ng-change="updateSorting()" style="margin:0">
-                    <md-option selected value="mostRecentEditAt_desc">Last modified up</md-option>
-                    <md-option value="mostRecentEditAt_asc">Last modified down</md-option>
-                    <md-option value="position_desc">Top priority up</md-option>
-                    <md-option value="position_asc">Top priority down</md-option>
+                    <md-option data-ng-selected="sorting === 'mostRecentEditAt_desc'" value="mostRecentEditAt_desc">Last modified up</md-option>
+                    <md-option data-ng-selected="sorting === 'mostRecentEditAt_asc'" value="mostRecentEditAt_asc">Last modified down</md-option>
+                    <md-option data-ng-selected="sorting === 'position_desc'" value="position_desc">Top priority up</md-option>
+                    <md-option data-ng-selected="sorting === 'position_asc'" value="position_asc">Top priority down</md-option>
                 </md-select>
             </span>
         </div>
