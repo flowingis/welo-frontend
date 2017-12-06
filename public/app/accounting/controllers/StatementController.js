@@ -64,7 +64,7 @@ angular.module('app.accounting')
 					this.onLoadingError(error);
 					$scope.loadingPersonalTransactions = false;
 				});
-			}
+			};
 			getPersonalStats();
 
 			$scope.isLoadingMore = false;
