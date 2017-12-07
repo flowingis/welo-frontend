@@ -106,10 +106,6 @@ angular.module('app.accounting')
 				});
 			};
 
-			$scope.$on("$destroy", function(){
-		        $interval.cancel(pollingPersonalStats);
-		    });
-
 			$scope.addTransaction = function(transaction) {
 				$scope.statement._embedded.transactions.unshift(transaction);
 				getPersonalStats();
