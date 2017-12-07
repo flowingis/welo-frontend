@@ -11,6 +11,7 @@ angular.module('app.collaboration')
 		'$state',
 		'voteExtractor',
 		'kanbanizeLaneService',
+		'selectedFilterService',
 		function (
 			$scope,
 			$log,
@@ -22,12 +23,16 @@ angular.module('app.collaboration')
 			itemService,
 			$state,
 			voteExtractor,
-			kanbanizeLaneService) {
+			kanbanizeLaneService,
+			selectedFilterService) {
 
 			$scope.menu = {
 				open:false
 			};
 
+			var defaultSorting = "mostRecentEditAt_desc";
+			var defaultFiltersStatus = "All";
+			var defaultFiltersMemberId = null;
 			$scope.currentUserId = $scope.identity.getId();
 			$scope.decisions = $state.$current.data.decisions;
 			$scope.changeUpdateTime = false;
@@ -36,15 +41,28 @@ angular.module('app.collaboration')
 			$scope.lanes = null;
 			$scope.isLoadingMore = false;
 			$scope.loadingItems = true;
-
+			$scope.sorting = defaultSorting;
 			$scope.filters = {
 				offset: 0,
 				limit: 20,
-				status: "All",
+				status: defaultFiltersStatus,
 				cardType: ($scope.decisions ? "decisions" : "all"),
-				memberId: null,
+				memberId: defaultFiltersMemberId,
 				orderBy: 'mostRecentEditAt', //exeption for handle sort without break signature method
 				orderType: ($scope.changeUpdateTime ? "asc" : "desc") //exeption for handle sort without break signature method
+			};
+			$scope.filtersStatus = $scope.filters.status;
+			$scope.filtersMemberId = $scope.filters.memberId;
+			var sortingProps = {
+				"mostRecentEditAt_desc": {orderBy: "mostRecentEditAt", orderType: "desc"},
+				"mostRecentEditAt_asc": {orderBy: "mostRecentEditAt", orderType: "asc"},
+				"position_desc": {orderBy: "position", orderType: "desc"},
+				"position_asc": {orderBy: "position", orderType: "asc"}
+			};
+
+
+			var getFiltersWithSorting = function(filter, props){
+				return _.extend(filter, props);
 			};
 
 			var getItems = function() {
@@ -60,6 +78,32 @@ angular.module('app.collaboration')
 						that.onLoadingError(response);
 				});
 			};
+
+			var initSortingByFilter = function(filters){
+				$scope.sorting = filters.orderBy+'_'+filters.orderType;
+				if($scope.sorting !== defaultSorting){
+					$scope.showOrder = true;
+				}
+			};
+
+			var initSelectByFilter = function(filters){
+				initSortingByFilter(filters);
+				$scope.filtersStatus = filters.status;
+				$scope.filtersMemberId = filters.memberId;
+			};
+
+			var initFilter = function(){
+				$scope.filters = _.extend($scope.filters, selectedFilterService.get());
+				if($scope.filters.status !== defaultFiltersStatus || $scope.filters.memberId !== defaultFiltersMemberId){
+					$scope.showFilter = true;
+				}
+				initSelectByFilter($scope.filters);
+				getItems();
+			};
+
+			if(selectedFilterService.get()){
+				initFilter();
+			}
 
 			$scope.loadMore = function() {
 				$scope.loadingItems = true;
@@ -87,8 +131,9 @@ angular.module('app.collaboration')
                     }
                 });
 
-				$scope.$watchGroup(['filters.status','filters.memberId','filters.orderType'],function(newValue,oldValue){
+				$scope.$watchGroup(['filters.status','filters.memberId','filters.orderType','filters.orderBy'],function(newValue,oldValue){
 					if (newValue!=oldValue) {
+						selectedFilterService.set($scope.filters);
 						getItems();
 					}
 				});
@@ -195,9 +240,20 @@ angular.module('app.collaboration')
 						break;
 				}
 			};
-			this.invertUpdateTime = function() {
-				$scope.changeUpdateTime = !$scope.changeUpdateTime;
-				$scope.filters.orderType = ($scope.changeUpdateTime ? "asc" : "desc");
+			$scope.updateSorting = function(){
+				$scope.filters = getFiltersWithSorting($scope.filters, sortingProps[$scope.sorting]);
+			};
+
+			$scope.updateFiltersStatus = function(){
+				if($scope.filtersStatus !== undefined){
+					$scope.filters.status = $scope.filtersStatus;
+				}
+			};
+
+			$scope.updateFiltersMemberId = function(){
+				if($scope.filtersMemberId !== undefined){
+					$scope.filters.memberId = $scope.filtersMemberId;
+				}
 			};
 
 			$scope.goToDetail = function($event,item){
