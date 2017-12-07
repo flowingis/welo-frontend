@@ -990,6 +990,18 @@ md-card md-card-header {
   top: -6px;
   width: 12px;
 }
+.mobile-item__meta__icon--active.mobile-item__meta__icon {
+  color: #54C0D9;
+}
+.mobile-item__meta__icon-inner--active.mobile-item__meta__icon-inner {
+  color: #54C0D9;
+}
+.mobile-item__meta__icon-number--active.mobile-item__meta__icon-number  {
+  background: #54C0D9;
+}
+.mobile-item__meta__icon-container--active.mobile-item__meta__icon-container {
+  background: #54C0D9;
+}
 
 .mobile-item__tooltip-dec-inv {
   bottom: 0;

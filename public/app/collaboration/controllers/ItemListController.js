@@ -173,32 +173,9 @@ angular.module('app.collaboration')
 				return itemService.isIn(item,$scope.identity.getId());
 			};
 
-			/*this.loadItems = function() {
-				$scope.filters.limit = 10;
-				kanbanizeLaneService.getLanes($stateParams.orgId).then(function(lanes){
-					$scope.lanes = lanes;
-					$scope.lanesNames = [];
-                    lanes.forEach(function(lane) {
-                        if (lane.lcid!=null) {
-                            $scope.lanesNames[lane.lcid] = lane.lcname;
-                        }
-                    });
-
-                    itemService.query($stateParams.orgId, $scope.filters, function(data) { $scope.items = data; }, this.onLoadingError);
-				});
-			};*/
-
 			$scope.printVote = function(item){
 				return voteExtractor($scope.currentUserId,item);
 			};
-
-			
-			/*this.stream = function(task) {
-				if($scope.streams && task.stream) {
-					return $scope.streams._embedded['ora:stream'][task.stream.id];
-				}
-				return null;
-			};*/
 
 			this.openNewItem = function(ev, decision, itemType) {
 				$mdDialog.show({
@@ -272,6 +249,16 @@ angular.module('app.collaboration')
 				return membersNumber;
 			};
 
+			$scope.isShared = function(item){
+				if(_.keys(item.members).length > 0){
+					return _.reduce(item.members, function(acc, member){
+						return acc && member.shares;
+					}, true);
+				}else{
+					return false;
+				}
+			};
+
 			$scope.tooltipType = {
 				'ownerIcon': {},
 				'decInv': {}
@@ -285,14 +272,22 @@ angular.module('app.collaboration')
 				});
 			};
 
-			$scope.showTooltipOwnerIcon = function($event, item){
+			var showTooltip = function($event, item, type){
 				$event.stopPropagation();
-				if(!$scope.tooltipType.ownerIcon[item.id]){
+				if(!$scope.tooltipType[type][item.id]){
 					resetTooltipType($scope.tooltipType);
-					$scope.tooltipType.ownerIcon[item.id] = true;
+					$scope.tooltipType[type][item.id] = true;
 				}else{
-					$scope.tooltipType.ownerIcon[item.id] = false;
+					$scope.tooltipType[type][item.id] = false;
 				}
+			};
+
+			$scope.showTooltipOwnerIcon = function($event, item){
+				showTooltip($event, item, "ownerIcon");
+			};
+
+			$scope.showTooltipDecInv = function($event, item){
+				showTooltip($event, item, "decInv");
 			};
 
 		}]);
