@@ -42,10 +42,6 @@ angular.module('app.people')
 				}).reverse();
 			});
 
-			$scope.credits = accountService.userStats({ orgId: $stateParams.orgId, memberId: $stateParams.memberId },function(){
-			});
-
-
 			$scope.askChangeRole = function(ev,newRole) {
 				var message = "Are you sure you want to change the role of this user to ";
 				message += newRole + "?";
@@ -83,15 +79,20 @@ angular.module('app.people')
 				memberId: $stateParams.memberId
 			};
 			$scope.moreDetail = false;
+			$scope.loading = true;
 			$scope.initTasks = function() {
 				itemService.query($stateParams.orgId, $scope.filters, function(data) {
 					$scope.tasks = data._embedded['ora:task'];
-					console.log($scope.tasks);
+					accountService.fullPersonalStats($stateParams.orgId, {}).then(function(data){
+						$scope.credits = data.userStats;
+					})["finally"](function(){
+						$scope.loading = false;
+					});
 				}, function(response) {
 					alert('Generic Error during server communication (error: ' + response.status + ' ' + response.statusText + ') ');
 					$log.warn(response);
 				});
-				$scope.stats   = itemService.userStats($stateParams.orgId, $scope.filters);
+				$scope.stats = itemService.userStats($stateParams.orgId, $scope.filters);
 			};
 
 			$scope.isOwned = function(task){

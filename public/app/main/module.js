@@ -24,6 +24,8 @@ angular.module('app', [
 							auth2.signOut().then(function () {
 								window.location.reload();
 							});
+						}else{
+							return $q.reject(rejection);
 						}
 					}
 				};

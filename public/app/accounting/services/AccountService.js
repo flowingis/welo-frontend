@@ -1,4 +1,4 @@
-var AccountService = function($resource, $interval, identity) {
+var AccountService = function($q, $resource, $interval, $http, identity) {
 	var resource = $resource('api/:orgId/accounting/:controller/:accountId/:memberId', { controller: 'accounts' }, {
 		get: {
 			method: 'GET',
@@ -9,20 +9,10 @@ var AccountService = function($resource, $interval, identity) {
 			isArray: false,
 			headers: { 'GOOGLE-JWT': identity.getToken() }
 		},
-		personalStatement: {
-			method: 'GET',
-			headers: { 'GOOGLE-JWT': identity.getToken() },
-			params: { controller: 'personal-statement' }
-		},
 		organizationStatement: {
 			method: 'GET',
 			headers: { 'GOOGLE-JWT': identity.getToken() },
 			params: { controller: 'organization-statement' }
-		},
-		userStats: {
-			method: 'GET',
-			headers: { 'GOOGLE-JWT': identity.getToken() },
-			params: { controller: 'members' }
 		},
 		deposit: {
 			method: 'POST',
@@ -49,18 +39,13 @@ var AccountService = function($resource, $interval, identity) {
 	this.get = resource.get.bind(resource);
 	this.query = resource.query.bind(resource);
 	var isPersonalPolling = false;
-	this.personalStatement = function(organizationId, filters, success, error) {
-		isPersonalPolling = true;
-		resource.personalStatement(
-				angular.extend({ orgId: organizationId }, filters),
-				function (data) {
-					isPersonalPolling = false;
-					success(data);
-				},
-				function (response) {
-					isPersonalPolling = false;
-					error(response);
-				});
+	personalStatement = function(orgId, filters){
+		return $http({
+			method: 'GET',
+			headers: { 'GOOGLE-JWT': identity.getToken() },
+			params: filters,
+			url: "api/"+orgId+"/accounting/personal-statement"
+		});
 	};
 	var isOrganizationPolling = false;
 	this.organizationStatement = function(organizationId, filters, success, error) {
@@ -76,7 +61,32 @@ var AccountService = function($resource, $interval, identity) {
 					error(response);
 				});
 	};
-	this.userStats = resource.userStats.bind(resource);
+	var userStats = function(orgId, accountId){
+		return $http({
+			method: 'GET',
+			headers: { 'GOOGLE-JWT': identity.getToken() },
+			url: "api/"+orgId+"/accounting/accounts/"+accountId,
+			params: { controller: 'members' }
+		});
+	};
+
+	this.fullPersonalStats = function(orgId, filters){
+		var result = {};
+		var deferred = $q.defer();
+
+		personalStatement(orgId, filters).then(function(res){
+			result.personalStatement = res.data;
+			return userStats(orgId, result.personalStatement.id);
+		}).then(function(res){
+			result.userStats = res.data;
+			deferred.resolve(result);
+		}).catch(function(error){
+			deferred.reject(error);
+		});
+
+		return deferred.promise;
+	};
+
 	this.deposit = resource.deposit.bind(resource);
 	this.withdraw = resource.withdraw.bind(resource);
 	this.transferIn = resource.transferIn.bind(resource);
@@ -90,22 +100,6 @@ var AccountService = function($resource, $interval, identity) {
 				success,
 				error
 		);
-	};
-
-	var personalPolling = null;
-	this.startPersonalPolling = function(organizationId, filters, success, error, millis) {
-		this.personalStatement(organizationId, filters, success, error);
-		var that = this;
-		personalPolling = $interval(function() {
-			if (isPersonalPolling) return;
-			that.personalStatement(organizationId, filters, success, error);
-		}, millis);
-	};
-	this.stopPersonalPolling = function() {
-		if(personalPolling) {
-			$interval.cancel(personalPolling);
-			personalPolling = null;
-		}
 	};
 
 	var organizationPolling = null;
@@ -181,4 +175,4 @@ AccountService.prototype = {
 	}
 };
 angular.module('app.accounting')
-	.service('accountService', ['$resource', '$interval', 'identity', AccountService]);
+	.service('accountService', ['$q', '$resource', '$interval', '$http', 'identity', AccountService]);
