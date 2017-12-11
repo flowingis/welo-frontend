@@ -1,6 +1,7 @@
 angular.module('app.people')
 	.controller('ProfileController', [
 		'$scope',
+		'$http',
 		'$log',
 		'$stateParams',
 		'memberService',
@@ -11,6 +12,7 @@ angular.module('app.people')
 		'$mdDialog',
 		function(
 			$scope,
+			$http,
 			$log,
 			$stateParams,
 			memberService,
@@ -83,11 +85,21 @@ angular.module('app.people')
 			$scope.initTasks = function() {
 				itemService.query($stateParams.orgId, $scope.filters, function(data) {
 					$scope.tasks = data._embedded['ora:task'];
-					accountService.fullPersonalStats($stateParams.orgId, {}).then(function(data){
-						$scope.credits = data.userStats;
+					$http({
+						method: 'GET',
+						url: '/api/'+$stateParams.orgId+'/accounting/members/'+$stateParams.memberId,
+						headers: { 'GOOGLE-JWT': identity.getToken() }
+					}).then(function(res){
+						$scope.credits = res.data;
 					})["finally"](function(){
 						$scope.loading = false;
 					});
+
+					// accountService.fullPersonalStats($stateParams.orgId, {}).then(function(data){
+					// 	$scope.credits = data.userStats;
+					// })["finally"](function(){
+					// 	$scope.loading = false;
+					// });
 				}, function(response) {
 					alert('Generic Error during server communication (error: ' + response.status + ' ' + response.statusText + ') ');
 					$log.warn(response);
