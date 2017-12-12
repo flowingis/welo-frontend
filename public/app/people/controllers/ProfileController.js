@@ -87,7 +87,8 @@ angular.module('app.people')
 					$scope.tasks = data._embedded['ora:task'];
 					$http({
 						method: 'GET',
-						url: '/api/'+$stateParams.orgId+'/accounting/members/'+$stateParams.memberId,
+						url: '/api/'+$stateParams.orgId+'/accounting/members/'+$stateParams.memberId+"?v=1",
+						// url: '/api/'+$stateParams.orgId+'/accounting/members/'+$stateParams.memberId,
 						headers: { 'GOOGLE-JWT': identity.getToken() }
 					}).then(function(res){
 						$scope.credits = res.data;
