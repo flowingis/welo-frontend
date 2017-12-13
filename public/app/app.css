@@ -763,7 +763,7 @@ div.content-wrapper.flex.scrolling > .tooltip {
 
 /* MOBILE ITEMS */
 
-md-card md-card-header {
+md-card.mobile-item md-card-header {
   padding: 0;
 }
 
