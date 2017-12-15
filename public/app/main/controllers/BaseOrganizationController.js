@@ -51,15 +51,17 @@ angular.module('app')
                         if(toState.data && toState.data.pillarName){
                             $scope.pillar.name = toState.data.pillarName;
                         }
+                        if(toState.data && toState.data.pillarId){
+                            $scope.pillar.id = toState.data.pillarId;
+                        }
                         if(toState.data && toState.data.selectedTab){
                             $scope.currentTab = toState.data.selectedTab;
                         }
-						if(toState.data && toState.data.showBack) {
-							$scope.showBack = true;
-						} else {
-							$scope.showBack = false;
-						}
-
+                        if(toState.data && toState.data.showBack) {
+                            $scope.showBack = true;
+                        } else {
+                            $scope.showBack = false;
+                        }
 						if(toState.data){
                             $scope.fullHeight = toState.data.fullHeight;
                         }
