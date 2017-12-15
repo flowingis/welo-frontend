@@ -21,6 +21,16 @@ angular.module('app.collaboration', ['ui.router', 'ngSanitize'])
 					},
 					controller: 'KanbanController as ctrl'
 				})
+				.state('org.kanbanEditPriority', {
+					url: '/kanban-edit-priority',
+					templateUrl: 'app/collaboration/partials/kanban-edit-priority.html',
+					data: {
+						pillarName: 'Items',
+						pillarId: 'kanbanEditPriority',
+						decisions: false
+					},
+					controller: 'KanbanEditPriorityController as ctrl'
+				})
 				.state('org.decisions', {
 					url: '/decisions',
 					templateUrl: 'app/collaboration/partials/item-list.html',

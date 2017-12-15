@@ -16,7 +16,7 @@ angular.module('app')
 			SelectedOrganizationId,
 			$state) {
 
-                var STATES = ['org.collaboration','org.organizationStatement','org.flow','org.decisions','org.people', 'org.kanban'];
+                var STATES = ['org.collaboration','org.organizationStatement','org.flow','org.decisions','org.people', 'org.kanban', 'org.kanbanEditPriority'];
                 var MINORSTATES = {
                     "org.item":"org.collaboration"
                 };
