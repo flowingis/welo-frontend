@@ -674,6 +674,11 @@ div.content-wrapper.flex.scrolling > .tooltip {
   padding: 20px 5px 0;
 }
 
+.kanban__column--disabled * {
+  opacity: 0.5;
+  cursor: not-allowed !important;
+}
+
 .kanban__column__title {
   border-right: 1px dashed rgba(0,0,0,0.1);
   color: rgba(0,0,0,0.5);

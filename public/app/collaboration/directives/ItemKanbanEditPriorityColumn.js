@@ -10,7 +10,8 @@
                 scope: {
                     columnTitle: '@',
                     columnItems: '=',
-                    myId: '='
+                    myId: '=',
+                    active: '='
                   },
                 replace: true,
                 templateUrl: 'app/collaboration/partials/item-kanban-edit-priority-column.html',
@@ -18,12 +19,6 @@
 
                     $scope.maxItemToShow = 6; //andrà letta dai settings
                     $scope.showMoreIsActive = false;
-
-                    $scope.goToDetail = function($event,item){
-                        $event.preventDefault();
-                        $event.stopPropagation();
-                        $state.go("org.item",{ orgId: item.organization.id, itemId: item.id });
-                    }; 
 
                     $scope.hideElements = function() {
                         if ($scope.columnItems) {
