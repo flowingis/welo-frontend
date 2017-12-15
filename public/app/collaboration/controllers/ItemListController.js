@@ -169,7 +169,7 @@ angular.module('app.collaboration')
 				return member;//$scope.user(member);
 			};
 
-			this.checkImIn = function(item){
+			$scope.checkImIn = function(item){
 				return itemService.isIn(item,$scope.identity.getId());
 			};
 
@@ -259,35 +259,18 @@ angular.module('app.collaboration')
 				}
 			};
 
-			$scope.tooltipType = {
-				'ownerIcon': {},
-				'decInv': {}
-			};
-
-			var resetTooltipType = function(tooltipType){
-				_.each(tooltipType, function(type){
-					_.each(type, function(val, id){
-						type[id] = false;
-					});
-				});
-			};
-
-			var showTooltip = function($event, item, type){
-				$event.stopPropagation();
-				if(!$scope.tooltipType[type][item.id]){
-					resetTooltipType($scope.tooltipType);
-					$scope.tooltipType[type][item.id] = true;
-				}else{
-					$scope.tooltipType[type][item.id] = false;
-				}
-			};
-
-			$scope.showTooltipOwnerIcon = function($event, item){
-				showTooltip($event, item, "ownerIcon");
-			};
-
-			$scope.showTooltipDecInv = function($event, item){
-				showTooltip($event, item, "decInv");
+			$scope.getTooltipDecInv = function(item){
+				var tooltip = "";
+                if($scope.checkImIn(item) && item.decision){
+                    tooltip = "It's a decision and I'm involved";
+                }
+                if($scope.checkImIn(item) && !item.decision){
+                    tooltip = "I'm involved";
+                }
+                if(!$scope.checkImIn(item) && item.decision){
+                    tooltip = "It's a decision";
+                }
+                return tooltip;
 			};
 
 		}]);

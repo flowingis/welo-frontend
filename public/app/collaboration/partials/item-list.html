@@ -145,17 +145,13 @@
             {{item.status | itemStatusLabel}}
         </div>
     </div>
-    <div data-ng-click="showTooltipDecInv($event, item)" style="cursor: pointer;">
+    <div title="{{getTooltipDecInv(item)}}" style="cursor: default;">
         <div class="mobile-item__decision" data-ng-show="item.decision === 'true'">
           <span>Decision</span>
         </div>
-        <div data-ng-if="ctrl.checkImIn(item)" class="mobile-item__involved">
+        <div data-ng-if="checkImIn(item)" class="mobile-item__involved">
             <i class="mobile-item__involved__icon material-icons">account_circle</i>
         </div>
-    </div>
-    <div class="mobile-item__tooltip-dec-inv" data-ng-if="(ctrl.checkImIn(item) || item.decision === 'true') && tooltipType.decInv[item.id]">
-        <span data-ng-if="ctrl.checkImIn(item)" class="mobile-item__tooltip-dec-inv__involved">I'm involved</span>
-        <span data-ng-show="item.decision === 'true'" class="mobile-item__tooltip-dec-inv__decision">decision</span>
     </div>
 </md-card>
 <div layout="row" layout-align="center">
