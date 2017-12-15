@@ -20,6 +20,12 @@
                     $scope.maxItemToShow = 6; //andrà letta dai settings
                     $scope.showMoreIsActive = false;
 
+                    $scope.selectItem = function(item, active){
+                        if(active){
+                            console.log(item);
+                        }
+                    };
+
                     $scope.hideElements = function() {
                         if ($scope.columnItems) {
                             return $scope.columnItems.length - $scope.maxItemToShow;
