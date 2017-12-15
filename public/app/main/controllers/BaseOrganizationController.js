@@ -53,6 +53,9 @@ angular.module('app')
                         }
                         if(toState.data && toState.data.pillarId){
                             $scope.pillar.id = toState.data.pillarId;
+                        }else{
+                            //TODO: understand if it's possible reset $scope.pillar on every $stateChangeSuccess
+                            $scope.pillar.id = undefined
                         }
                         if(toState.data && toState.data.selectedTab){
                             $scope.currentTab = toState.data.selectedTab;
