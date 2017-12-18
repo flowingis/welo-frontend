@@ -1,9 +1,9 @@
 <div class="kanban__column" data-ng-class="{'kanban__column--disabled': !active}">
     <div class="kanban__column__title">{{columnTitle}}</div>
     <div data-ng-repeat="item in columnItems">
-        <div data-ng-if="showPlaceDestination(item, false)">+</div>
+        <div style="cursor: pointer;" data-ng-if="showPlaceDestination(item, false)" data-ng-click="moveHere(item, false)">+</div>
         <item-kanban-card item="item" my-id="myId" data-ng-click="selectItem(item, active)" data-ng-if="isVisible($index)" data-ng-style="item.id === selectedItem && {'background-color':'green'}" ></item-kanban-card>
-        <div data-ng-if="showPlaceDestination(item, $last) && $last">+</div>
+        <div style="cursor: pointer;" data-ng-if="showPlaceDestination(item, $last) && $last" data-ng-click="moveHere(item, $last)">+</div>
     </div>
     <a ng-if="hideElements()>0" href="#" class="kanban__column__dropdown-link" ng-click="toggleShowMore($event)">
         <span ng-show="!showMoreIsActive">Show more <b>{{hideElements()}}</b> items</span>

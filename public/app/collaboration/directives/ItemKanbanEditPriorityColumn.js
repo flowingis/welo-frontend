@@ -83,6 +83,17 @@
                         }
                     };
 
+                    var moveItem = function(item, newPosition){
+                        var oldPosition = item.position;
+                        _.each($scope.sortedItems, function(sortedItem){
+                            console.log(sortedItem);
+                        });
+                    };
+
+                    $scope.moveHere = function(item, isLast){
+
+                    };
+
                     $scope.showPlaceDestination = function(itemRelated, isLast){
                         return $scope.currentState === 1 && !isItemSelected(itemRelated) && (!isPrevSelected(itemRelated) || isLast);
                     };
