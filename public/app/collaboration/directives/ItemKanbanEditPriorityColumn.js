@@ -107,10 +107,9 @@
                                     sortedItem.position = sortedItem.position - 1;
                                 }
                                 if(item.id === sortedItem.id){
-                                    sortedItem.position = newPosition -1;
+                                    sortedItem.position = newPosition - 1;
                                 }
                             }
-
                         });
                         updateOrder();
                     };
