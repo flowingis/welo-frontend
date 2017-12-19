@@ -7,7 +7,8 @@
 		<h2 class="stream-subject"> {{stream.subject}} &nbsp;&gt; &nbsp; </h2>  <h2>{{ pillar.name }}</h2>
 		<span flex></span>
 		<button data-ng-if="pillar.id === 'kanbanView'" ui-sref="org.kanbanEditPriority({ orgId: organizationId })">Priority</button>
-		<button data-ng-if="pillar.id === 'kanbanEditPriority'" ui-sref="org.kanban({ orgId: organizationId })">End Priority</button>
+		<!-- <button data-ng-if="pillar.id === 'kanbanEditPriority'" ui-sref="org.kanban({ orgId: organizationId })">End Priority</button> -->
+		<button data-ng-if="pillar.id === 'kanbanEditPriority'" data-ng-click="backFromKanbanEditPriority()">End Priority</button>
 	</div>
 	<!-- Back -->
 	<div class="md-toolbar-tools" ng-if="showBack">

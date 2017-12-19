@@ -6,6 +6,7 @@ angular.module('app')
 		'members',
         'streams',
 		'SelectedOrganizationId',
+        'SetPriorityService',
 		'$state',
         function(
             $scope,
@@ -14,6 +15,7 @@ angular.module('app')
             members,
             streams,
 			SelectedOrganizationId,
+            SetPriorityService,
 			$state) {
 
                 var STATES = ['org.collaboration','org.organizationStatement','org.flow','org.decisions','org.people', 'org.kanban', 'org.kanbanEditPriority'];
@@ -93,5 +95,15 @@ angular.module('app')
                     }
                 );
 
+                $scope.backFromKanbanEditPriority = function(){
+                    SetPriorityService.set([]).then(function(data){
+                        console.log("success: ", data);
+                    }).catch(function(err){
+                        console.log("err: ", err)
+                    })["finally"](function(){
+                        console.log('finally');
+                    });
+                    // $state.go("org.kanban", { orgId: $scope.organizationId });
+                };
             }
 		]);
