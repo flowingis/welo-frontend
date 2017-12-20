@@ -1,22 +1,3 @@
-<div data-ng-if="menu.open" class="tooltip" style=" width: 120px;right:85px;bottom: 142px;">Create Work Item</div>
-<div data-ng-if="menu.open" class="tooltip" style=" width: 120px;right:85px;bottom: 194px;">Create Decision Item</div>
-<md-fab-speed-dial md-open="menu.open" md-direction="up" class="md-scale ora-fab" ng-if="lanes && !decisions">
-  <md-fab-trigger>
-    <md-button aria-label="Item Menu" class="md-fab md-warn md-hue-1">
-      <md-icon md-svg-icon="add"></md-icon>
-    </md-button>
-  </md-fab-trigger>
-  <md-fab-actions>
-    <md-button aria-label="New Item" class="md-fab md-raised md-mini" ng-click="openNewItem($event, false, 'workItem')" ng-if="isAllowed('createItem', organization)">
-      <md-icon md-svg-icon="addItem" title="New Item" style="color: black"></md-icon>
-    </md-button>
-    <md-button aria-label="New Decision" class="md-fab md-raised md-mini" ng-click="openNewItem($event, true, 'decisionItem')"
-      ng-if="isAllowed('createItem', organization)">
-      <i class="material-icons" title="New Item" style="margin-top: 6px; color: black">&#xE90E;</i>
-    </md-button>
-  </md-fab-actions>
-</md-fab-speed-dial>
-
 <md-progress-linear data-ng-if="loadingItems" md-mode="query"></md-progress-linear>
 
 <div class="kanban">

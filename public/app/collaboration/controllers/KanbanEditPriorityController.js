@@ -38,44 +38,6 @@ angular.module('app.collaboration')
 			$scope.ITEM_STATUS = itemService.ITEM_STATUS;
 			$scope.kanbanItems = {};
 
-			$scope.isAllowed = function(command, resource) {
-				return itemService.isAllowed(command, resource);
-			};
-
-			$scope.openNewItem = function(ev, decision, itemType) {
-				$mdDialog.show({
-					controller: NewItemController,
-					controllerAs: 'dialogCtrl',
-					templateUrl: "app/collaboration/partials/new-item.html",
-					targetEvent: ev,
-					clickOutsideToClose: true,
-					locals: {
-						orgId: $stateParams.orgId,
-						streams: [$scope.stream],
-						decisionMode: decision,
-						lanes: $scope.lanes,
-						itemType: itemType
-					}
-				}).then($scope.onItemAdded);
-			};
-
-			$scope.onItemAdded = function(newItem){
-				getItemForKanban();
-				$mdDialog.show({
-					controller: "OnItemAddedDialogController",
-					templateUrl: "app/collaboration/partials/on-item-added-dialog.html",
-					clickOutsideToClose: true,
-					locals: {
-						item: newItem
-					}
-				}).then(function(){
-					$state.go('org.item',{
-						orgId: newItem.organization.id,
-						itemId: newItem.id
-					});
-				});
-			};
-
 			var getItemForStatus = function(stateId, kanbanItems) {
 				var deferred = $q.defer();
 				var filters = {
