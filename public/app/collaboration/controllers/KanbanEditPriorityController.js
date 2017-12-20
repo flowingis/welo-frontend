@@ -22,6 +22,11 @@ angular.module('app.collaboration')
 			kanbanizeLaneService,
 			$q) {
 
+			$scope.getSortedItems = function(id, sortedItems){
+				console.log('id: ', id);
+				console.log("sortedItems: ", sortedItems);
+			};
+
 			$scope.menu = {
 				open:false
 			};

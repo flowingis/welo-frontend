@@ -11,7 +11,8 @@
                     columnTitle: '@',
                     columnItems: '=',
                     myId: '=',
-                    active: '='
+                    active: '=',
+                    onFinishOrder: '&'
                   },
                 replace: true,
                 templateUrl: 'app/collaboration/partials/item-kanban-edit-priority-column.html',
@@ -111,6 +112,7 @@
                                 }
                             }
                         });
+                        $scope.onFinishOrder({sortedItems: $scope.sortedItems});
                         updateOrder();
                     };
 

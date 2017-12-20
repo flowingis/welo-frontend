@@ -25,7 +25,7 @@
     <div class="kanban__lane__title">{{lane.name}}</div>
 
     <item-kanban-edit-priority-column active="false" column-title="idea" column-items="lane.cols[ITEM_STATUS.IDEA]" my-id="currentUserId"></item-kanban-edit-priority-column>
-    <item-kanban-edit-priority-column active="true" column-title="open" column-items="lane.cols[ITEM_STATUS.OPEN]" my-id="currentUserId"></item-kanban-edit-priority-column>
+    <item-kanban-edit-priority-column active="true" column-title="open" on-finish-order="getSortedItems('lane_'+$index, sortedItems)" column-items="lane.cols[ITEM_STATUS.OPEN]" my-id="currentUserId"></item-kanban-edit-priority-column>
     <item-kanban-edit-priority-column active="false" column-title="ongoing" column-items="lane.cols[ITEM_STATUS.ONGOING]" my-id="currentUserId"></item-kanban-edit-priority-column>
     <item-kanban-edit-priority-column active="false" column-title="completed" column-items="lane.cols[ITEM_STATUS.COMPLETED]" my-id="currentUserId"></item-kanban-edit-priority-column>
     <item-kanban-edit-priority-column active="false" column-title="accepted" column-items="lane.cols[ITEM_STATUS.ACCEPTED]" my-id="currentUserId"></item-kanban-edit-priority-column>
