@@ -26,12 +26,14 @@
 
                     // usefull for init $scope.sortedItems
                     // TODO: try to find solution without $watch
-                    $scope.$watch('columnItems',function(newValue){
+                    var unWatch = $scope.$watch('columnItems',function(newValue){
                         if(newValue){
+                            // TODO: check for position empty or same position for differetn items
                             _.each(newValue, function(item, i){
                                 item.position = i+1;
                             });
                             initSortedItems();
+                            unWatch();
                         }
                     });
 
@@ -75,7 +77,6 @@
                     };
 
                     $scope.selectItem = function(item, active){
-                        // initSortedItems();
                         if(active && ($scope.currentState === 0)){
                             $scope.selectedItem = item;
                             $scope.currentState = 1;
@@ -112,6 +113,7 @@
                                 }
                             }
                         });
+                        $scope.resetState();
                         $scope.onFinishOrder({sortedItems: $scope.sortedItems});
                         updateOrder();
                     };
