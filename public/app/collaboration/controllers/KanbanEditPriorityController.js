@@ -32,6 +32,14 @@ angular.module('app.collaboration')
 			};
 			$scope.closeLeft();
 
+			  $mdDialog.show(
+				$mdDialog.alert()
+				  .clickOutsideToClose(true)
+				  .title('This is an alert title')
+				  .htmlContent('You <strong>can</strong> specify some description text in here.')
+				  .ok('Got it!')
+			  );
+			  
 			$scope.currentUserId = $scope.identity.getId();
 			$scope.lanes = null;
 			$scope.loadingItems = true;
