@@ -805,24 +805,18 @@ md-card.mobile-item md-card-header {
 }
 
 .mobile-item__media__role {
-  color: #9A958F;
+  color: rgba(0,0,0,0.54);
   font-size: 9px;
   text-align: center;
   text-transform: uppercase;
 }
 
-.mobile-item__media__tooltip-name {
-  color: white;
-  font-size: 10px;
-  background: #7D676A;
+.mobile-item__media__name {
+  font-size: 12px;
   border-radius: 4px;
-  padding: 0 10px;
-  position: absolute;
+  padding-left: 10px;
   white-space: nowrap;
-  top: 10px;
-  right: 50px;
   font-weight: 500;
-  line-height: 20px;
 }
 
 .mobile-item__decision {
@@ -898,7 +892,7 @@ md-card.mobile-item md-card-header {
 }
 
 .mobile-item__status__label {
-  background: #CBC6BF;
+  background: rgba(0,0,0,0.07);
   color: rgba(0,0,0,0.5);
   display: block;
 }
@@ -936,39 +930,40 @@ md-card.mobile-item md-card-header {
 .mobile-item__meta {
   border-top: 1px solid #EEF1F2;
   color: rgba(0,0,0,0.7);
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 300;
   line-height: 18px;
   padding: 10px 0;
   position: relative;
   width: 100%;
 }
-.mobile-item__meta__last-activity {
-  font-weight: 400;
+.mobile-item__meta__name {
+  line-height: 18px;
+  float: right;
 }
 
 .mobile-item__meta__icons {
   position: absolute;
-  right: 0;
+  left: 0;
   top: 10px;
 }
 .mobile-item__meta__icon-container {
-  background: #CBC6BF;
+  background: rgba(0,0,0,0.54);
   border-radius: 2px;
   display: block;
   float: left;
   height: 18px;
-  margin-left: 10px;
+  margin-right: 10px;
   position: relative;
   width: 18px;
 }
 .mobile-item__meta__icon {
-  color: #CBC6BF;
+  color: rgba(0,0,0,0.54);
   display: block;
   float: left;
   height: 18px;
   width: 18px;
-  margin: -3px 0 0 7px;
+  margin: -3px 10px 0 0;
 }
 .mobile-item__meta__icon-inner {
   color: white;
@@ -976,7 +971,7 @@ md-card.mobile-item md-card-header {
   margin: 2px 2px;
 }
 .mobile-item__meta__icon-number {
-  background: #9A958F;
+  background: #757575;
   border-radius: 50%;
   color: white;
   display: block;

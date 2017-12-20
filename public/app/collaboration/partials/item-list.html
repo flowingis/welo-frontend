@@ -103,8 +103,6 @@
                     <img class="mobile-item__media__image" ng-src="{{ owner.picture || 'img/account.jpg' }}" alt="{{ owner.firstname }} {{ owner.lastname}}"
                         title="{{ owner.firstname }} {{ owner.lastname}}">
                 </div>
-                <p class="mobile-item__media__role">owner</p>
-                <div class="mobile-item__media__tooltip-name" data-ng-if="tooltipType.ownerIcon[item.id]">{{ owner.firstname }} {{ owner.lastname}}</div>
             </div>
         </md-card-media>
 
@@ -121,10 +119,10 @@
     </div>
     <div layout="row">
         <div class="mobile-item__meta">
-            Last activity:
-            <span class="mobile-item__meta__last-activity">
-                {{item.mostRecentEditAt | date:'dd/MM/yyyy'}}
-            </span>
+            <div class="mobile-item__meta__name">
+              <span class="mobile-item__media__role">owner</span>
+              <span class="mobile-item__media__name">{{ owner.firstname }} {{ owner.lastname}}</span>
+            </div>
             <div class="mobile-item__meta__icons">
               <span data-ng-class="{'mobile-item__meta__icon-container--active': getItemMembersNumber(item).length >= 3}" class="mobile-item__meta__icon-container">
                 <i data-ng-class="{'mobile-item__meta__icon-inner--active': getItemMembersNumber(item).length >= 3}" class="mobile-item__meta__icon-inner material-icons">people</i>
