@@ -28,7 +28,7 @@ angular.module('app')
                 var checkSelectedStateIndex = function(currentState) {
                     //currentState = MINORSTATES[currentState] || currentState;
                     currentState = _.indexOf(STATES,currentState);
-                    currentState = (currentState==5)?0:currentState;
+                    currentState = (currentState==5 || currentState==6)?0:currentState;
                     return currentState;
                 };
     			if(!SelectedOrganizationId.get()){
