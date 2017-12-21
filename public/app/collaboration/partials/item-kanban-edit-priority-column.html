@@ -4,7 +4,7 @@
         <div class="kanban__column__divider" data-ng-if="showPlaceDestination(item, false)" data-ng-click="moveHere(item, false)">
           <span class="kanban__column__divider__text">MOVE HERE</span>
         </div>
-        <item-kanban-card item="item" my-id="myId" data-ng-click="selectItem(item, active)" data-ng-if="isVisible($index)" data-ng-class="{'kanban__item--active': item.id === selectedItem.id}" ></item-kanban-card>
+        <item-kanban-card item="item" my-id="myId" data-ng-click="selectItem(item, active)" data-ng-if="isVisible($index)" data-ng-class="{'kanban__item--active': item.id === selectedItem.id, 'kanban__item--modified': isPositionChanged(item)}" ></item-kanban-card>
         <div class="kanban__column__divider" data-ng-if="showPlaceDestination(item, $last) && $last" data-ng-click="moveHere(item, $last)">
           <span class="kanban__column__divider__text">MOVE HERE</span>
         </div>

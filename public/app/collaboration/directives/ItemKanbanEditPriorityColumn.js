@@ -67,6 +67,11 @@
                         return prevItem && prevItem.id === $scope.selectedItem.id;
                     };
 
+                    $scope.isPositionChanged = function(item){
+                        var itemSorted = getItemInSortedItems(item);
+                        return itemSorted.position !== itemSorted.oldPosition;
+                    };
+
                     $scope.resetState = function(){
                         $scope.currentState = 0;
                         $scope.selectedItem = undefined;
