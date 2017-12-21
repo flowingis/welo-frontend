@@ -13,7 +13,9 @@
                     columnItems: '=',
                     myId: '=',
                     active: '=',
-                    onFinishOrder: '&'
+                    onFinishOrder: '&',
+                    onSelectItem: '&',
+                    onUnselectItem: '&'
                   },
                 replace: true,
                 templateUrl: 'app/collaboration/partials/item-kanban-edit-priority-column.html',
@@ -75,12 +77,14 @@
                     $scope.resetState = function(){
                         $scope.currentState = 0;
                         $scope.selectedItem = undefined;
+                        $scope.onUnselectItem();
                     };
 
                     $scope.selectItem = function(item, active){
                         if(active && ($scope.currentState === 0)){
                             $scope.selectedItem = item;
                             $scope.currentState = 1;
+                            $scope.onSelectItem();
                         }else if(active && ($scope.currentState === 1) && isItemSelected(item)){
                             $scope.resetState();
                         }
