@@ -173,7 +173,7 @@ angular.module('app.collaboration')
 				if (item.status <= $scope.ITEM_STATUS.OPEN) {
 					return "author";
 				} else {
-					return "owner"
+					return "owner";
 				}
 			};
 
