@@ -35,11 +35,11 @@ angular.module('app.collaboration')
 			  $mdDialog.show(
 				$mdDialog.alert()
 				  .clickOutsideToClose(true)
-				  .title('This is an alert title')
-				  .htmlContent('You <strong>can</strong> specify some description text in here.')
+				  .title('Change Open Item Priority')
+				  .htmlContent('<strong>Click an item</strong> to move it and then click on the new position.<br><strong>Remember to SAVE</strong> before to close the page.')
 				  .ok('Got it!')
 			  );
-			  
+
 			$scope.currentUserId = $scope.identity.getId();
 			$scope.lanes = null;
 			$scope.loadingItems = true;
@@ -54,7 +54,7 @@ angular.module('app.collaboration')
 					status: stateId,
 					cardType: "All",
 					memberId: null,
-					orderBy: "position", 
+					orderBy: "position",
 					orderType: "asc"
 				};
 				itemService.query($stateParams.orgId, filters,
@@ -71,14 +71,14 @@ angular.module('app.collaboration')
 							} else {
 								lane.cols[stateId] = data._embedded['ora:task'];
 							}
-							
+
 						});
 						deferred.resolve(kanbanItems);
 					},
 					function(response) {
 						deferred.reject(response);
 					});
-				return deferred.promise;	
+				return deferred.promise;
 			};
 
 

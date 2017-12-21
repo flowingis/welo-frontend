@@ -1,6 +1,6 @@
 <md-progress-linear data-ng-if="loadingItems" md-mode="query"></md-progress-linear>
 
-<div class="kanban">
+<div class="kanban kanban--edit">
 
   <div class="kanban__lane" ng-repeat="lane in kanbanItems" ng-class="{'kanban__lane--even':$odd}">
     <div class="kanban__lane__title">{{lane.name}}</div>
@@ -13,17 +13,6 @@
     <item-kanban-edit-priority-column active="false" column-title="closed" column-items="lane.cols[ITEM_STATUS.CLOSED]" my-id="currentUserId"></item-kanban-edit-priority-column>
   </div>
 
-</div>
-
-<div id="EnterDialog">
-    <md-dialog aria-label="List dialog">
-  contenuto della modale
-  <md-dialog-actions>
-        <md-button ng-click="closeDialog()" class="md-primary">
-          Close Dialog
-        </md-button>
-      </md-dialog-actions>
-      </md-dialog>
 </div>
 
 <div class="space-at-end"></div>

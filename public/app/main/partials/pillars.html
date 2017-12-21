@@ -6,9 +6,10 @@
 		</div>
 		<h2 class="stream-subject"> {{stream.subject}} &nbsp;&gt; &nbsp; </h2>  <h2>{{ pillar.name }}</h2>
 		<span flex></span>
-		<button data-ng-if="pillar.id === 'kanbanView'" ui-sref="org.kanbanEditPriority({ orgId: organizationId })">Priority</button>
+		<button class="button-priority" data-ng-if="pillar.id === 'kanbanView'" ui-sref="org.kanbanEditPriority({ orgId: organizationId })">Change Priority</button>
 		<!-- <button data-ng-if="pillar.id === 'kanbanEditPriority'" ui-sref="org.kanban({ orgId: organizationId })">End Priority</button> -->
-		<button data-ng-if="pillar.id === 'kanbanEditPriority'" data-ng-click="backFromKanbanEditPriority()">End Priority</button>
+		<button class="button-priority-cancel" data-ng-if="pillar.id === 'kanbanEditPriority'">Cancel</button>
+		<button class="button-priority button-priority--active" data-ng-if="pillar.id === 'kanbanEditPriority'" data-ng-click="backFromKanbanEditPriority()">Save Priority</button>
 	</div>
 	<!-- Back -->
 	<div class="md-toolbar-tools" ng-if="showBack">
@@ -22,4 +23,3 @@
 <div scrolly class="bkg-color-secondary content-wrapper" offset="10" data-ng-class="{'full-content-wrapper':!(organizationId && navigationBarTabs.selectedIndex>=0)}" data-ng-if="!fullHeight" flex ui-view></div>
 <div class="bkg-color-secondary content-wrapper" data-ng-class="{'full-content-wrapper':!(organizationId && navigationBarTabs.selectedIndex>=0)}" data-ng-if="fullHeight" layout="row" flex ui-view></div>
 <navigation-bar class="navigation-wrapper"><navigation-bar/>
-
