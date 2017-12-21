@@ -3,8 +3,9 @@
 
     angular.module('app').directive('itemKanbanEditPriorityColumn',[
         'itemService',
+        'getSortedItemsAfterMove',
         '$state',
-        function(itemService, $state){
+        function(itemService, getSortedItemsAfterMove, $state){
             return {
                 restrict: 'E',
                 scope: {
@@ -95,24 +96,12 @@
 
                     var moveItem = function(item, newPosition){
                         var oldPosition = item.position;
-                        var isMovingUp = newPosition < oldPosition;
-                        _.each($scope.sortedItems, function(sortedItem){
-                            if(isMovingUp){
-                                if(sortedItem.position >= newPosition && sortedItem.position < oldPosition){
-                                    sortedItem.position = sortedItem.position + 1;
-                                }
-                                if(item.id === sortedItem.id){
-                                    sortedItem.position = newPosition;
-                                }
-                            }else{
-                                if(sortedItem.position < newPosition && sortedItem.position >= oldPosition){
-                                    sortedItem.position = sortedItem.position - 1;
-                                }
-                                if(item.id === sortedItem.id){
-                                    sortedItem.position = newPosition - 1;
-                                }
-                            }
-                        });
+                        var isMovingUp = getSortedItemsAfterMove.isMovingUp(newPosition, oldPosition);
+                        if(isMovingUp){
+                            $scope.sortedItems = getSortedItemsAfterMove.get($scope.sortedItems, item, newPosition);
+                        }else{
+                            $scope.sortedItems = getSortedItemsAfterMove.get($scope.sortedItems, item, newPosition - 1);
+                        }
                         $scope.resetState();
                         $scope.onFinishOrder({sortedItems: $scope.sortedItems});
                         updateOrder();
@@ -120,12 +109,12 @@
 
                     $scope.moveHere = function(itemCurrentlyInNewPosition, isLast){
                         if(!isLast){
-                            moveItem($scope.selectedItem, itemCurrentlyInNewPosition.position);
+                            moveItem(getItemInSortedItems($scope.selectedItem), getItemInSortedItems(itemCurrentlyInNewPosition).position);
                         }else{
                             var lastPosition = _.maxBy($scope.sortedItems, function(item){
                                 return item.position;
                             }).position;
-                            moveItem($scope.selectedItem, lastPosition+1);
+                            moveItem(getItemInSortedItems($scope.selectedItem), lastPosition+1);
                         }
                     };
 
