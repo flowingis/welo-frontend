@@ -7,6 +7,7 @@ angular.module('app')
         'streams',
 		'SelectedOrganizationId',
         'SetPriorityService',
+        'sortedItemsService',
 		'$state',
         function(
             $scope,
@@ -16,6 +17,7 @@ angular.module('app')
             streams,
 			SelectedOrganizationId,
             SetPriorityService,
+            sortedItemsService,
 			$state) {
 
                 var STATES = ['org.collaboration','org.organizationStatement','org.flow','org.decisions','org.people', 'org.kanban', 'org.kanbanEditPriority'];
@@ -99,14 +101,17 @@ angular.module('app')
                     if(isCanceling){
                         $state.go("org.kanban", { orgId: $scope.organizationId });
                     }else{
-                        SetPriorityService.set([]).then(function(data){
-                            console.log("success: ", data);
-                            $state.go("org.kanban", { orgId: $scope.organizationId });
-                        }).catch(function(err){
-                            console.log("err: ", err)
-                        })["finally"](function(){
-                            console.log('finally');
-                        });
+                        var sortedItems = sortedItemsService.get();
+                        if(sortedItems){
+                            SetPriorityService.set(sortedItems).then(function(data){
+                                console.log("success: ", data);
+                                $state.go("org.kanban", { orgId: $scope.organizationId });
+                            }).catch(function(err){
+                                console.log("err: ", err)
+                            })["finally"](function(){
+                                console.log('finally');
+                            });
+                        }
                     }
                 };
             }

@@ -7,6 +7,7 @@ angular.module('app.collaboration')
 		'$mdToast',
 		'streamService',
 		'itemService',
+		'sortedItemsService',
 		'$state',
 		'kanbanizeLaneService',
 		'$q',
@@ -18,13 +19,13 @@ angular.module('app.collaboration')
 			$mdToast,
 			streamService,
 			itemService,
+			sortedItemsService,
 			$state,
 			kanbanizeLaneService,
 			$q) {
 
 			$scope.getSortedItems = function(id, sortedItems){
-				console.log('id: ', id);
-				console.log("sortedItems: ", sortedItems);
+				sortedItemsService.set(sortedItems);
 			};
 
 			$scope.menu = {
