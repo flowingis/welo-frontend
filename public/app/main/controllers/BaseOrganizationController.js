@@ -95,15 +95,19 @@ angular.module('app')
                     }
                 );
 
-                $scope.backFromKanbanEditPriority = function(){
-                    SetPriorityService.set([]).then(function(data){
-                        console.log("success: ", data);
-                    }).catch(function(err){
-                        console.log("err: ", err)
-                    })["finally"](function(){
-                        console.log('finally');
-                    });
-                    // $state.go("org.kanban", { orgId: $scope.organizationId });
+                $scope.backFromKanbanEditPriority = function(isCanceling){
+                    if(isCanceling){
+                        $state.go("org.kanban", { orgId: $scope.organizationId });
+                    }else{
+                        SetPriorityService.set([]).then(function(data){
+                            console.log("success: ", data);
+                            $state.go("org.kanban", { orgId: $scope.organizationId });
+                        }).catch(function(err){
+                            console.log("err: ", err)
+                        })["finally"](function(){
+                            console.log('finally');
+                        });
+                    }
                 };
             }
 		]);
