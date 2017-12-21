@@ -159,14 +159,30 @@ angular.module('app.collaboration')
 				}
 				return itemService.isAllowed(command, resource);
 			};
-			this.getOwner = function(item) {
+			var getOwner = function(item) {
 				var member = itemService.getOwner(item);
 				return member;//$scope.user(member);
 			};
 
-			this.getAuthor = function(item) {
+			var getAuthor = function(item) {
 				var member = itemService.getAuthor(item);
 				return member;//$scope.user(member);
+			};
+
+			$scope.getRole = function(item) {
+				if (item.status <= $scope.ITEM_STATUS.OPEN) {
+					return "author";
+				} else {
+					return "owner"
+				}
+			};
+
+			$scope.getOwnerAuthor = function(item) {
+				if (item.status <= $scope.ITEM_STATUS.OPEN) {
+					return getAuthor(item);
+				} else {
+					return getOwner(item);
+				} 
 			};
 
 			$scope.checkImIn = function(item){
@@ -261,13 +277,15 @@ angular.module('app.collaboration')
 
 			$scope.getTooltipDecInv = function(item){
 				var tooltip = "";
-                if($scope.checkImIn(item) && item.decision){
+				var isDecision = item.decision == "true";
+				var imInvolved = $scope.checkImIn(item);
+                if(imInvolved && isDecision){
                     tooltip = "It's a decision and I'm involved";
                 }
-                if($scope.checkImIn(item) && !item.decision){
+                if(imInvolved && !isDecision){
                     tooltip = "I'm involved";
                 }
-                if(!$scope.checkImIn(item) && item.decision){
+                if(!imInvolved && isDecision){
                     tooltip = "It's a decision";
                 }
                 return tooltip;

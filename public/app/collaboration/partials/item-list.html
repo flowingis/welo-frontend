@@ -82,27 +82,19 @@
 
 </md-content>
 <md-progress-linear data-ng-if="loadingItems" md-mode="query"></md-progress-linear>
-<md-card data-ng-click="goToDetail($event,item)" class="mobile-item" ng-repeat="item in items._embedded['ora:task']" ng-init="owner = ctrl.getOwner(item); author = ctrl.getAuthor(item)"
+<md-card data-ng-click="goToDetail($event,item)" class="mobile-item" ng-repeat="item in items._embedded['ora:task']"
     infinite-scroll-distance="1" infinite-scroll-parent="true" infinite-scroll-disabled="items.total == items.count || isLoadingMore"
     infinite-scroll-immediate-check="false">
-    <md-card-header item-card-color card="item" class="">
+    <md-card-header card="item" class="">
         <md-card-media class="mobile-item__media" layout="column" layout-align="start end">
-            <div ng-show="item.status < ITEM_STATUS.OPEN">
-                <div data-ng-click="showTooltipOwnerIcon($event, item)">
-                    <img class="mobile-item__media__image" ng-src="{{ author.picture || 'img/account.jpg' }}" alt="{{ author.firstname }} {{ author.lastname}}" title="{{ author.firstname }} {{ author.lastname}}">
+            <div ng-show="item.status != ITEM_STATUS.OPEN">
+                <div>
+                    <img class="mobile-item__media__image" ng-src="{{ getOwnerAuthor(item).picture || 'img/account.jpg' }}" alt="{{ getOwnerAuthor(item).firstname }} {{ getOwnerAuthor(item).lastname}}" title="{{ getOwnerAuthor(item).firstname }} {{ getOwnerAuthor(item).lastname}}">
                 </div>
-                <p class="mobile-item__media__role">author</p>
-                <div class="mobile-item__media__tooltip-name" data-ng-if="tooltipType.ownerIcon[item.id]">{{ author.firstname }} {{ author.lastname}}</div>
             </div>
-            <div ng-show="item.status === ITEM_STATUS.OPEN && showPriority(item)">
+            <div ng-show="item.status == ITEM_STATUS.OPEN && showPriority(item)">
               <div class="mobile-item__media__priority">{{item.position}}</div>
               <p class="mobile-item__media__role">priority</p>
-            </div>
-            <div ng-show="item.status > ITEM_STATUS.OPEN">
-                <div data-ng-click="showTooltipOwnerIcon($event, item)">
-                    <img class="mobile-item__media__image" ng-src="{{ owner.picture || 'img/account.jpg' }}" alt="{{ owner.firstname }} {{ owner.lastname}}"
-                        title="{{ owner.firstname }} {{ owner.lastname}}">
-                </div>
             </div>
         </md-card-media>
 
@@ -120,8 +112,8 @@
     <div layout="row">
         <div class="mobile-item__meta">
             <div class="mobile-item__meta__name">
-              <span class="mobile-item__media__role">owner</span>
-              <span class="mobile-item__media__name">{{ owner.firstname }} {{ owner.lastname}}</span>
+              <span class="mobile-item__media__role">{{getRole(item)}}</span>
+              <span class="mobile-item__media__name">{{ getOwnerAuthor(item).firstname }} {{ getOwnerAuthor(item).lastname}}</span>
             </div>
             <div class="mobile-item__meta__icons">
               <span data-ng-class="{'mobile-item__meta__icon-container--active': getItemMembersNumber(item).length >= 3}" class="mobile-item__meta__icon-container">
