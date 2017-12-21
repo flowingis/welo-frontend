@@ -9,7 +9,7 @@
           <span class="kanban__column__divider__text">MOVE HERE</span>
         </div>
     </div>
-    <a ng-if="hideElements()>0" href="#" class="kanban__column__dropdown-link" ng-click="toggleShowMore($event)">
+    <a data-ng-if="hideElements()>0 && !active" href="#" class="kanban__column__dropdown-link" ng-click="toggleShowMore($event)">
         <span ng-show="!showMoreIsActive">Show more <b>{{hideElements()}}</b> items</span>
         <span ng-show="showMoreIsActive">Show less items</span>
     </a>

@@ -20,7 +20,7 @@
                 link: function($scope, element, attrs) {
 
                     $scope.maxItemToShow = 6; //andrà letta dai settings
-                    $scope.showMoreIsActive = false;
+                    $scope.showMoreIsActive = $scope.active ? true : false;
                     $scope.currentState = 0;
                     $scope.selectedItem = undefined;
                     $scope.sortedItems = [];
