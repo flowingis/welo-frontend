@@ -25,14 +25,9 @@
                     $scope.selectedItem = undefined;
                     $scope.sortedItems = [];
 
-                    // usefull for init $scope.sortedItems
                     // TODO: try to find solution without $watch
                     var unWatch = $scope.$watch('columnItems',function(newValue){
                         if(newValue){
-                            // TODO: check for position empty or same position for differetn items
-                            _.each(newValue, function(item, i){
-                                item.position = i+1;
-                            });
                             initSortedItems();
                             unWatch();
                         }
@@ -45,10 +40,10 @@
                     var initSortedItems = function(){
                         if($scope.sortedItems.length === 0){
                             $scope.sortedItems = _.map($scope.columnItems, function(item, i){
-                                var itemPosition = item.position !== null ? item.position : (i+1);
+                                var itemPosition = (i+1);
                                 return {
                                     id: item.id,
-                                    oldPosition: itemPosition,
+                                    oldPosition: item.position,
                                     position: itemPosition
                                 }
                             });
