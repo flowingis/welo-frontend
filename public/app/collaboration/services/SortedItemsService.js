@@ -1,4 +1,3 @@
-// SortedItemsService.js
 angular.module('app.collaboration').service('sortedItemsService', [function(){
     var sortedItems;
 
