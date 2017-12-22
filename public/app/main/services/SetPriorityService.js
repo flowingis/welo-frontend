@@ -1,20 +1,27 @@
-var SetPriorityService = function($q) {
-    var set = function(newPriority){
-        var deferred = $q.defer();
-        console.log("newPriority: ", newPriority);
-        setTimeout(function() {
-            // deferred.notify('');
-            if(true){
-                deferred.resolve("ok");
-            }else{
-                deferred.reject("ko");
-            }
-        }, 1000);
-        return deferred.promise;
+var SetPriorityService = function($http, identity) {
+    var mapNewPriority = function(newPriority){
+        var toReturn = {};
+        console.log(newPriority);
+        _.each(newPriority, function(lanePriority){
+            _.each(lanePriority, function(item){
+                if(item.oldPosition !== item.position){
+                    toReturn[item.id] = item.position;
+                }
+            });
+        });
+        return toReturn;
+    };
+    var set = function(orgId, newPriority){
+        return $http({
+            method: 'POST',
+            url: '/'+orgId+'/task-management/tasks/positions',
+            headers: { 'GOOGLE-JWT': identity.getToken() },
+            data: mapNewPriority(newPriority)
+        });
     };
     return {
         set:set
     };
 };
 
-angular.module('app').service('SetPriorityService', ['$q', SetPriorityService]);
+angular.module('app').service('SetPriorityService', ['$http', 'identity', SetPriorityService]);

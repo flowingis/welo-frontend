@@ -102,8 +102,8 @@ angular.module('app')
                         $state.go("org.kanban", { orgId: $scope.organizationId });
                     }else{
                         var sortedItems = sortedItemsService.get();
-                        if(sortedItems){
-                            SetPriorityService.set(sortedItems).then(function(data){
+                        if(sortedItems && !_.isEmpty(sortedItems)){
+                            SetPriorityService.set($scope.organizationId, sortedItems).then(function(data){
                                 console.log("success: ", data);
                                 $state.go("org.kanban", { orgId: $scope.organizationId });
                             }).catch(function(err){

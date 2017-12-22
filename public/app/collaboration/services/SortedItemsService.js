@@ -1,8 +1,9 @@
 angular.module('app.collaboration').service('sortedItemsService', [function(){
     var sortedItems;
 
-    var set = function(newSortedItems){
-        sortedItems = newSortedItems;
+    var set = function(id, newSortedItems){
+        sortedItems = sortedItems || {};
+        sortedItems[id] = newSortedItems;
     };
 
     var get = function(){

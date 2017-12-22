@@ -25,7 +25,7 @@ angular.module('app.collaboration')
 			$q) {
 
 			$scope.getSortedItems = function(id, sortedItems){
-				sortedItemsService.set(sortedItems);
+				sortedItemsService.set(id, sortedItems);
 			};
 
 			$scope.menu = {
