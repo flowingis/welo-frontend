@@ -1067,7 +1067,7 @@ md-card.mobile-item md-card-header {
   z-index: 1;
 }
 .kanban__item--modified {
-  border: 2px solid red;
+  /*border: 2px solid red;*/
 }
 
 .kanban__column__divider {
