@@ -97,6 +97,10 @@ angular.module('app')
                     }
                 );
 
+                $scope.changePriorityAllowed =
+                    $scope.identity.getMembershipRole($scope.organizationId) === 'admin' ||
+                    $scope.identity.getMembershipRole($scope.organizationId) === 'member';
+
                 $scope.backFromKanbanEditPriority = function(isCanceling){
                     if(isCanceling){
                         $state.go("org.kanban", { orgId: $scope.organizationId });
