@@ -3,6 +3,7 @@ angular.module('app')
 		'$scope',
 		'$log',
 		'$stateParams',
+        '$mdDialog',
 		'members',
         'streams',
 		'SelectedOrganizationId',
@@ -13,6 +14,7 @@ angular.module('app')
             $scope,
             $log,
             $stateParams,
+            $mdDialog,
             members,
             streams,
 			SelectedOrganizationId,
@@ -108,12 +110,18 @@ angular.module('app')
                         var sortedItems = sortedItemsService.get();
                         if(sortedItems && !_.isEmpty(sortedItems)){
                             SetPriorityService.set($scope.organizationId, sortedItems).then(function(data){
-                                console.log("success: ", data);
                                 $state.go("org.kanban", { orgId: $scope.organizationId });
                             }).catch(function(err){
-                                console.log("err: ", err)
+                                $mdDialog.show(
+                                    $mdDialog.alert()
+                                        .clickOutsideToClose(true)
+                                        .title('Error occurred')
+                                        .htmlContent('<strong>Error occurred during save</strong> you will redirect to kanban')
+                                        .ok('ok')
+                                ).then(function(){
+                                    $state.go("org.kanban", { orgId: $scope.organizationId, error: true });
+                                })
                             })["finally"](function(){
-                                console.log('finally');
                             });
                         }
                     }
