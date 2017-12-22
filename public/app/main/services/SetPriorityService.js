@@ -13,7 +13,7 @@ var SetPriorityService = function($http, identity) {
     var set = function(orgId, newPriority){
         return $http({
             method: 'POST',
-            url: '/'+orgId+'/task-management/tasks/positions',
+            url: 'api/'+orgId+'/task-management/tasks/positions',
             headers: { 'GOOGLE-JWT': identity.getToken() },
             data: mapNewPriority(newPriority)
         });
