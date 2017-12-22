@@ -1,7 +1,6 @@
 var SetPriorityService = function($http, identity) {
     var mapNewPriority = function(newPriority){
         var toReturn = {};
-        console.log(newPriority);
         _.each(newPriority, function(lanePriority){
             _.each(lanePriority, function(item){
                 if(item.oldPosition !== item.position){
