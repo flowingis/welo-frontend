@@ -47,7 +47,7 @@
                                     id: item.id,
                                     oldPosition: item.position,
                                     position: itemPosition
-                                }
+                                };
                             });
                             $scope.onFinishOrder({sortedItems: $scope.sortedItems});
                         }

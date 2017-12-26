@@ -61,7 +61,7 @@ angular.module('app')
                             $scope.pillar.id = toState.data.pillarId;
                         }else{
                             //TODO: understand if it's possible reset $scope.pillar on every $stateChangeSuccess
-                            $scope.pillar.id = undefined
+                            $scope.pillar.id = undefined;
                         }
                         if(toState.data && toState.data.selectedTab){
                             $scope.currentTab = toState.data.selectedTab;
@@ -120,7 +120,7 @@ angular.module('app')
                                         .ok('ok')
                                 ).then(function(){
                                     $state.go("org.kanban", { orgId: $scope.organizationId, error: true });
-                                })
+                                });
                             })["finally"](function(){
                             });
                         }

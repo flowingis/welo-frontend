@@ -43,7 +43,7 @@ angular.module('app.collaboration')
 
 			$scope.currentUserId = $scope.identity.getId();
 			$scope.lanes = null;
-			$scope.selectedLane;
+			$scope.selectedLane = undefined;
 			$scope.loadingItems = true;
 			$scope.ITEM_STATUS = itemService.ITEM_STATUS;
 			$scope.kanbanItems = {};
@@ -139,10 +139,10 @@ angular.module('app.collaboration')
 
 			$scope.setSelectLane = function(idLane){
 				$scope.selectedLane = idLane;
-			}
+			};
 
 			$scope.unsetSelectLane = function(idLane){
 				$scope.selectedLane = undefined;
-			}
+			};
 
 		}]);

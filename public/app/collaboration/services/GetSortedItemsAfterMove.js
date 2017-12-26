@@ -29,5 +29,5 @@ angular.module('app.collaboration').factory('getSortedItemsAfterMove', [function
     return {
         isMovingUp: isMovingUp,
         get: get
-    }
+    };
 }]);
