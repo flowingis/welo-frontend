@@ -31,6 +31,15 @@ angular.module('app')
             $scope.projects = [];
             $scope.ITEM_STATUS = itemService.ITEM_STATUS;
 			$scope.loadingKanbanize = true;
+            $scope.managePriorityWelo = false;
+
+            var getManagePriorityWeloFromSettingValue = function(manage_priorities){
+                return manage_priorities === "1";
+            };
+
+            var getManagePriorityForSettingValue = function(managePriorityWelo){
+                return managePriorityWelo ? "1" : "0";
+            };
 
 			var readBoards = function(projects){
 
@@ -53,11 +62,17 @@ angular.module('app')
                 return board && board.id;
             };
 
+            $scope.changeManagePriorities = function(managePriorityWelo){
+                $scope.managePriorityWelo = managePriorityWelo;
+                $scope.orgSettings.manage_priorities = getManagePriorityForSettingValue($scope.managePriorityWelo);
+            };
+
 			$scope.kanbanizeSectionAllowed = kanbanizeService.isAllowed.bind(kanbanizeService);
 
             $scope.orgSettings = {};
             settingsService.get($stateParams.orgId).then(function(settings){
                 $scope.orgSettings = settings;
+                $scope.managePriorityWelo = getManagePriorityWeloFromSettingValue(settings.manage_priorities);
             });
 
             this.updateSettings = function(){
