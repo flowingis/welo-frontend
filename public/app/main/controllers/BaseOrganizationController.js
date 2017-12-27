@@ -9,6 +9,7 @@ angular.module('app')
 		'SelectedOrganizationId',
         'SetPriorityService',
         'sortedItemsService',
+        'settingsService',
 		'$state',
         function(
             $scope,
@@ -20,6 +21,7 @@ angular.module('app')
 			SelectedOrganizationId,
             SetPriorityService,
             sortedItemsService,
+            settingsService,
 			$state) {
 
                 var STATES = ['org.collaboration','org.organizationStatement','org.flow','org.decisions','org.people', 'org.kanban', 'org.kanbanEditPriority'];
@@ -99,9 +101,16 @@ angular.module('app')
                     }
                 );
 
-                $scope.changePriorityAllowed =
-                    $scope.identity.getMembershipRole($scope.organizationId) === 'admin' ||
-                    $scope.identity.getMembershipRole($scope.organizationId) === 'member';
+                var priorityManagedFromWelo = false;
+                settingsService.get($scope.organizationId).then(function(settings){
+                    priorityManagedFromWelo = settings.manage_priorities === "1";
+
+                    var useCanChangePriority =
+                            $scope.identity.getMembershipRole($scope.organizationId) === 'admin' ||
+                            $scope.identity.getMembershipRole($scope.organizationId) === 'member';
+                    $scope.changePriorityAllowed = priorityManagedFromWelo && useCanChangePriority;
+                });
+
 
                 $scope.backFromKanbanEditPriority = function(isCanceling){
                     if(isCanceling){
