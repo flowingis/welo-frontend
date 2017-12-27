@@ -98,18 +98,20 @@ angular.module('app')
                 $scope.$on('$stateChangeSuccess',
                     function(event, toState) {
                         $scope.navigationBarTabs.selectedIndex = checkSelectedStateIndex(toState.name);
+                        if(toState.name === 'org.kanban'){
+                            var priorityManagedFromWelo = false;
+                            settingsService.get($scope.organizationId).then(function(settings){
+                                priorityManagedFromWelo = settings.manage_priorities === "1";
+
+                                var useCanChangePriority =
+                                        $scope.identity.getMembershipRole($scope.organizationId) === 'admin' ||
+                                        $scope.identity.getMembershipRole($scope.organizationId) === 'member';
+                                $scope.changePriorityAllowed = priorityManagedFromWelo && useCanChangePriority;
+                            });
+                        }
                     }
                 );
 
-                var priorityManagedFromWelo = false;
-                settingsService.get($scope.organizationId).then(function(settings){
-                    priorityManagedFromWelo = settings.manage_priorities === "1";
-
-                    var useCanChangePriority =
-                            $scope.identity.getMembershipRole($scope.organizationId) === 'admin' ||
-                            $scope.identity.getMembershipRole($scope.organizationId) === 'member';
-                    $scope.changePriorityAllowed = priorityManagedFromWelo && useCanChangePriority;
-                });
 
 
                 $scope.backFromKanbanEditPriority = function(isCanceling){
