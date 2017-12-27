@@ -8,6 +8,7 @@ angular.module('app.collaboration')
 		'streamService',
 		'itemService',
 		'kanbanizeLaneService',
+		'settingsService',
 		'identity',
 		'voteExtractor',
 		function (
@@ -19,6 +20,7 @@ angular.module('app.collaboration')
 			streamService,
 			itemService,
 			kanbanizeLaneService,
+			settingsService,
 			identity,
 			voteExtractor) {
 
@@ -41,6 +43,12 @@ angular.module('app.collaboration')
 
 			$scope.lanes = [];
 			$scope.loading = true;
+
+			var priorityManagedFromWelo = false;
+			settingsService.get($stateParams.orgId).then(function(settings){
+				priorityManagedFromWelo = settings.manage_priorities === "1";
+			});
+
 			kanbanizeLaneService.getLanes($stateParams.orgId).then(function (lanes) {
 				lanes.forEach(function (lane) {
 					if (lane.lcid !== null) {
@@ -289,20 +297,36 @@ angular.module('app.collaboration')
 					.ok("YES, I DO!")
 					.cancel("NOT NOW");
 
-				if (item.position > 2) {
-					$mdDialog.show(alertBlockPtiorityCheck);
-				} else if (item.position === 2) {
-					$mdDialog.show(confirmPriorityCheck)
-						.then(function () {
+				if(priorityManagedFromWelo){
+					if(item.position > 2 || !item.position){
+						$mdDialog.show(alertBlockPtiorityCheck);
+					}else if (item.position === 2){
+						$mdDialog.show(confirmPriorityCheck).then(function () {
 							$scope.loading = true;
 							itemService.executeItem(item, that.updateItem, onHttpGenericError);
 						});
-				} else {	
-					$mdDialog.show(confirm)
-						.then(function () {
+					}else{
+						$mdDialog.show(confirm).then(function () {
 							$scope.loading = true;
 							itemService.executeItem(item, that.updateItem, onHttpGenericError);
 						});
+					}
+				}else{
+					if (item.position > 2) {
+						$mdDialog.show(alertBlockPtiorityCheck);
+					} else if (item.position === 2) {
+						$mdDialog.show(confirmPriorityCheck)
+							.then(function () {
+								$scope.loading = true;
+								itemService.executeItem(item, that.updateItem, onHttpGenericError);
+							});
+					} else {	
+						$mdDialog.show(confirm)
+							.then(function () {
+								$scope.loading = true;
+								itemService.executeItem(item, that.updateItem, onHttpGenericError);
+							});
+					}
 				}
 			};
 			/*this.reExecuteItem = function (ev, item) {
