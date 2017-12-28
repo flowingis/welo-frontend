@@ -20,7 +20,10 @@
 <md-progress-linear data-ng-if="loadingItems" md-mode="query"></md-progress-linear>
 
 <div class="kanban">
-
+  <!-- TODO: only for test wait markup to attach -->
+  <!-- <div data-ng-click="goToRejectedItems()">
+    goTo Rejected Items
+  </div> -->
   <div class="kanban__lane" ng-repeat="lane in kanbanItems" ng-class="{'kanban__lane--even':$odd}">
     <div class="kanban__lane__title">{{lane.name}}</div>
 
