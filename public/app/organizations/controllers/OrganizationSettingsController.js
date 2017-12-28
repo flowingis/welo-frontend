@@ -47,6 +47,10 @@ angular.module('app')
                 $scope.lanes = newLanes;
             };
 
+            $scope.saveLanes = function(newLanes){
+                console.log("saveLanes: ", newLanes);
+            };
+
 			var readBoards = function(projects){
 
 				var boards = _.map(projects,function (p) {

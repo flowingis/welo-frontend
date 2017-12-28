@@ -5,6 +5,7 @@
                 restrict: 'E',
                 scope: {
                     onLanesChange: '&',
+                    onLanesSave: '&',
                     lanes: '='
                 },
                 replace: true,
