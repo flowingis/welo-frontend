@@ -1,7 +1,7 @@
 <div>
-    <input value="{{lane.label}}" type="text"/>
-    <label>{{lane.label}}</label>
-    <button>edit</button>
+    <input data-ng-if="inEdit" value="{{lane.label}}" type="text"/>
+    <label data-ng-if="!inEdit">{{lane.label}}</label>
+    <button data-ng-click="toggleEdit()">edit</button>
     <md-button class="md-secondary md-icon-button md-warn" aria-label="Delete" data-ng-click="removeLane(lane)">
         <md-icon class="material-icons" aria-label="delete">delete</md-icon>
     </md-button>
