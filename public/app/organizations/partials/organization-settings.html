@@ -189,6 +189,9 @@
 <md-card data-ng-if="manageLanesWelo && !settings.apiKey">
 	<md-card-content>
 		<h1 flex>Lanes</h1>
+		<div layout="row">
+			<settings-lanes lanes="[ { label: 'test 0', id: 'test0'}, { label: 'test 1', id: 'test1'}, { label: 'test 2', id: 'test2'}, { label: 'test 3', id: 'test3'} ]"></settings-lanes>
+		</div>	
 	</md-card-content>
 </md-card>
 <md-card data-ng-if="!managePriorityWelo && !manageLanesWelo && kanbanizeSectionAllowed('editKanbanizeSettings', organization) && loadingKanbanize">
