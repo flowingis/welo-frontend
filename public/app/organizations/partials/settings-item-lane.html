@@ -1,5 +1,5 @@
 <div>
-    <input data-ng-if="inEdit" value="{{lane.label}}" type="text"/>
+    <input data-ng-if="inEdit" data-ng-model="newValues.newLabel" type="text"/>
     <label data-ng-if="!inEdit">{{lane.label}}</label>
     <button data-ng-click="toggleEdit()">edit</button>
     <md-button class="md-secondary md-icon-button md-warn" aria-label="Delete" data-ng-click="remove()">
