@@ -32,6 +32,7 @@ angular.module('app')
             $scope.ITEM_STATUS = itemService.ITEM_STATUS;
 			$scope.loadingKanbanize = true;
 			$scope.managePriorityWelo = false;
+			$scope.manageLanesWelo = false;
 			
 			var getCheckboxFromSettingValue = function(setting_value) {
 				return setting_value === "1";
@@ -40,6 +41,11 @@ angular.module('app')
 			var getCheckboxForSettingValue = function(checkbox_value) {
 				return checkbox_value ? "1" : "0";
 			};
+			
+			$scope.lanes = [ { label: 'test 0', id: 'test0'}, { label: 'test 1', id: 'test1'}, { label: 'test 2', id: 'test2'}, { label: 'test 3', id: 'test3'} ];
+            $scope.updateLanes = function(newLanes){
+                $scope.lanes = newLanes;
+            };
 
 			var readBoards = function(projects){
 

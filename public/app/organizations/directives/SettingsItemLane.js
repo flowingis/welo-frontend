@@ -1,13 +1,13 @@
 (function() {
     "use strict";
-    angular.module('app').directive('settingsItemLane',[
-        'itemService',
-        '$state',
-        function(itemService, $state){
+    angular.module('app').directive('settingsItemLane',[ function(){
             return {
                 restrict: 'E',
                 scope: {
-                    lane: '='
+                    index: '=',
+                    lane: '=',
+                    onLaneChange: '&',
+                    onLaneRemove: '&'
                 },
                 replace: true,
                 templateUrl: 'app/organizations/partials/settings-item-lane.html',
@@ -18,8 +18,8 @@
                         $scope.inEdit = !$scope.inEdit;
                     };
 
-                    $scope.removeLane = function(lane){
-                        console.log(lane);
+                    $scope.remove = function(){
+                        $scope.onLaneRemove({i: $scope.index});
                     }
                 }
             };
