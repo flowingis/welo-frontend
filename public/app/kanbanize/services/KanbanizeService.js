@@ -1,4 +1,4 @@
-var KanbanizeService = function($resource, identity) {
+var KanbanizeService = function($resource, $http, identity) {
 
 	this.getIdentity = function() {
 		return identity;
@@ -37,6 +37,15 @@ var KanbanizeService = function($resource, identity) {
 	this.query = function(organizationId, success, error){
 		return resource.query({ orgId: organizationId}, success, error);
 	};
+	this.detach = function(organizationId){
+		//TODO: change with real entry point
+		return $http({
+			method: 'GET',
+			headers: { 'GOOGLE-JWT': identity.getToken() },
+			url: "api/organizations/"+organizationId
+		});
+	};
+
 };
 KanbanizeService.prototype = {
 	constructor: KanbanizeService,
@@ -61,4 +70,4 @@ KanbanizeService.prototype = {
 	}
 };
 angular.module('app.organizations')
-	.service('kanbanizeService', ['$resource', 'identity', KanbanizeService]);
+	.service('kanbanizeService', ['$resource', '$http', 'identity', KanbanizeService]);

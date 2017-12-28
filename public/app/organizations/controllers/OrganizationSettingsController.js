@@ -163,6 +163,21 @@ angular.module('app')
 				});
 			};
 
+            $scope.detachFromKanbanize = function(){
+                var confirm = $mdDialog.confirm()
+                    .title("Would you detach from Kanbanize?")
+                    .textContent("It removes all its informations and cannot be undone.")
+                    .ok("Yes")
+                    .cancel("No");
+
+                $mdDialog.show(confirm).then(function () {
+                    kanbanizeService.detach($stateParams.orgId).then(function(result){
+                        console.log("detachFromKanbanize: ", result);
+                    });
+                });
+
+            };
+
 			kanbanizeService.query($stateParams.orgId,
 				function(data) {
 					$scope.settings.subdomain = data.subdomain;
