@@ -42,13 +42,14 @@ angular.module('app')
 				return checkbox_value ? "1" : "0";
 			};
 			
-			$scope.lanes = [ { label: 'test 0', id: 'test0'}, { label: 'test 1', id: 'test1'}, { label: 'test 2', id: 'test2'}, { label: 'test 3', id: 'test3'} ];
+            // $scope.lanes = [ { label: 'test 0', id: 'test0'}, { label: 'test 1', id: 'test1'}, { label: 'test 2', id: 'test2'}, { label: 'test 3', id: 'test3'} ];
             $scope.updateLanes = function(newLanes){
                 $scope.lanes = newLanes;
             };
 
             $scope.saveLanes = function(newLanes){
-                console.log("saveLanes: ", newLanes);
+                $scope.orgSettings.lanes = newLanes;
+                // console.log("saveLanes: ", newLanes);
             };
 
 			var readBoards = function(projects){
@@ -87,8 +88,16 @@ angular.module('app')
             $scope.orgSettings = {};
             settingsService.get($stateParams.orgId).then(function(settings){
                 $scope.orgSettings = settings;
+<<<<<<< HEAD
 				$scope.managePriorityWelo = getCheckboxFromSettingValue(settings.manage_priorities);
 				$scope.manageLanesWelo = getCheckboxFromSettingValue(settings.manage_lanes);
+=======
+                if($scope.orgSettings.lanes){
+                    $scope.lanes = JSON.parse(JSON.stringify($scope.orgSettings.lanes));
+                }else{
+                    $scope.lanes = [];
+                }
+>>>>>>> 0ee62bc... added meachnism for add lane
             });
 
             this.updateSettings = function(){

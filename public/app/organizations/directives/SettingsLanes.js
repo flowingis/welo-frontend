@@ -11,6 +11,13 @@
                 replace: true,
                 templateUrl: 'app/organizations/partials/settings-lanes.html',
                 link: function($scope, element, attrs) {
+
+                    var getBaseLane = function(){
+                        return {
+                            label: ''
+                        };
+                    };
+
                     $scope.updateLane = function(newLane, index){
                         var newLanes = _.map($scope.lanes, function(lane, i){
                             if(i === index){
@@ -27,6 +34,11 @@
                             return i !== index;
                         });
                         $scope.onLanesChange({newLanes: newLanes});
+                    };
+
+                    $scope.lanesAdd = function(){
+                        $scope.lanes = $scope.lanes.concat(getBaseLane());
+                        $scope.onLanesChange({newLanes: $scope.lanes});
                     };
                 }
             };
