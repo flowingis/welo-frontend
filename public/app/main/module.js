@@ -37,7 +37,7 @@ angular.module('app', [
 				var SelectedOrganizationId = $injector.get("SelectedOrganizationId");
 
 				if(SelectedOrganizationId.get()){
-					$state.go("org.flow");
+					$state.go("org.flow", { orgId: SelectedOrganizationId.get() });
 				}else{
 					$state.go("organizations");
 				}
