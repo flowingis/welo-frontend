@@ -76,7 +76,14 @@ angular.module('app')
             });
 
             this.updateSettings = function(){
-                settingsService.set($stateParams.orgId,$scope.orgSettings);
+                settingsService.set($stateParams.orgId,$scope.orgSettings).then(function() {
+					$mdToast.show(
+						$mdToast.simple()
+							.textContent('Settings updated')
+							.position('bottom left')
+							.hideDelay(3000)
+					);
+				});
             };
 
 			this.updateKanbanizeSettings = function(){
@@ -88,6 +95,12 @@ angular.module('app')
                         $scope.projects = data.projects;
                         $scope.boards = readBoards(data.projects);
 						$scope.updatingKanbanize = false;
+						$mdToast.show(
+							$mdToast.simple()
+								.textContent('Kanbanize account updated')
+								.position('bottom left')
+								.hideDelay(3000)
+						);
 					},
 					function(httpResponse) {
 						$scope.updatingKanbanize = false;
@@ -166,43 +179,54 @@ angular.module('app')
             $scope.detachFromKanbanize = function(){
                 var confirm = $mdDialog.confirm()
                     .title("Would you detach from Kanbanize?")
-                    .textContent("It removes all its informations and cannot be undone.")
+                    .textContent("The information between this board and kanbanize will no longer be synchronized.")
                     .ok("Yes")
                     .cancel("No");
 
                 $mdDialog.show(confirm).then(function () {
                     kanbanizeService.detach($stateParams.orgId).then(function(result){
-                        console.log("detachFromKanbanize: ", result);
+						console.log("detachFromKanbanize: ", result);
+						$mdToast.show(
+							$mdToast.simple()
+								.textContent('Kanbanize account updated')
+								.position('bottom left')
+								.hideDelay(3000)
+						);
+						loadKanbanizeData();
                     });
                 });
 
-            };
-
-			kanbanizeService.query($stateParams.orgId,
-				function(data) {
-					$scope.settings.subdomain = data.subdomain;
-                    $scope.settings.apiKey = data.apikey;
-                    $scope.projects = data.projects;
-                    $scope.boards = readBoards(data.projects);
-					$scope.loadingKanbanize = false;
-				},
-				function(httpResponse) {
-					switch(httpResponse.status) {
-						case 400:
-							try{
-								httpResponse.data.errors.forEach(function(error) {
-									$scope.form[error.field].$error.remote = error.message;
-								});
-							}catch(err){
+			};
+			
+			var loadKanbanizeData = function() {
+				kanbanizeService.query($stateParams.orgId,
+					function(data) {
+						$scope.settings.subdomain = data.subdomain;
+						$scope.settings.apiKey = data.apikey;
+						$scope.projects = data.projects;
+						$scope.boards = readBoards(data.projects);
+						$scope.loadingKanbanize = false;
+					},
+					function(httpResponse) {
+						switch(httpResponse.status) {
+							case 400:
+								try{
+									httpResponse.data.errors.forEach(function(error) {
+										$scope.form[error.field].$error.remote = error.message;
+									});
+								}catch(err){
+									alert('Generic Error during server communication (error: ' + httpResponse.status + ' ' + httpResponse.statusText + ') ');
+								}
+								break;
+							default:
 								alert('Generic Error during server communication (error: ' + httpResponse.status + ' ' + httpResponse.statusText + ') ');
-							}
-							break;
-						default:
-							alert('Generic Error during server communication (error: ' + httpResponse.status + ' ' + httpResponse.statusText + ') ');
-							$log.warn(httpResponse);
+								$log.warn(httpResponse);
+						}
 					}
-				}
-			);
+				);
+			};
+
+			loadKanbanizeData();
 
 			var loadStreams = function(){
 				$scope.streams = [];

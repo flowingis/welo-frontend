@@ -38,11 +38,10 @@ var KanbanizeService = function($resource, $http, identity) {
 		return resource.query({ orgId: organizationId}, success, error);
 	};
 	this.detach = function(organizationId){
-		//TODO: change with real entry point
 		return $http({
-			method: 'GET',
+			method: 'DELETE',
 			headers: { 'GOOGLE-JWT': identity.getToken() },
-			url: "api/organizations/"+organizationId
+			url: "api/"+organizationId+"/kanbanize/settings/boards"
 		});
 	};
 

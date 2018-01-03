@@ -189,7 +189,7 @@
 <md-card data-ng-if="!managePriorityWelo && kanbanizeSectionAllowed('editKanbanizeSettings', organization) && !loadingKanbanize">
 	<md-card-content>
 		<h1 flex>Kanbanize Account</h1>
-		<md-button style="float: right;" data-ng-click="detachFromKanbanize()" class="md-raised">Detach from Kanbanize</md-button>
+		<md-button data-ng-show="kanbanizeSectionAllowed('editKanbanizeSettings', organization) && !loadingKanbanize && projects.length" style="float: right;" data-ng-click="detachFromKanbanize()" class="md-raised md-warn">Detach from Kanbanize</md-button>
 		<form name="form" ng-submit="ctrl.updateKanbanizeSettings()" novalidate>
 			<div layout="row">
 				<md-input-container> <label
