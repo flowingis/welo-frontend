@@ -11,6 +11,7 @@ angular.module('app.collaboration')
 		'settingsService',
 		'identity',
 		'voteExtractor',
+		'kanbanizeService',
 		function (
 			$scope,
 			$state,
@@ -22,7 +23,8 @@ angular.module('app.collaboration')
 			kanbanizeLaneService,
 			settingsService,
 			identity,
-			voteExtractor) {
+			voteExtractor,
+			kanbanizeService) {
 
 			var onHttpGenericError = function (httpResponse) {
 				alert('Generic Error during server communication (error: ' + httpResponse.status + ' ' + httpResponse.statusText + ') ');
@@ -44,10 +46,23 @@ angular.module('app.collaboration')
 			$scope.lanes = [];
 			$scope.loading = true;
 
-			var priorityManagedFromWelo = false;
-			settingsService.get($stateParams.orgId).then(function(settings){
-				priorityManagedFromWelo = settings.manage_priorities === "1";
-			});
+			var priorityManaged = false;
+
+			kanbanizeService.query($stateParams.orgId,
+				function(data) {
+					if (data.apikey) {
+						priorityManaged = true;
+						console.log("GESTISCE LE PRIORITA' KANBANIZE");
+					} else {
+						settingsService.get($stateParams.orgId).then(function(settings){
+							console.log("GESTISCE LE PRIORITA' WELO?");
+							priorityManaged = settings.manage_priorities === "1";
+							console.log(priorityManaged);
+						});
+					}
+				}
+			);
+
 
 			kanbanizeLaneService.getLanes($stateParams.orgId).then(function (lanes) {
 				lanes.forEach(function (lane) {
@@ -57,6 +72,10 @@ angular.module('app.collaboration')
 				});
 				$scope.loading = false;
 			});
+
+
+
+
 
 			this.iVoted = function (elm) {
 				var messageFromVoteExtractor = voteExtractor($scope.myId, elm);
@@ -297,37 +316,28 @@ angular.module('app.collaboration')
 					.ok("YES, I DO!")
 					.cancel("NOT NOW");
 
-				if(priorityManagedFromWelo){
-					if(item.position > 2 || !item.position){
+
+				if (priorityManaged) {
+					if (item.position > 2 || !item.position) {
 						$mdDialog.show(alertBlockPtiorityCheck);
-					}else if (item.position === 2){
+					} else if (item.position === 2) {
 						$mdDialog.show(confirmPriorityCheck).then(function () {
 							$scope.loading = true;
 							itemService.executeItem(item, that.updateItem, onHttpGenericError);
 						});
-					}else{
+					} else {
 						$mdDialog.show(confirm).then(function () {
 							$scope.loading = true;
 							itemService.executeItem(item, that.updateItem, onHttpGenericError);
 						});
 					}
-				}else{
-					if (item.position > 2) {
-						$mdDialog.show(alertBlockPtiorityCheck);
-					} else if (item.position === 2) {
-						$mdDialog.show(confirmPriorityCheck)
-							.then(function () {
-								$scope.loading = true;
-								itemService.executeItem(item, that.updateItem, onHttpGenericError);
-							});
-					} else {	
-						$mdDialog.show(confirm)
-							.then(function () {
-								$scope.loading = true;
-								itemService.executeItem(item, that.updateItem, onHttpGenericError);
-							});
-					}
+				} else {
+					$mdDialog.show(confirm).then(function () {
+						$scope.loading = true;
+						itemService.executeItem(item, that.updateItem, onHttpGenericError);
+					});
 				}
+
 			};
 			/*this.reExecuteItem = function (ev, item) {
 				var that = this;
