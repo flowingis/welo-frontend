@@ -3,7 +3,8 @@
     angular.module('app').directive('settingsLanes',[
         '$stateParams',
         '$mdDialog',
-        function($stateParams, $mdDialog){
+        'lanesService',
+        function($stateParams, $mdDialog, lanesService){
             return {
                 restrict: 'E',
                 scope: {},
@@ -12,6 +13,13 @@
                 link: function($scope, element, attrs) {
 
                     $scope.lanes = []; //devo popolare questo elenco dal servizio
+
+
+                    var getLanes = function() {
+                        lanesService.get($stateParams.orgId).then(function(result) {
+                            $scope.lanes = result;
+                        });
+                    };
                     
 
                     var getBaseLane = function(){
@@ -39,9 +47,6 @@
                     };
 
                     $scope.lanesAdd = function(){
-                        console.log("passo qui");
-                        //APRO UN DIALOG CON UNA FORM
-                        //ALLA CALL BACK CHIAMA IL CREATE SUL SERVIZIO LANE
                         $mdDialog.show({
                             controller: NewLaneController,
                             controllerAs: 'dialogCtrl',
@@ -51,9 +56,12 @@
                                 orgId: $stateParams.orgId
                             }
                         }).then(function(newLane) {
-                            console.log(newLane);
+                            getLanes();
                         });
                     };
+
+
+                    getLanes();
                 }
             };
         }
