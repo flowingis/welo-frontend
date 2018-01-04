@@ -26,6 +26,16 @@ var service = function($http,identity) {
         });
     };
 
+    var del = function(orgId, laneId){
+        return $http({
+            method:'DELETE',
+            url:'api/' + orgId + '/settings/lanes/'+laneId,
+            headers: { 'GOOGLE-JWT': identity.getToken() }
+        }).then(function(response){
+            return response;
+        });
+    };
+
     var get = function (orgId) {
         return $http({
             method: 'GET',
@@ -47,6 +57,7 @@ var service = function($http,identity) {
     return {
         create: create,
         edit: edit,
+        del: del,
         get: get
     };
 };

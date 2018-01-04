@@ -3,7 +3,8 @@
     angular.module('app').directive('settingsItemLane',[
         '$stateParams',
         '$mdDialog',
-         function($stateParams, $mdDialog){
+        'lanesService',
+         function($stateParams, $mdDialog, lanesService){
             return {
                 restrict: 'E',
                 scope: {
@@ -13,11 +14,6 @@
                 replace: true,
                 templateUrl: 'app/organizations/partials/settings-item-lane.html',
                 link: function($scope, element, attrs) {
-                    $scope.inEdit = false;
-
-                    $scope.newValues = {
-                        newLabel: $scope.lane.label
-                    };
 
                     $scope.edit = function(){
                         $mdDialog.show({
@@ -35,7 +31,21 @@
                     };
 
                     $scope.remove = function(){
-                        $scope.onLaneRemove({i: $scope.index});
+                        var confirm = $mdDialog.confirm()
+					        .title("Would you delete this lane?")
+					        .textContent("It removes all its informations and cannot be undone.")
+					        .ok("YES, I DO!")
+                            .cancel("NOT NOW");
+                        
+                            $mdDialog.show(confirm).then(function () {
+                                $scope.loading = true;
+                                lanesService.del($stateParams.orgId, $scope.lane.lcid).then(function() {
+                                    $scope.onUpdated();
+                                    $scope.loading = false;
+                                }, function(error) {
+                                    console.log(error);
+                                });
+                            });
                     };
                 }
             };
