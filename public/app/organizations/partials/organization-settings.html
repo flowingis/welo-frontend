@@ -186,6 +186,11 @@
 		</form>
 	</md-card-content>
 </md-card>
+<md-card data-ng-if="manageLanesWelo && !settings.apiKey">
+	<md-card-content>
+		<h1 flex>Lanes</h1>
+	</md-card-content>
+</md-card>
 <md-card data-ng-if="!managePriorityWelo && !manageLanesWelo && kanbanizeSectionAllowed('editKanbanizeSettings', organization) && loadingKanbanize">
 	<md-card-content>
 		<md-progress-linear md-mode="query"></md-progress-linear>
