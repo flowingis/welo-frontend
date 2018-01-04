@@ -87,7 +87,17 @@ angular.module('app.collaboration')
 				itemService.query($stateParams.orgId, filters,
 					function(data) {
 						_(kanbanItems).each(function(lane, idlane){
-							if (idlane!=="0") {
+							if (idlane==="0") {
+								lane.cols[stateId] = data._embedded['ora:task'];
+							} else if (idlane==="-1"){
+								lane.cols[stateId] = _.filter(data._embedded['ora:task'],function(item) {
+									if (!item.lane) {
+										return true;
+									} else {
+										return false;
+									}
+								});
+							} else {		
 								lane.cols[stateId] = _.filter(data._embedded['ora:task'],function(item) {
 									if (item.lane == idlane) {
 										return true;
@@ -95,8 +105,6 @@ angular.module('app.collaboration')
 										return false;
 									}
 								});
-							} else {
-								lane.cols[stateId] = data._embedded['ora:task'];
 							}
 							
 						});
@@ -106,6 +114,18 @@ angular.module('app.collaboration')
 						deferred.reject(response);
 					});
 				return deferred.promise;	
+			};
+
+			var removeLaneIfIsEmpty = function(kanbanItems, lcid) {
+				if (kanbanItems[lcid].cols[$scope.ITEM_STATUS.IDEA].length===0 &&
+					kanbanItems[lcid].cols[$scope.ITEM_STATUS.OPEN].length===0 &&
+					kanbanItems[lcid].cols[$scope.ITEM_STATUS.ONGOING].length===0 &&
+					kanbanItems[lcid].cols[$scope.ITEM_STATUS.COMPLETED].length===0 &&
+					kanbanItems[lcid].cols[$scope.ITEM_STATUS.ACCEPTED].length===0 &&
+					kanbanItems[lcid].cols[$scope.ITEM_STATUS.CLOSED].length===0) {
+					delete kanbanItems[lcid];
+				}
+				return kanbanItems;
 			};
 
 
@@ -120,6 +140,7 @@ angular.module('app.collaboration')
 									getItemForStatus($scope.ITEM_STATUS.CLOSED,kanbanItems).then(function() {
 										$scope.loadingItems = false;
 										$scope.kanbanItems = kanbanItems;
+										$scope.kanbanItems = removeLaneIfIsEmpty($scope.kanbanItems, "-1");
 									});
 								});
 							});
@@ -166,6 +187,10 @@ angular.module('app.collaboration')
 						cols: {}
 					};
 				} else {
+					$scope.kanbanItems[-1] = {
+						name: "Items Without Lane",
+						cols: {}
+					};
 					lanes.forEach(function (lane) {
 						if (lane.lcid !== null) {
 							$scope.kanbanItems[lane.lcid] = {
