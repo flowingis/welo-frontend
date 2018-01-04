@@ -31,15 +31,15 @@ angular.module('app')
             $scope.projects = [];
             $scope.ITEM_STATUS = itemService.ITEM_STATUS;
 			$scope.loadingKanbanize = true;
-            $scope.managePriorityWelo = false;
+			$scope.managePriorityWelo = false;
+			
+			var getCheckboxFromSettingValue = function(setting_value) {
+				return setting_value === "1";
+			};
 
-            var getManagePriorityWeloFromSettingValue = function(manage_priorities){
-                return manage_priorities === "1";
-            };
-
-            var getManagePriorityForSettingValue = function(managePriorityWelo){
-                return managePriorityWelo ? "1" : "0";
-            };
+			var getCheckboxForSettingValue = function(checkbox_value) {
+				return checkbox_value ? "1" : "0";
+			};
 
 			var readBoards = function(projects){
 
@@ -64,7 +64,12 @@ angular.module('app')
 
             $scope.changeManagePriorities = function(managePriorityWelo){
                 $scope.managePriorityWelo = managePriorityWelo;
-                $scope.orgSettings.manage_priorities = getManagePriorityForSettingValue($scope.managePriorityWelo);
+                $scope.orgSettings.manage_priorities = getCheckboxForSettingValue($scope.managePriorityWelo);
+			};
+			
+			$scope.changeManageLanes = function(manageLanesWelo){
+                $scope.manageLanesWelo = manageLanesWelo;
+                $scope.orgSettings.manage_lanes = getCheckboxForSettingValue($scope.manageLanesWelo);
             };
 
 			$scope.kanbanizeSectionAllowed = kanbanizeService.isAllowed.bind(kanbanizeService);
@@ -72,7 +77,8 @@ angular.module('app')
             $scope.orgSettings = {};
             settingsService.get($stateParams.orgId).then(function(settings){
                 $scope.orgSettings = settings;
-                $scope.managePriorityWelo = getManagePriorityWeloFromSettingValue(settings.manage_priorities);
+				$scope.managePriorityWelo = getCheckboxFromSettingValue(settings.manage_priorities);
+				$scope.manageLanesWelo = getCheckboxFromSettingValue(settings.manage_lanes);
             });
 
             this.updateSettings = function(){
