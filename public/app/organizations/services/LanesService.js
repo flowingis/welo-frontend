@@ -13,6 +13,19 @@ var service = function($http,identity) {
         });
     };
 
+    var edit = function(orgId,laneName, laneId){
+        return $http({
+            method:'PUT',
+            url:'api/' + orgId + '/settings/lanes/'+laneId,
+            headers: { 'GOOGLE-JWT': identity.getToken() },
+            data: {
+                "name":laneName
+            }
+        }).then(function(response){
+            return response;
+        });
+    };
+
     var get = function (orgId) {
         return $http({
             method: 'GET',
@@ -33,6 +46,7 @@ var service = function($http,identity) {
 
     return {
         create: create,
+        edit: edit,
         get: get
     };
 };

@@ -1,7 +1,6 @@
 <div>
-    <input data-ng-if="inEdit" data-ng-model="newValues.newLabel" type="text"/>
-    <label data-ng-if="!inEdit">{{lane.lcname}}</label>
-    <md-button class="md-secondary md-icon-button" aria-label="Edit" data-ng-click="toggleEdit()">
+    <label>{{lane.lcname}}</label>
+    <md-button class="md-secondary md-icon-button" aria-label="Edit" ng-click="edit()">
         <md-icon class="material-icons" aria-label="edit">edit</md-icon>
     </md-button>
     <md-button class="md-secondary md-icon-button md-warn" aria-label="Delete" data-ng-click="remove()">

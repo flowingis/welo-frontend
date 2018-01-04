@@ -1,11 +1,6 @@
 <div>
     <div data-ng-repeat="lane in lanes">
-        <settings-item-lane
-            lane="lane"
-            index="$index"
-            on-lane-remove="removeLane(i)"
-            on-lane-change="updateLane(newLane, i)">
-        </settings-item-lane>
+        <settings-item-lane lane="lane" on-updated="onUpdated()"></settings-item-lane>
     </div>
     <md-button ng-click="lanesAdd()">ADD LANE</md-button>
 </div>

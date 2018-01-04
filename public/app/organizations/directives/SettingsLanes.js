@@ -60,6 +60,10 @@
                         });
                     };
 
+                    $scope.onUpdated = function() {
+                        getLanes();
+                    };
+
 
                     getLanes();
                 }

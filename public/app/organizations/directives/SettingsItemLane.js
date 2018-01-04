@@ -1,13 +1,14 @@
 (function() {
     "use strict";
-    angular.module('app').directive('settingsItemLane',[ function(){
+    angular.module('app').directive('settingsItemLane',[
+        '$stateParams',
+        '$mdDialog',
+         function($stateParams, $mdDialog){
             return {
                 restrict: 'E',
                 scope: {
-                    index: '=',
                     lane: '=',
-                    onLaneChange: '&',
-                    onLaneRemove: '&'
+                    onUpdated: "&"
                 },
                 replace: true,
                 templateUrl: 'app/organizations/partials/settings-item-lane.html',
@@ -18,13 +19,19 @@
                         newLabel: $scope.lane.label
                     };
 
-                    $scope.toggleEdit = function(){
-                        $scope.inEdit = !$scope.inEdit;
-                        if(!$scope.inEdit){
-                            var newLane = Object.assign($scope.lane, {label: $scope.newValues.newLabel});
-
-                            $scope.onLaneChange({newLane: newLane, i: $scope.index})
-                        }
+                    $scope.edit = function(){
+                        $mdDialog.show({
+                            controller: EditLaneController,
+                            controllerAs: 'dialogCtrl',
+                            templateUrl: 'app/organizations/partials/edit-lane.html',
+                            clickOutsideToClose: true,
+                            locals: {
+                                lane: $scope.lane,
+                                orgId: $stateParams.orgId
+                            }
+                        }).then(function() {
+                            $scope.onUpdated();
+                        });
                     };
 
                     $scope.remove = function(){
