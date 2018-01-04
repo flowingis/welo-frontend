@@ -1,0 +1,22 @@
+<md-dialog aria-label="New Lane">
+	<form name="form" ng-submit="dialogCtrl.submit()" novalidate>
+		<md-dialog-content>
+			<div class="md-dialog-content" layout="column">
+				<h2>Create Lane</h2>
+				<md-input-container>
+					<label>Name</label>
+					<input data-ng-model="laneName" name="name" type="text" required maxlength="60">
+					<div ng-messages="form.name.$error" role="alert">
+						<div ng-message="required">Name is required</div>
+						<div ng-message="remote">{{ form.name.$error.remote }}</div>
+					</div>
+				</md-input-container>
+			</div>
+		</md-dialog-content>
+		<md-dialog-actions layout="row" layout-align="end center">
+			<md-button type="button" ng-click="dialogCtrl.cancel()" ng-if="!saving">Cancel</md-button>
+			<md-button type="submit" style="margin-right:20px;" class="md-primary" ng-if="!saving" ng-disabled="form.$invalid">Create</md-button>
+			<md-progress-circular  style="margin-right:10px;" ng-if="saving" md-mode="indeterminate"></md-progress-circular>
+		</md-dialog-actions>
+	</form>
+</md-dialog>

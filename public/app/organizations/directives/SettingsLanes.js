@@ -1,6 +1,9 @@
 (function() {
     "use strict";
-    angular.module('app').directive('settingsLanes',[function(){
+    angular.module('app').directive('settingsLanes',[
+        '$stateParams',
+        '$mdDialog',
+        function($stateParams, $mdDialog){
             return {
                 restrict: 'E',
                 scope: {},
@@ -36,8 +39,20 @@
                     };
 
                     $scope.lanesAdd = function(){
-                        $scope.lanes = $scope.lanes.concat(getBaseLane());
-                        $scope.onLanesChange({newLanes: $scope.lanes});
+                        console.log("passo qui");
+                        //APRO UN DIALOG CON UNA FORM
+                        //ALLA CALL BACK CHIAMA IL CREATE SUL SERVIZIO LANE
+                        $mdDialog.show({
+                            controller: NewLaneController,
+                            controllerAs: 'dialogCtrl',
+                            templateUrl: "app/organizations/partials/new-lane.html",
+                            clickOutsideToClose: true,
+                            locals: {
+                                orgId: $stateParams.orgId
+                            }
+                        }).then(function(newLane) {
+                            console.log(newLane);
+                        });
                     };
                 }
             };
