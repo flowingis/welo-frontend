@@ -3,14 +3,13 @@
     angular.module('app').directive('settingsLanes',[function(){
             return {
                 restrict: 'E',
-                scope: {
-                    onLanesChange: '&',
-                    onLanesSave: '&',
-                    lanes: '='
-                },
+                scope: {},
                 replace: true,
                 templateUrl: 'app/organizations/partials/settings-lanes.html',
                 link: function($scope, element, attrs) {
+
+                    $scope.lanes = []; //devo popolare questo elenco dal servizio
+                    
 
                     var getBaseLane = function(){
                         return {
