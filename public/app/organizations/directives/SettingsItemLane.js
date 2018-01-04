@@ -36,6 +36,10 @@
 					        .textContent("It removes all its informations and cannot be undone.")
 					        .ok("YES, I DO!")
                             .cancel("NOT NOW");
+                        var warning = $mdDialog.alert()
+                            .title("ATTENTION")
+                            .textContent("You can't delete a lane if there are items inside")
+                            .ok("Close");
                         
                             $mdDialog.show(confirm).then(function () {
                                 $scope.loading = true;
@@ -44,6 +48,9 @@
                                     $scope.loading = false;
                                 }, function(error) {
                                     console.log(error);
+                                    if (error.status=="409") {
+                                        $mdDialog.show(warning);
+                                    } 
                                 });
                             });
                     };
