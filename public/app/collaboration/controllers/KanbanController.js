@@ -140,7 +140,7 @@ angular.module('app.collaboration')
 					"memberId":null,
 					"orderBy":"mostRecentEditAt",
 					"orderType":"desc"
-				}
+				};
 				selectedFilterService.set(filters);
 				$state.go('org.collaboration',{
 					orgId: $stateParams.orgId
@@ -150,10 +150,6 @@ angular.module('app.collaboration')
 			$scope.goToRejectedItems = function(){
 				goToFilterdItems(itemService.ITEM_STATUS.REJECTED);
 			};
-			// $scope.goToArchivedItems = function(){
-			// 	goToFilterdItems(itemService.ITEM_STATUS.REJECTED);
-			// };
-
 
 			var onHttpGenericError  = function(httpResponse) {
 				alert('Generic Error during server communication (error: ' + httpResponse.status + ' ' + httpResponse.statusText + ') ');
