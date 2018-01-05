@@ -34,6 +34,7 @@ angular.module('app')
 			$scope.managePriorityWelo = false;
 			$scope.manageLanesWelo = false;
 			$scope.thereAreSomeLanes = false;
+			$scope.lanesLoading = false;
 			
 			var getCheckboxFromSettingValue = function(setting_value) {
 				return setting_value === "1";
@@ -45,7 +46,10 @@ angular.module('app')
 
 			$scope.onLanesLoaded = function(lanes) {
 				$scope.thereAreSomeLanes = (lanes.length!=0);
-			}
+			};
+			$scope.toggleLanesLoading = function() {
+				$scope.lanesLoading = !$scope.lanesLoading;
+			};
 			
 			var readBoards = function(projects){
 

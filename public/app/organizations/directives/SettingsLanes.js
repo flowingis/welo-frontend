@@ -8,21 +8,27 @@
             return {
                 restrict: 'E',
                 scope: {
-                    onLanesLoaded: "&"
+                    onLanesLoaded: "&",
+                    onLoadingToggle: "&"
                 },
                 replace: true,
                 templateUrl: 'app/organizations/partials/settings-lanes.html',
                 link: function($scope, element, attrs) {
 
-                    $scope.lanes = []; //devo popolare questo elenco dal servizio
+                    $scope.lanes = [];
+                    $scope.loading = false;
 
 
                     var getLanes = function() {
+                        $scope.loading = true;
+                        $scope.onLoadingToggle();
                         lanesService.get($stateParams.orgId).then(function(result) {
                             $scope.lanes = result;
                             $scope.onLanesLoaded({
                                 'lanes': $scope.lanes
                             });
+                            $scope.loading = false;
+                            $scope.onLoadingToggle();
                         });
                     };
                     

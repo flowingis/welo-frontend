@@ -188,9 +188,10 @@
 </md-card>
 <md-card data-ng-if="manageLanesWelo && !settings.apiKey">
 	<md-card-content>
+		<md-progress-linear md-mode="query" ng-if="lanesLoading"></md-progress-linear>
 		<h1 flex>Lanes</h1>
 		<div layout="row">
-			<settings-lanes on-lanes-loaded="onLanesLoaded(lanes)"></settings-lanes>
+			<settings-lanes on-lanes-loaded="onLanesLoaded(lanes)" on-loading-toggle="toggleLanesLoading()"></settings-lanes>
 		</div>	
 	</md-card-content>
 </md-card>
