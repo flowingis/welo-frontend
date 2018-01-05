@@ -45,7 +45,7 @@ angular.module('app')
 			};
 
 			$scope.onLanesLoaded = function(lanes) {
-				$scope.thereAreSomeLanes = (lanes.length!=0);
+				$scope.thereAreSomeLanes = (lanes.length!==0);
 			};
 			$scope.toggleLanesLoading = function() {
 				$scope.lanesLoading = !$scope.lanesLoading;
