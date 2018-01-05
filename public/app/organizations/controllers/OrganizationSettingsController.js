@@ -33,6 +33,7 @@ angular.module('app')
 			$scope.loadingKanbanize = true;
 			$scope.managePriorityWelo = false;
 			$scope.manageLanesWelo = false;
+			$scope.thereAreSomeLanes = false;
 			
 			var getCheckboxFromSettingValue = function(setting_value) {
 				return setting_value === "1";
@@ -41,6 +42,10 @@ angular.module('app')
 			var getCheckboxForSettingValue = function(checkbox_value) {
 				return checkbox_value ? "1" : "0";
 			};
+
+			$scope.onLanesLoaded = function(lanes) {
+				$scope.thereAreSomeLanes = (lanes.length!=0);
+			}
 			
 			var readBoards = function(projects){
 
