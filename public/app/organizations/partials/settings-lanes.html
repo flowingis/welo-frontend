@@ -1,6 +1,8 @@
 <div>
-    <div data-ng-repeat="lane in lanes">
-        <settings-item-lane lane="lane" on-updated="onUpdated()"></settings-item-lane>
+    <md-list>
+        <settings-item-lane data-ng-repeat="lane in lanes" lane="lane" on-updated="onUpdated()"></settings-item-lane>
+    </md-list>
+    <div layout="row" layout-align="end center">
+        <md-button class="md-raised" ng-click="lanesAdd()">ADD LANE</md-button>
     </div>
-    <md-button ng-click="lanesAdd()">ADD LANE</md-button>
 </div>

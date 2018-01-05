@@ -190,9 +190,7 @@
 	<md-card-content>
 		<md-progress-linear md-mode="query" ng-if="lanesLoading"></md-progress-linear>
 		<h1 flex>Lanes</h1>
-		<div layout="row">
-			<settings-lanes on-lanes-loaded="onLanesLoaded(lanes)" on-loading-toggle="toggleLanesLoading()"></settings-lanes>
-		</div>	
+		<settings-lanes on-lanes-loaded="onLanesLoaded(lanes)" on-loading-toggle="toggleLanesLoading()"></settings-lanes>
 	</md-card-content>
 </md-card>
 <md-card data-ng-if="!managePriorityWelo && !manageLanesWelo && kanbanizeSectionAllowed('editKanbanizeSettings', organization) && loadingKanbanize">
