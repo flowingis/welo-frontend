@@ -453,7 +453,11 @@ angular.module('app.collaboration')
 
 			this.updateItem = function (item) {
 				$scope.loading = true;
-				itemService.get($stateParams.orgId, $stateParams.itemId, onLoadItem, this.onLoadingError);
+				loadItem(function() {
+					loadHistory(function() {
+						$scope.loading = false;
+					});
+				});
 			};
 
 			this.closeItem = function (item) {
@@ -498,8 +502,11 @@ angular.module('app.collaboration')
 				}).then(function (owner) {
 					$scope.loading = true;
 					itemService.changeOwner(item, owner).then(function () {
-						//itemService.query($stateParams.orgId, $stateParams.itemId, onLoadItem);
-						itemService.get($stateParams.orgId, $stateParams.itemId, onLoadItem, this.onLoadingError);
+						loadItem(function() {
+							loadHistory(function() {
+								$scope.loading = false;
+							});
+						});
 					}, onHttpGenericError);
 				});
 			};
