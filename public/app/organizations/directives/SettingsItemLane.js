@@ -31,15 +31,17 @@
                     };
 
                     $scope.remove = function(){
+                        var confirmMsg = "";
+                        if ($scope.lane.lcitems > 0) {
+                            confirmMsg =  "The lane contains some items. After delete they will be moved in \"Items without lane\" space where you can edit them to put in other lane.";
+                        } else {
+                            confirmMsg = "It removes all its informations and cannot be undone.";
+                        }
                         var confirm = $mdDialog.confirm()
 					        .title("Would you delete this lane?")
-					        .textContent("It removes all its informations and cannot be undone.")
+					        .textContent(confirmMsg)
 					        .ok("YES, I DO!")
                             .cancel("NOT NOW");
-                        var warning = $mdDialog.alert()
-                            .title("ATTENTION")
-                            .textContent("You can't delete a lane if there are items inside")
-                            .ok("Close");
                         
                             $mdDialog.show(confirm).then(function () {
                                 $scope.loading = true;
@@ -48,9 +50,9 @@
                                     $scope.loading = false;
                                 }, function(error) {
                                     console.log(error);
-                                    if (error.status=="409") {
-                                        $mdDialog.show(warning);
-                                    } 
+                                    //if (error.status=="409") {
+                                    //    $mdDialog.show(warning);
+                                    //} 
                                 });
                             });
                     };

@@ -45,7 +45,8 @@ var service = function($http,identity) {
             var lanes = Object.keys(response.data).map(function (key) {
                 var result = {};
                 result.lcid = key;
-                result.lcname = response.data[key];
+                result.lcname = response.data[key].name;
+                result.lcitems = response.data[key].items;
                 return result;
             });
 
