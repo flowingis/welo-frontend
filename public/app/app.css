@@ -674,6 +674,9 @@ div.content-wrapper.flex.scrolling > .tooltip {
 .kanban__lane.kanban__lane--even {
   background: #EEF1F2;
 }
+.kanban__lane.kanban__lane--itemwithoutlane {
+    background: rgb(255, 200, 200);
+  }
 
 .kanban__lane__title {
   background: #F9FAFB;
@@ -693,6 +696,9 @@ div.content-wrapper.flex.scrolling > .tooltip {
 }
 .kanban__lane--even .kanban__lane__title {
   background: #EEF1F2;
+}
+.kanban__lane--itemwithoutlane .kanban__lane__title{
+    background: rgb(255, 200, 200);
 }
 
 .kanban__column {

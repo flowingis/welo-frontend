@@ -117,6 +117,9 @@ angular.module('app.collaboration')
 			};
 
 			var removeLaneIfIsEmpty = function(kanbanItems, lcid) {
+				if (!kanbanItems[lcid]) {
+					return kanbanItems;
+				}
 				if (kanbanItems[lcid].cols[$scope.ITEM_STATUS.IDEA].length===0 &&
 					kanbanItems[lcid].cols[$scope.ITEM_STATUS.OPEN].length===0 &&
 					kanbanItems[lcid].cols[$scope.ITEM_STATUS.ONGOING].length===0 &&
@@ -140,6 +143,7 @@ angular.module('app.collaboration')
 									getItemForStatus($scope.ITEM_STATUS.CLOSED,kanbanItems).then(function() {
 										$scope.loadingItems = false;
 										$scope.kanbanItems = kanbanItems;
+										console.log($scope.kanbanItems);
 										$scope.kanbanItems = removeLaneIfIsEmpty($scope.kanbanItems, "-1");
 									});
 								});
@@ -187,10 +191,10 @@ angular.module('app.collaboration')
 						cols: {}
 					};
 				} else {
-					$scope.kanbanItems[-1] = {
-						name: "Items Without Lane",
-						cols: {}
-					};
+					lanes.push({
+						lcid:"-1",
+						lcname:"Items Without Lane"
+					});
 					lanes.forEach(function (lane) {
 						if (lane.lcid !== null) {
 							$scope.kanbanItems[lane.lcid] = {
