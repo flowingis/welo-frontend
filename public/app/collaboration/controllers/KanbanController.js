@@ -73,6 +73,14 @@ angular.module('app.collaboration')
 				});
 			};
 
+			var itemLaneMissed = function(id) {
+				if (!id) {
+					return true;
+				} else {
+					return false;
+				}
+			};
+
 			var getItemForStatus = function(stateId, kanbanItems) {
 				var deferred = $q.defer();
 				var filters = {
@@ -90,13 +98,11 @@ angular.module('app.collaboration')
 							if (idlane==="0") {
 								lane.cols[stateId] = data._embedded['ora:task'];
 							} else if (idlane==="-1"){
+								console.log("cazzarola",$scope.lanes);
 								lane.cols[stateId] = _.filter(data._embedded['ora:task'],function(item) {
-									if (!item.lane) {
-										return true;
-									} else {
-										return false;
-									}
+									return itemLaneMissed(item.lane); //Mi dice se il valore dell'atributo lane dell'item non corrisponde a nessuna delle lane attualmente presenti
 								});
+
 							} else {		
 								lane.cols[stateId] = _.filter(data._embedded['ora:task'],function(item) {
 									if (item.lane == idlane) {
