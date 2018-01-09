@@ -74,16 +74,10 @@ angular.module('app.collaboration')
 			};
 
 			var itemLaneMissed = function(id) {
-				console.log($scope.lanes);
 				var findIt = _.find($scope.lanes, function(lane) {
 					return (id===lane.lcid);
 				});
 				return !findIt;
-				//if (!id) {
-				//	return true;
-				//} else {
-				//	return false;
-				//}
 			};
 
 			var getItemForStatus = function(stateId, kanbanItems) {
@@ -151,10 +145,9 @@ angular.module('app.collaboration')
 							getItemForStatus($scope.ITEM_STATUS.COMPLETED,kanbanItems).then(function() {
 								getItemForStatus($scope.ITEM_STATUS.ACCEPTED,kanbanItems).then(function() {
 									getItemForStatus($scope.ITEM_STATUS.CLOSED,kanbanItems).then(function() {
-										$scope.loadingItems = false;
 										$scope.kanbanItems = kanbanItems;
-										console.log($scope.kanbanItems);
 										$scope.kanbanItems = removeLaneIfIsEmpty($scope.kanbanItems, "-1");
+										$scope.loadingItems = false;
 									});
 								});
 							});
