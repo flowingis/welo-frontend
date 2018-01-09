@@ -116,9 +116,9 @@
               <span class="mobile-item__media__name">{{ getOwnerAuthor(item).firstname }} {{ getOwnerAuthor(item).lastname}}</span>
             </div>
             <div class="mobile-item__meta__icons">
-              <span data-ng-class="{'mobile-item__meta__icon-container--active': getItemMembersNumber(item).length >= 3}" class="mobile-item__meta__icon-container">
-                <i data-ng-class="{'mobile-item__meta__icon-inner--active': getItemMembersNumber(item).length >= 3}" class="mobile-item__meta__icon-inner material-icons">people</i>
-                <span data-ng-class="{'mobile-item__meta__icon-number--active': getItemMembersNumber(item).length >= 3}" class="mobile-item__meta__icon-number">{{getItemMembersNumber(item)}}</span>
+              <span data-ng-class="{'mobile-item__meta__icon-container--active': getItemMembersNumber(item) >= 3}" class="mobile-item__meta__icon-container">
+                <i data-ng-class="{'mobile-item__meta__icon-inner--active': getItemMembersNumber(item) >= 3}" class="mobile-item__meta__icon-inner material-icons">people</i>
+                <span data-ng-class="{'mobile-item__meta__icon-number--active': getItemMembersNumber(item) >= 3}" class="mobile-item__meta__icon-number">{{getItemMembersNumber(item)}}</span>
               </span>
               <i data-ng-class="{'mobile-item__meta__icon--active': !!item.estimation}" class="mobile-item__meta__icon material-icons">assessment</i>
               <i data-ng-class="{'mobile-item__meta__icon--active': isShared(item)}" class="mobile-item__meta__icon material-icons">shuffle</i>
