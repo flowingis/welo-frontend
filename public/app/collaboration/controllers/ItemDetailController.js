@@ -7,11 +7,11 @@ angular.module('app.collaboration')
 		'$log',
 		'streamService',
 		'itemService',
-		'kanbanizeLaneService',
 		'settingsService',
 		'identity',
 		'voteExtractor',
 		'kanbanizeService',
+		'lanesService',
 		function (
 			$scope,
 			$state,
@@ -20,11 +20,11 @@ angular.module('app.collaboration')
 			$log,
 			streamService,
 			itemService,
-			kanbanizeLaneService,
 			settingsService,
 			identity,
 			voteExtractor,
-			kanbanizeService) {
+			kanbanizeService,
+			lanesService) {
 
 			var onHttpGenericError = function (httpResponse) {
 				alert('Generic Error during server communication (error: ' + httpResponse.status + ' ' + httpResponse.statusText + ') ');
@@ -42,16 +42,19 @@ angular.module('app.collaboration')
 			$scope.streams = null;
 
 			var priorityManaged = false;
+			var lanesManaged = false;
 
-			var setPriorityManaged = function(cb) {
+			var getIfPriorityLaneManaged = function(cb) {
 				kanbanizeService.query($stateParams.orgId,
 					function(data) {
 						if (data.apikey) {
 							priorityManaged = true;
+							lanesManaged = true;
 							cb();
 						} else {
 							settingsService.get($stateParams.orgId).then(function(settings){
 								priorityManaged = settings.manage_priorities === "1";
+								lanesManaged = settings.manage_lanes === "1";
 								cb();
 							});
 						}
@@ -60,13 +63,14 @@ angular.module('app.collaboration')
 			};
 
 			
-			var setLaneName = function(cb) {
-				kanbanizeLaneService.getLanes($stateParams.orgId).then(function (lanes) {
-					lanes.forEach(function (lane) {
-						if (lane.lcid !== null) {
-							$scope.lanes[lane.lcid] = lane.lcname;
-						}
-					});
+			var setLanesInformation = function(cb) {
+				lanesService.get($stateParams.orgId).then(function (lanes) {
+					$scope.lanes = lanes;
+					//lanes.forEach(function (lane) {
+					//	if (lane.lcid !== null) {
+					//		$scope.lanes[lane.lcid] = lane.lcname;
+					//	}
+					//});
 					cb();
 				});
 			};
@@ -93,15 +97,29 @@ angular.module('app.collaboration')
 					$scope.item = data;
 					$scope.attachments = data.attachments || [];
 					$scope.members = _.values(data.members);
-					$scope.item.laneName = ($scope.item.lane && $scope.item.lane.length) ? $scope.lanes[$scope.item.lane] : '';
+					//$scope.item.laneName = ($scope.item.lane && $scope.item.lane.length) ? $scope.lanes[$scope.item.lane] : '';
+					console.log($scope.lanes);
+					var laneObj = lanesService.findLane($scope.item.lane, $scope.lanes);
+					console.log(laneObj);
+					$scope.item.laneName = "";
+					$scope.item.withoutLane = false;
+					if (lanesManaged && laneObj) {
+						$scope.item.laneName = laneObj.lcname;
+						$scope.item.withoutLane = false;
+					} else if (lanesManaged && !laneObj) {
+						$scope.item.laneName = "";
+						$scope.item.withoutLane = true;
+					}
 					cb();
 					
 				}, this.onLoadingError);
 			};
 
 			var load = function() {
-				setPriorityManaged(function() {
-					setLaneName(function() {
+				getIfPriorityLaneManaged(function() {
+					console.log("priorityManaged",priorityManaged);
+					console.log("laneManaged",lanesManaged);
+					setLanesInformation(function() {
 						loadStream(function() {
 							loadItem(function() {
 								$scope.busy = false;
@@ -114,8 +132,6 @@ angular.module('app.collaboration')
 				});
 			};
 			
-
-
 			this.iVoted = function (elm) {
 				var messageFromVoteExtractor = voteExtractor($scope.myId, elm);
 

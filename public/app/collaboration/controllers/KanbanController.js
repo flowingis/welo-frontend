@@ -11,6 +11,9 @@ angular.module('app.collaboration')
 		'kanbanizeLaneService',
 		'selectedFilterService',
 		'$q',
+		'lanesService',
+		'kanbanizeService',
+		'settingsService',
 		function (
 			$scope,
 			$log,
@@ -22,7 +25,10 @@ angular.module('app.collaboration')
 			$state,
 			kanbanizeLaneService,
 			selectedFilterService,
-			$q) {
+			$q,
+			lanesService,
+			kanbanizeService,
+			settingsService) {
 
 			$scope.menu = {
 				open:false
@@ -34,6 +40,8 @@ angular.module('app.collaboration')
 			$scope.loadingItems = true;
 			$scope.ITEM_STATUS = itemService.ITEM_STATUS;
 			$scope.kanbanItems = {};
+			$scope.priorityManaged = false;
+			$scope.lanesManaged = false;
 
 			$scope.isAllowed = function(command, resource) {
 				return itemService.isAllowed(command, resource);
@@ -73,13 +81,6 @@ angular.module('app.collaboration')
 				});
 			};
 
-			var itemLaneMissed = function(id) {
-				var findIt = _.find($scope.lanes, function(lane) {
-					return (id===lane.lcid);
-				});
-				return !findIt;
-			};
-
 			var getItemForStatus = function(stateId, kanbanItems) {
 				var deferred = $q.defer();
 				var filters = {
@@ -98,7 +99,7 @@ angular.module('app.collaboration')
 								lane.cols[stateId] = data._embedded['ora:task'];
 							} else if (idlane==="-1"){
 								lane.cols[stateId] = _.filter(data._embedded['ora:task'],function(item) {
-									return itemLaneMissed(item.lane); //Mi dice se il valore dell'atributo lane dell'item non corrisponde a nessuna delle lane attualmente presenti
+									return lanesService.itemLaneMissed(item.lane, $scope.lanes); //Mi dice se il valore dell'atributo lane dell'item non corrisponde a nessuna delle lane attualmente presenti
 								});
 
 							} else {		
@@ -184,35 +185,54 @@ angular.module('app.collaboration')
 				$log.warn(httpResponse);
 			};
 
-			//INIT
-			kanbanizeLaneService.getLanes($stateParams.orgId).then(function (lanes) {
-				$scope.lanes = lanes;
-				//Manage organization without lane as organization with lane
-				if (!lanes.length) {
-					$scope.kanbanItems[0] = {
-						name: "Work Items",
-						cols: {}
-					};
-				} else {
-					lanes.push({
-						lcid:"-1",
-						lcname:"Items Without Lane"
-					});
-					lanes.forEach(function (lane) {
-						if (lane.lcid !== null) {
-							$scope.kanbanItems[lane.lcid] = {
-								name: lane.lcname,
-								cols: {}
-							};
+			var getIfPriorityLaneManaged = function(cb) {
+				kanbanizeService.query($stateParams.orgId,
+					function(data) {
+						if (data.apikey) {
+							$scope.priorityManaged = true;
+							$scope.lanesManaged = true;
+							cb();
+						} else {
+							settingsService.get($stateParams.orgId).then(function(settings){
+								$scope.priorityManaged = settings.manage_priorities === "1";
+								$scope.lanesManaged = settings.manage_lanes === "1";
+								cb();
+							});
 						}
-					});
-				}
-				$scope.loadingItems = false;
-				getItemForKanban();
-			}, function (httpResponse) {
-				onHttpGenericError(httpResponse);
-				$scope.loadingItems = false;
-			});
+					}
+				);
+			};
 
+			//INIT
+			getIfPriorityLaneManaged(function() {
+				kanbanizeLaneService.getLanes($stateParams.orgId).then(function (lanes) {
+					$scope.lanes = lanes;
+					//Manage organization without lane as organization with lane
+					if (!$scope.lanesManaged) {
+						$scope.kanbanItems[0] = {
+							name: "Work Items",
+							cols: {}
+						};
+					} else {
+						lanes.push({
+							lcid:"-1",
+							lcname:"Items Without Lane"
+						});
+						lanes.forEach(function (lane) {
+							if (lane.lcid !== null) {
+								$scope.kanbanItems[lane.lcid] = {
+									name: lane.lcname,
+									cols: {}
+								};
+							}
+						});
+					}
+					$scope.loadingItems = false;
+					getItemForKanban();
+				}, function (httpResponse) {
+					onHttpGenericError(httpResponse);
+					$scope.loadingItems = false;
+				});
+			});
 
 		}]);

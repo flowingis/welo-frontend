@@ -54,12 +54,24 @@ var service = function($http,identity) {
         });
     };
 
+    var itemLaneMissed = function(id, lanes) {
+        return !findLane(id,lanes);
+    };
+
+    var findLane = function(id, lanes) {
+        return _.find(lanes, function(lane) {
+            return (id===lane.lcid);
+        }); 
+    }
+
 
     return {
         create: create,
         edit: edit,
         del: del,
-        get: get
+        get: get,
+        findLane: findLane,
+        itemLaneMissed: itemLaneMissed
     };
 };
 
