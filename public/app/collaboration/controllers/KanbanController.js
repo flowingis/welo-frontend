@@ -74,11 +74,16 @@ angular.module('app.collaboration')
 			};
 
 			var itemLaneMissed = function(id) {
-				if (!id) {
-					return true;
-				} else {
-					return false;
-				}
+				console.log($scope.lanes);
+				var findIt = _.find($scope.lanes, function(lane) {
+					return (id===lane.lcid);
+				});
+				return !findIt;
+				//if (!id) {
+				//	return true;
+				//} else {
+				//	return false;
+				//}
 			};
 
 			var getItemForStatus = function(stateId, kanbanItems) {
@@ -98,7 +103,6 @@ angular.module('app.collaboration')
 							if (idlane==="0") {
 								lane.cols[stateId] = data._embedded['ora:task'];
 							} else if (idlane==="-1"){
-								console.log("cazzarola",$scope.lanes);
 								lane.cols[stateId] = _.filter(data._embedded['ora:task'],function(item) {
 									return itemLaneMissed(item.lane); //Mi dice se il valore dell'atributo lane dell'item non corrisponde a nessuna delle lane attualmente presenti
 								});
