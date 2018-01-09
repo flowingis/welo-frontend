@@ -1,14 +1,18 @@
-function EditItemController($scope, $mdDialog, $log, itemService, kanbanizeLaneService, $stateParams, task) {
+function EditItemController($scope, $mdDialog, $log, itemService, lanesService, $stateParams, task, lanesManaged) {
 	$scope.item = task;
+	$scope.lanesManaged = lanesManaged;
 
 	this.cancel = function() {
 		$mdDialog.cancel();
 	};
 
 	$scope.lanes = [];
-	kanbanizeLaneService.getLanes($stateParams.orgId).then(function(lanes){
-		$scope.lanes = lanes;
-	});
+	if ($scope.lanesManaged) {
+		lanesService.get($stateParams.orgId).then(function(lanes){
+			$scope.lanes = lanes;
+		});
+	}
+	
 
 	this.submit = function() {
 		itemService.edit($scope.item, $mdDialog.hide, function(httpResponse) {

@@ -232,7 +232,8 @@ angular.module('app.collaboration')
 						streams: [$scope.stream],
 						decisionMode: decision,
 						lanes: $scope.lanes,
-						itemType: itemType
+						itemType: itemType,
+						lanesManaged: lanesManaged
 					}
 				}).then(this.onItemAdded);
 			};

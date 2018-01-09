@@ -8,11 +8,13 @@ function NewItemController(
 	streams,
 	decisionMode,
 	itemType,
-	lanes) {
+	lanes,
+	lanesManaged) {
 
 	$scope.saving = false;
 
 	$scope.lanes = lanes || [];
+	$scope.lanesManaged = lanesManaged;
 
 	$scope.decisionMode = decisionMode;
 

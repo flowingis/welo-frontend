@@ -200,7 +200,8 @@ angular.module('app.collaboration')
 					targetEvent: ev,
 					clickOutsideToClose: true,
 					locals: {
-						task: item
+						task: item,
+						lanesManaged: lanesManaged
 					}
 				}).then(this.updateItem);
 			};
