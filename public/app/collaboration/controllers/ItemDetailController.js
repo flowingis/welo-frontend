@@ -97,10 +97,7 @@ angular.module('app.collaboration')
 					$scope.item = data;
 					$scope.attachments = data.attachments || [];
 					$scope.members = _.values(data.members);
-					//$scope.item.laneName = ($scope.item.lane && $scope.item.lane.length) ? $scope.lanes[$scope.item.lane] : '';
-					console.log($scope.lanes);
 					var laneObj = lanesService.findLane($scope.item.lane, $scope.lanes);
-					console.log(laneObj);
 					$scope.item.laneName = "";
 					$scope.item.withoutLane = false;
 					if (lanesManaged && laneObj) {
@@ -117,8 +114,6 @@ angular.module('app.collaboration')
 
 			var load = function() {
 				getIfPriorityLaneManaged(function() {
-					console.log("priorityManaged",priorityManaged);
-					console.log("laneManaged",lanesManaged);
 					setLanesInformation(function() {
 						loadStream(function() {
 							loadItem(function() {
