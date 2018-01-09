@@ -350,7 +350,7 @@ angular.module('app.collaboration')
 			this.backToAccepted = function (ev, item) {
 				var confirm = $mdDialog.confirm()
 					.title("Do you really want to take this item back to the \"Accepted\" stage?")
-					.textContent("Please be careful: this action would remove all of its information and cannot be undone.")
+					.textContent("Please be careful: this action would remove all of its information, including any share of credits assigned to users, and cannot be undone.")
 					.targetEvent(ev)
 					.ok("Yes")
 					.cancel("No");
