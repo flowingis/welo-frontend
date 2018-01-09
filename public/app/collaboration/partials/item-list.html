@@ -4,7 +4,7 @@
 <div data-ng-if="menu.open" class="tooltip" style=" width: 120px;right:85px;bottom: 194px;">
     Create Decision Item
 </div>
-<md-fab-speed-dial md-open="menu.open" md-direction="up" class="md-scale ora-fab" ng-if="lanes && !decisions">
+<md-fab-speed-dial md-open="menu.open" md-direction="up" class="md-scale ora-fab" ng-if="!loadingItems && !decisions">
     <md-fab-trigger>
         <md-button aria-label="Item Menu" class="md-fab md-warn md-hue-1">
             <md-icon md-svg-icon="add"></md-icon>
@@ -105,9 +105,10 @@
         </md-card-header-text>
     </md-card-header>
     <div layout="row">
-        <span class="mobile-item__lane">
-            {{ lanesNames[item.lane] }}
+        <span ng-if="!item.withoutLane" class="mobile-item__lane">
+            {{ item.laneName }}
         </span>
+        <span ng-if="item.withoutLane" style="background-color: rgb(244,67,54);color:#FFFFFF;" class="mobile-item__lane">ITEM WITHOUT LANE</span>
     </div>
     <div layout="row">
         <div class="mobile-item__meta">
