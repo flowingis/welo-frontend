@@ -37,6 +37,20 @@
 								</md-button>
 							</md-menu-item>
 
+							<md-menu-item data-ng-if="ctrl.isAllowed('backToCompleted', item)">
+								<md-button ng-click="ctrl.backToCompleted($event,item)">
+									<md-icon>&#xE166;</md-icon>
+									Back To Completed
+								</md-button>
+							</md-menu-item>
+
+							<md-menu-item data-ng-if="ctrl.isAllowed('backToAccepted', item)">
+								<md-button ng-click="ctrl.backToAccepted($event,item)">
+									<md-icon>&#xE166;</md-icon>
+									Back To Accepted
+								</md-button>
+							</md-menu-item>
+
 							<md-menu-divider data-ng-if="ctrl.isAllowed('deleteItem', item) && (ctrl.isAllowed('backToOngoing', item) || ctrl.isAllowed('backToOpen', item) || ctrl.isAllowed('backToIdea', item))"></md-menu-divider>
 							<md-menu-item data-ng-if="ctrl.isAllowed('deleteItem', item)">
 								<md-button ng-click="ctrl.deleteItem($event,item)" class="md-warn">

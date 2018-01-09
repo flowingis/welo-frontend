@@ -218,7 +218,9 @@ angular.module('app.collaboration')
 				return this.isAllowed('backToIdea', item) ||
 					this.isAllowed('deleteItem', item) || 
 					this.isAllowed('backToOpen', item) || 
-					this.isAllowed('backToOngoing', item);
+					this.isAllowed('backToOngoing', item) ||
+					this.isAllowed('backToCompleted', item) ||
+					this.isAllowed('backToAccepted', item);
 			};
 			this.parseDate = function (when) {
 				return Date.parse(when);
@@ -315,6 +317,46 @@ angular.module('app.collaboration')
 
 				$mdDialog.show(confirm).then(function () {
 					itemService.backToOngoing(item,
+						function () {
+							$state.go('org.collaboration', { orgId: item.organization.id });
+						},
+						onHttpGenericError
+					);
+				});
+
+				originatorEv = null;
+			};
+
+			this.backToCompleted = function (ev, item) {
+				var confirm = $mdDialog.confirm()
+					.title("Do you really want to take this item back to the \"Completed\" stage?")
+					.textContent("Please be careful: this action would remove all of its information and cannot be undone.")
+					.targetEvent(ev)
+					.ok("Yes")
+					.cancel("No");
+
+				$mdDialog.show(confirm).then(function () {
+					itemService.backToCompleted(item,
+						function () {
+							$state.go('org.collaboration', { orgId: item.organization.id });
+						},
+						onHttpGenericError
+					);
+				});
+
+				originatorEv = null;
+			};
+
+			this.backToAccepted = function (ev, item) {
+				var confirm = $mdDialog.confirm()
+					.title("Do you really want to take this item back to the \"Accepted\" stage?")
+					.textContent("Please be careful: this action would remove all of its information and cannot be undone.")
+					.targetEvent(ev)
+					.ok("Yes")
+					.cancel("No");
+
+				$mdDialog.show(confirm).then(function () {
+					itemService.backToAccepted(item,
 						function () {
 							$state.go('org.collaboration', { orgId: item.organization.id });
 						},
