@@ -195,6 +195,8 @@ angular.module('app.collaboration')
 					case 'backToIdea':
 					case 'backToOpen':
 					case 'backToOngoing':
+					case 'backToCompleted':
+					case 'backToAccepted':
 						return (itemService.isAllowed(command, item) && !item.withoutLane);
 						break;
 					default:
