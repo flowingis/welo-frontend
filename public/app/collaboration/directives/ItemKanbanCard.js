@@ -27,9 +27,9 @@
                         $scope.imInvolved = false;
                     } else if ($scope.item.status === itemService.ITEM_STATUS.OPEN) {
                         if ($scope.priorityManaged) {
-                            $scope.position = $scope.item.position || "  "
+                            $scope.position = $scope.item.position || "  ";
                         } else {
-                            $scope.position = " "
+                            $scope.position = " ";
                         }
                         $scope.ownerAuthorName = "";
                         $scope.imInvolved = false;
