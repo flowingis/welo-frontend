@@ -14,6 +14,7 @@ function NewItemController(
 	$scope.saving = false;
 
 	$scope.lanes = lanes || [];
+	console.log($scope.lanes);
 	$scope.lanesManaged = lanesManaged;
 
 	$scope.decisionMode = decisionMode;
