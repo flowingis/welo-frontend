@@ -31,7 +31,7 @@ angular.module('app')
             $scope.closeLeft = buildClose('left');
 
             $scope.menulocked = function() {
-                if ($state.current.name === "org.kanban") {
+                if ($state.current.name === "org.kanban" || $state.current.name === "org.kanbanEditPriority") {
                     return false;
                 } else {
                     return true;
@@ -39,7 +39,7 @@ angular.module('app')
             };
 
             $scope.clsWithoutSideMenu = function() {
-                if ($state.current.name === "org.kanban") {
+                if ($state.current.name === "org.kanban" || $state.current.name === "org.kanbanEditPriority") {
                     return "withoutSideMenu";
                 } else {
                     return "";

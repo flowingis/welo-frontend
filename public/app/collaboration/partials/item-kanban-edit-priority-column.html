@@ -1,0 +1,16 @@
+<div class="kanban__column" data-ng-class="{'kanban__column--disabled': !active}">
+    <div class="kanban__column__title">{{columnTitle}}</div>
+    <div data-ng-repeat="item in columnItems">
+        <div class="kanban__column__divider" data-ng-if="showPlaceDestination(item, false)" data-ng-click="moveHere(item, false)">
+          <span class="kanban__column__divider__text">MOVE HERE</span>
+        </div>
+        <item-kanban-card item="item" my-id="myId" data-ng-click="selectItem(item, active)" data-ng-if="isVisible($index)" data-ng-class="{'kanban__item--active': item.id === selectedItem.id, 'kanban__item--modified': isPositionChanged(item) && active}" ></item-kanban-card>
+        <div class="kanban__column__divider" data-ng-if="showPlaceDestination(item, $last) && $last" data-ng-click="moveHere(item, $last)">
+          <span class="kanban__column__divider__text">MOVE HERE</span>
+        </div>
+    </div>
+    <a data-ng-if="hideElements()>0 && !active" href="#" class="kanban__column__dropdown-link" ng-click="toggleShowMore($event)">
+        <span ng-show="!showMoreIsActive">Show more <b>{{hideElements()}}</b> items</span>
+        <span ng-show="showMoreIsActive">Show less items</span>
+    </a>
+</div>

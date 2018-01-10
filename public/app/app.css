@@ -342,7 +342,7 @@ i.hideelement {
 }
 
 .bkg-color-secondary {
-    background-color: #cfd8dc;
+    background-color: #EEF1F2;
 }
 
 .bkg-color-primary {
@@ -627,6 +627,34 @@ div.content-wrapper.flex.scrolling > .tooltip {
   padding-top: 20px;
 }
 
+.button-priority {
+  border: 0;
+  background: none;
+  color: white;
+  font-size: 10px;
+  text-transform: uppercase;
+  text-align: center;
+  background: url('../img/priority-icon.svg') no-repeat;
+  background-size: 20px auto;
+  background-position: center top 5px;
+  display: inline-block;
+  height: 40px;
+  border-radius: 4px;
+  padding-top: 20px;
+  font-weight: 700;
+}
+.button-priority.button-priority--active {
+  background-color: rgba(0,0,0,0.2);
+}
+.button-priority-cancel {
+  border: 0;
+  background: none;
+  color: white;
+  font-size: 12px;
+  margin-right: 20px;
+  font-weight: 700;
+}
+
 .kanban__lane {
   background: #F9FAFB;
   border-top: 1px solid rgba(0,0,0,0.2);
@@ -672,6 +700,11 @@ div.content-wrapper.flex.scrolling > .tooltip {
   float: left;
   width: 16.6666%;
   padding: 20px 5px 0;
+}
+
+.kanban__column--disabled * {
+  opacity: 0.5;
+  cursor: not-allowed !important;
 }
 
 .kanban__column__title {
@@ -1016,4 +1049,48 @@ md-card.mobile-item md-card-header {
 }
 .mobile-item__tooltip-dec-inv__decision {
   color: #7D676A;
+}
+.kanban__item--active {
+  background: rgba(0,188,212,0.1);
+}
+.kanban__item--active::before {
+  content: 'cancel moving';
+  display: block;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  background: white;
+  border-radius: 100px;
+  font-size: 12px;
+  color: #666;
+  padding: 2px 5px;
+  z-index: 1;
+}
+.kanban__item--modified {
+  /*border: 2px solid red;*/
+}
+
+.kanban__column__divider {
+  width: 100%;
+  height: 20px;
+  border: 1px dashed #00bcd4;
+  margin: -10px 0 0;
+  transition: height .15s ease-in-out;
+  line-height: 20px;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+.kanban__column__divider:hover {
+  height: 20px;
+  background: rgba(0,188,212,0.1);
+}
+
+.kanban__column__divider__text {
+  transition: color .15s ease-in-out;
+  font-size: 10px;
+  color: #bbb;
+  display: block;
+}
+.kanban__column__divider:hover .kanban__column__divider__text {
+  color: #00bcd4;
 }

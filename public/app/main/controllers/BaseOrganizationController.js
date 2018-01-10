@@ -3,20 +3,28 @@ angular.module('app')
 		'$scope',
 		'$log',
 		'$stateParams',
+        '$mdDialog',
 		'members',
         'streams',
 		'SelectedOrganizationId',
+        'SetPriorityService',
+        'sortedItemsService',
+        'settingsService',
 		'$state',
         function(
             $scope,
             $log,
             $stateParams,
+            $mdDialog,
             members,
             streams,
 			SelectedOrganizationId,
+            SetPriorityService,
+            sortedItemsService,
+            settingsService,
 			$state) {
 
-                var STATES = ['org.collaboration','org.organizationStatement','org.flow','org.decisions','org.people', 'org.kanban'];
+                var STATES = ['org.collaboration','org.organizationStatement','org.flow','org.decisions','org.people', 'org.kanban', 'org.kanbanEditPriority'];
                 var MINORSTATES = {
                     "org.item":"org.collaboration"
                 };
@@ -24,7 +32,7 @@ angular.module('app')
                 var checkSelectedStateIndex = function(currentState) {
                     //currentState = MINORSTATES[currentState] || currentState;
                     currentState = _.indexOf(STATES,currentState);
-                    currentState = (currentState==5)?0:currentState;
+                    currentState = (currentState==5 || currentState==6)?0:currentState;
                     return currentState;
                 };
     			if(!SelectedOrganizationId.get()){
@@ -51,15 +59,20 @@ angular.module('app')
                         if(toState.data && toState.data.pillarName){
                             $scope.pillar.name = toState.data.pillarName;
                         }
+                        if(toState.data && toState.data.pillarId){
+                            $scope.pillar.id = toState.data.pillarId;
+                        }else{
+                            //TODO: understand if it's possible reset $scope.pillar on every $stateChangeSuccess
+                            $scope.pillar.id = undefined;
+                        }
                         if(toState.data && toState.data.selectedTab){
                             $scope.currentTab = toState.data.selectedTab;
                         }
-						if(toState.data && toState.data.showBack) {
-							$scope.showBack = true;
-						} else {
-							$scope.showBack = false;
-						}
-
+                        if(toState.data && toState.data.showBack) {
+                            $scope.showBack = true;
+                        } else {
+                            $scope.showBack = false;
+                        }
 						if(toState.data){
                             $scope.fullHeight = toState.data.fullHeight;
                         }
@@ -85,8 +98,44 @@ angular.module('app')
                 $scope.$on('$stateChangeSuccess',
                     function(event, toState) {
                         $scope.navigationBarTabs.selectedIndex = checkSelectedStateIndex(toState.name);
+                        if(toState.name === 'org.kanban'){
+                            var priorityManagedFromWelo = false;
+                            settingsService.get($scope.organizationId).then(function(settings){
+                                priorityManagedFromWelo = settings.manage_priorities === "1";
+
+                                var useCanChangePriority =
+                                        $scope.identity.getMembershipRole($scope.organizationId) === 'admin' ||
+                                        $scope.identity.getMembershipRole($scope.organizationId) === 'member';
+                                $scope.changePriorityAllowed = priorityManagedFromWelo && useCanChangePriority;
+                            });
+                        }
                     }
                 );
 
+
+
+                $scope.backFromKanbanEditPriority = function(isCanceling){
+                    if(isCanceling){
+                        $state.go("org.kanban", { orgId: $scope.organizationId });
+                    }else{
+                        var sortedItems = sortedItemsService.get();
+                        if(sortedItems && !_.isEmpty(sortedItems)){
+                            SetPriorityService.set($scope.organizationId, sortedItems).then(function(data){
+                                $state.go("org.kanban", { orgId: $scope.organizationId });
+                            }).catch(function(err){
+                                $mdDialog.show(
+                                    $mdDialog.alert()
+                                        .clickOutsideToClose(true)
+                                        .title('Error occurred')
+                                        .htmlContent('<strong>Error occurred during save</strong> you will redirect to kanban')
+                                        .ok('ok')
+                                ).then(function(){
+                                    $state.go("org.kanban", { orgId: $scope.organizationId, error: true });
+                                });
+                            })["finally"](function(){
+                            });
+                        }
+                    }
+                };
             }
 		]);
