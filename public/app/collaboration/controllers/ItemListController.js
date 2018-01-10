@@ -228,12 +228,12 @@ angular.module('app.collaboration')
 					targetEvent: ev,
 					clickOutsideToClose: true,
 					locals: {
-						orgId: $stateParams.orgId,
-						streams: [$scope.stream],
-						decisionMode: decision,
+						lanesManaged: lanesManaged,
 						lanes: $scope.lanes,
+						decisionMode: decision,
+						streams: [$scope.stream],
 						itemType: itemType,
-						lanesManaged: lanesManaged
+						orgId: $stateParams.orgId
 					}
 				}).then(this.onItemAdded);
 			};

@@ -17,8 +17,6 @@
                 templateUrl: 'app/collaboration/partials/item-kanban-column.html',
                 link: function($scope, element, attrs) {
 
-                    console.log("priorità colonna",$scope.priorityManaged);
-
                     $scope.maxItemToShow = 6; //andrà letta dai settings
                     $scope.showMoreIsActive = false;
 

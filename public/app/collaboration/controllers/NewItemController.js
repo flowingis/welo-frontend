@@ -4,12 +4,12 @@ function NewItemController(
 	$mdDialog,
 	itemService,
 	templateService,
-	orgId,
-	streams,
+	lanesManaged,
+	lanes,
 	decisionMode,
 	itemType,
-	lanes,
-	lanesManaged) {
+	streams,
+	orgId) {
 
 	$scope.saving = false;
 

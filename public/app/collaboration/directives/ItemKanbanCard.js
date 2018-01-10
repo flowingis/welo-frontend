@@ -26,8 +26,6 @@
                         $scope.ownerAuthorName = $scope.item.author.firstname + " " + $scope.item.author.lastname;
                         $scope.imInvolved = false;
                     } else if ($scope.item.status === itemService.ITEM_STATUS.OPEN) {
-                        console.log("priority",$scope.priorityManaged);
-                        console.log("position",$scope.item.position);
                         if ($scope.priorityManaged) {
                             $scope.position = $scope.item.position || "  "
                         } else {
