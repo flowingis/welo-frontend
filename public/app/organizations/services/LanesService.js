@@ -62,7 +62,7 @@ var service = function($http,identity) {
         return _.find(lanes, function(lane) {
             return (id===lane.lcid);
         }); 
-    }
+    };
 
 
     return {
