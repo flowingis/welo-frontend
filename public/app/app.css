@@ -675,7 +675,7 @@ div.content-wrapper.flex.scrolling > .tooltip {
   background: #EEF1F2;
 }
 .kanban__lane.kanban__lane--itemwithoutlane {
-    background: rgb(255, 200, 200);
+    background: rgba(255, 82, 82, 0.4);
   }
 
 .kanban__lane__title {
@@ -698,7 +698,7 @@ div.content-wrapper.flex.scrolling > .tooltip {
   background: #EEF1F2;
 }
 .kanban__lane--itemwithoutlane .kanban__lane__title{
-    background: rgb(255, 200, 200);
+    background: rgb(242, 178, 179);
 }
 
 .kanban__column {
