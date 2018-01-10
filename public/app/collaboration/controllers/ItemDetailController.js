@@ -198,10 +198,8 @@ angular.module('app.collaboration')
 					case 'backToCompleted':
 					case 'backToAccepted':
 						return (itemService.isAllowed(command, item) && !item.withoutLane);
-						break;
 					default:
 						return itemService.isAllowed(command, item);
-						break;
 				};
 			};
 
