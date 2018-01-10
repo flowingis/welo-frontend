@@ -48,7 +48,7 @@
 		</div>
 		<div layout="column">
 			<p am-time-ago="card.createdAt" class="p-size"></p>
-			<md-button ng-click="ctrl.route(card, 'primary')" class="md-icon-button">
+			<md-button data-ng-if="card.type !== 'Welcome'" ng-click="ctrl.route(card, 'primary')" class="md-icon-button">
 				<md-icon style="font-size: 36px;" class="material-icons">&#xE315;</md-icon>
 			</md-button>
 		</div>
