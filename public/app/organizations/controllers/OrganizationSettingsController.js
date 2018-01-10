@@ -31,10 +31,12 @@ angular.module('app')
             $scope.projects = [];
             $scope.ITEM_STATUS = itemService.ITEM_STATUS;
 			$scope.loadingKanbanize = true;
+			$scope.lanesLoading = false;
+			$scope.loadingSettings = true;
 			$scope.managePriorityWelo = false;
 			$scope.manageLanesWelo = false;
 			$scope.thereAreSomeLanes = false;
-			$scope.lanesLoading = false;
+			
 			
 			var getCheckboxFromSettingValue = function(setting_value) {
 				return setting_value === "1";
@@ -80,25 +82,42 @@ angular.module('app')
 			$scope.changeManageLanes = function(manageLanesWelo){
                 $scope.manageLanesWelo = manageLanesWelo;
                 $scope.orgSettings.manage_lanes = getCheckboxForSettingValue($scope.manageLanesWelo);
-            };
+			};
+			
 
-			$scope.kanbanizeSectionAllowed = kanbanizeService.isAllowed.bind(kanbanizeService);
+			$scope.kanbanizeSectionAllowed = function() {
+				return kanbanizeService.isAllowed('editKanbanizeSettings', $scope.organization);
+			};
 
-            $scope.orgSettings = {};
-            settingsService.get($stateParams.orgId).then(function(settings){
-                $scope.orgSettings = settings;
-				$scope.managePriorityWelo = getCheckboxFromSettingValue(settings.manage_priorities);
-				$scope.manageLanesWelo = getCheckboxFromSettingValue(settings.manage_lanes);
-            });
+			$scope.canShowKanbanizeBlock = function() {
+				return (!$scope.managePriorityWelo && !$scope.manageLanesWelo && $scope.kanbanizeSectionAllowed() && !$scope.loadingKanbanize);
+			};
+
+			$scope.orgSettings = {};
+			
+			var loadSetting = function() {
+				$scope.loadingSettings = true;
+				settingsService.get($stateParams.orgId).then(function(settings){
+					$scope.orgSettings = settings;
+					$scope.managePriorityWelo = getCheckboxFromSettingValue(settings.manage_priorities);
+					$scope.manageLanesWelo = getCheckboxFromSettingValue(settings.manage_lanes);
+					$scope.loadingSettings = false;
+				});
+			};
+
+			loadSetting();
+            
 
             this.updateSettings = function(){
+				$scope.loadingSettings = true;
                 settingsService.set($stateParams.orgId,$scope.orgSettings).then(function() {
 					$mdToast.show(
 						$mdToast.simple()
 							.textContent('Settings updated')
-							.position('bottom left')
+							.position('bottom right')
 							.hideDelay(3000)
 					);
+					loadSetting();
 				});
             };
 
