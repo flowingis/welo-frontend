@@ -40,7 +40,7 @@
             <span class="font-size12" style="text-transform: uppercase;font-size: 10px;font-weight:600">by status</span>
             <span style="display: inline-block; position:relative;padding:2px;vertical-align:middle" class="font-size12">
                 <md-select data-ng-model="filtersStatus" data-ng-change="updateFiltersStatus()" style="margin:0" aria-label="by status">
-                    <md-option data-ng-selected="filtersStatus === 'All'" ng-value="All">All</md-option>
+                    <md-option data-ng-selected="filtersStatus === 'All'" ng-value="'All'">All</md-option>
                     <md-option ng-repeat="status in ITEM_STATUS" data-ng-selected="filtersStatus === status" ng-value="status">{{ status | itemStatusLabel }}
                     </md-option>
                 </md-select>
