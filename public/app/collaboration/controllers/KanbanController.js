@@ -8,7 +8,6 @@ angular.module('app.collaboration')
 		'streamService',
 		'itemService',
 		'$state',
-		'kanbanizeLaneService',
 		'selectedFilterService',
 		'$q',
 		'lanesService',
@@ -23,7 +22,6 @@ angular.module('app.collaboration')
 			streamService,
 			itemService,
 			$state,
-			kanbanizeLaneService,
 			selectedFilterService,
 			$q,
 			lanesService,
@@ -206,7 +204,7 @@ angular.module('app.collaboration')
 
 			//INIT
 			getIfPriorityLaneManaged(function() {
-				kanbanizeLaneService.getLanes($stateParams.orgId).then(function (lanes) {
+				lanesService.get($stateParams.orgId).then(function (lanes) {
 					$scope.lanes = lanes;
 					//Manage organization without lane as organization with lane
 					if (!$scope.lanesManaged) {
