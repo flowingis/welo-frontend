@@ -182,7 +182,27 @@ angular.module('app.collaboration')
 				}
 				return null;
 			};
-			this.isAllowed = itemService.isAllowed.bind(itemService);
+
+			this.isAllowed = function(command, item) {
+				switch (command) {
+					case 'executeItem':
+					case 'approveIdea':
+					case 'estimateItem':
+					case 'completeItem':
+					case 'acceptItem':
+					case 'assignShares':
+					case 'closeItem':
+					case 'backToIdea':
+					case 'backToOpen':
+					case 'backToOngoing':
+						return (itemService.isAllowed(command, item) && !item.withoutLane);
+						break;
+					default:
+						return itemService.isAllowed(command, item);
+						break;
+				};
+			};
+
 			this.hasMore = function (item) {
 				return this.isAllowed('backToIdea', item) ||
 					this.isAllowed('deleteItem', item) || 
