@@ -200,7 +200,7 @@ angular.module('app.collaboration')
 						return (itemService.isAllowed(command, item) && !item.withoutLane);
 					default:
 						return itemService.isAllowed(command, item);
-				};
+				}
 			};
 
 			this.hasMore = function (item) {
