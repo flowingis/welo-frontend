@@ -14,7 +14,6 @@ function NewItemController(
 	$scope.saving = false;
 
 	$scope.lanes = lanes || [];
-	console.log($scope.lanes);
 	$scope.lanesManaged = lanesManaged;
 
 	$scope.decisionMode = decisionMode;
@@ -47,7 +46,6 @@ function NewItemController(
 		};
 
 		if(!$scope.task.streamID){
-			//$scope.task.streamID = _.values(streams._embedded['ora:stream'])[0].id;
 			$scope.task.streamID = $scope.streams[0].id;
 		}
 

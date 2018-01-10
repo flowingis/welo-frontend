@@ -13,7 +13,7 @@
 				</md-input-container>
 				<md-input-container data-ng-if="lanesManaged">
 					<label>Lane</label>
-					<md-select data-ng-model="task.lane" name="lane">
+					<md-select data-ng-model="task.lane" name="lane" required>
 						<md-option ng-repeat="lane in lanes" ng-model-options="{trackBy: '$value.lcid'}" ng-if="lane.lcid!='-1'" value="{{ lane.lcid }}">{{ lane.lcname }}</md-option>
 					</md-select>
 					<div ng-messages="form.lane.$error" role="alert">
