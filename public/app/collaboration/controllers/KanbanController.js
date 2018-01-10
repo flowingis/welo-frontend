@@ -9,6 +9,7 @@ angular.module('app.collaboration')
 		'itemService',
 		'$state',
 		'kanbanizeLaneService',
+		'selectedFilterService',
 		'$q',
 		function (
 			$scope,
@@ -20,6 +21,7 @@ angular.module('app.collaboration')
 			itemService,
 			$state,
 			kanbanizeLaneService,
+			selectedFilterService,
 			$q) {
 
 			$scope.menu = {
@@ -127,6 +129,26 @@ angular.module('app.collaboration')
 					onHttpGenericError(response);
 				});
 
+			};
+
+			var goToFilterdItems = function(status){
+				var filters = {
+					"offset":0,
+					"limit":20,
+					"status":status,
+					"cardType":"all",
+					"memberId":null,
+					"orderBy":"mostRecentEditAt",
+					"orderType":"desc"
+				};
+				selectedFilterService.set(filters);
+				$state.go('org.collaboration',{
+					orgId: $stateParams.orgId
+				});
+			};
+
+			$scope.goToRejectedItems = function(){
+				goToFilterdItems(itemService.ITEM_STATUS.REJECTED);
 			};
 
 			var onHttpGenericError  = function(httpResponse) {

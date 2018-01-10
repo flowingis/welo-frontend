@@ -20,16 +20,15 @@
 <md-progress-linear data-ng-if="loadingItems" md-mode="query"></md-progress-linear>
 
 <div class="kanban">
-
   <div class="kanban__lane" ng-repeat="lane in kanbanItems" ng-class="{'kanban__lane--even':$odd}">
     <div class="kanban__lane__title">{{lane.name}}</div>
-
     <item-kanban-column column-title="idea" column-items="lane.cols[ITEM_STATUS.IDEA]" my-id="currentUserId"></item-kanban-column>
     <item-kanban-column column-title="open" column-items="lane.cols[ITEM_STATUS.OPEN]" my-id="currentUserId"></item-kanban-column>
     <item-kanban-column column-title="ongoing" column-items="lane.cols[ITEM_STATUS.ONGOING]" my-id="currentUserId"></item-kanban-column>
     <item-kanban-column column-title="completed" column-items="lane.cols[ITEM_STATUS.COMPLETED]" my-id="currentUserId"></item-kanban-column>
     <item-kanban-column column-title="accepted" column-items="lane.cols[ITEM_STATUS.ACCEPTED]" my-id="currentUserId"></item-kanban-column>
     <item-kanban-column column-title="closed" column-items="lane.cols[ITEM_STATUS.CLOSED]" my-id="currentUserId"></item-kanban-column>
+    <div style="position:absolute; bottom:0;left:0;cursor:pointer;color: rgba(0,0,0,0.5);font-size: 11px;font-weight: 500;text-transform: uppercase;line-height: 30px;margin-left:5px" ng-click="goToRejectedItems()"><i class="material-icons" style="font-size: 14px;vertical-align: text-top;">&#xE314;</i> Show Rejected Items</div>
   </div>
 
 </div>
