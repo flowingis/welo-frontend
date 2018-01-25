@@ -12,6 +12,7 @@ angular.module('app.collaboration')
 		'voteExtractor',
 		'kanbanizeService',
 		'lanesService',
+		'creditFormatterFilterFilter',
 		function (
 			$scope,
 			$state,
@@ -24,7 +25,8 @@ angular.module('app.collaboration')
 			identity,
 			voteExtractor,
 			kanbanizeService,
-			lanesService) {
+			lanesService,
+			creditFormatterFilterFilter) {
 
 			var onHttpGenericError = function (httpResponse) {
 				alert('Generic Error during server communication (error: ' + httpResponse.status + ' ' + httpResponse.statusText + ') ');
@@ -125,6 +127,15 @@ angular.module('app.collaboration')
 						});
 					});
 				});
+			};
+
+			$scope.printGap = function(delta) {
+				var floatValue = parseFloat(delta);
+				if(!_.isNaN(floatValue)){
+					return creditFormatterFilterFilter(delta * 100) + "%";
+				} else {
+					return "n/a";
+				}
 			};
 			
 			this.iVoted = function (elm) {
