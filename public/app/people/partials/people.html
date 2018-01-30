@@ -18,7 +18,7 @@
             <div flex="50">
                 <div class="md-list-item-text" md-ink-ripple>
                     <h3>{{ person.firstname }} {{ person.lastname }}</h3>
-                    <p>{{ person.role }}</p>
+                    <p>{{ person.role }} <em hide-xs><br />involved in {{person.involvement.membershipsCount}} open items and owner of {{person.involvement.ownershipsCount}}</em></p>
                 </div>
             </div>
 
