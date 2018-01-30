@@ -92,9 +92,25 @@ angular.module('app.people')
 		};
 
 		$scope.removeUser = function(ev,member){
+			console.log(member.involvement);
+
+			var strWarningMsg = "";
+			switch (true) {
+				case ((member.involvement.ownershipsCount>0) && (member.involvement.membershipsCount>0)): 
+					strWarningMsg = "<p><strong>" + member.firstname + " " + member.lastname + "</strong>  is the owner of <strong class=\"warn\">" + member.involvement.ownershipsCount + "</strong> open items and involved in <strong>" + member.involvement.membershipsCount + "</strong> open items.</p>";
+				break;
+				case ((member.involvement.ownershipsCount==0) && (member.involvement.membershipsCount>0)): 
+					strWarningMsg = "<p><strong>" + member.firstname + " " + member.lastname + "</strong>  is involved in <strong>" + member.involvement.membershipsCount + "</strong> open items.</p>";
+				break;
+				default:
+					break;
+			}
+
+
+
 			var confirm = $mdDialog.confirm()
 					.title("Would you remove this user from the organization?")
-					.textContent("This operation cannot be undone.")
+					.htmlContent("<p>WARNING: </p>" + strWarningMsg + "<p>" + member.firstname + " " + member.lastname + " will be removed from the open cards in which he is involved and the removal operation can not be canceled.<br />Are you sure you want to proceed?</p>")
 					.targetEvent(ev)
 					.ok("Yes")
 					.cancel("No");
