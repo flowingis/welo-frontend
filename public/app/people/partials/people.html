@@ -32,6 +32,12 @@
 
             <md-divider ng-if="!$last"></md-divider>
         </md-list-item>
+        <div layout="row" layout-align="center">
+            <md-button aria-label="Load More" class="md-raised md-primary md-button md-ink-ripple" data-ng-if="membersArray.length < totalPeople"
+                data-ng-click="loadMore()">
+                LOAD MORE
+            </md-button>
+        </div>
         <div class="space-at-end"></div>
     </md-list>
 </md-content>
