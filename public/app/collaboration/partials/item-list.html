@@ -87,14 +87,17 @@
     infinite-scroll-immediate-check="false">
     <md-card-header card="item" class="">
         <md-card-media class="mobile-item__media" layout="column" layout-align="start end">
-            <div ng-show="item.status != ITEM_STATUS.OPEN">
+            <div ng-show="getOwnerAuthor(item) && item.status != ITEM_STATUS.OPEN">
                 <div>
                     <img class="mobile-item__media__image" ng-src="{{ getOwnerAuthor(item).picture || 'img/account.jpg' }}" alt="{{ getOwnerAuthor(item).firstname }} {{ getOwnerAuthor(item).lastname}}" title="{{ getOwnerAuthor(item).firstname }} {{ getOwnerAuthor(item).lastname}}">
                 </div>
             </div>
-            <div ng-show="item.status == ITEM_STATUS.OPEN && showPriority(item)">
+            <div ng-show="getOwnerAuthor(item) && item.status == ITEM_STATUS.OPEN && showPriority(item)">
               <div class="mobile-item__media__priority">{{item.position}}</div>
               <p class="mobile-item__media__role">priority</p>
+            </div>
+            <div ng-show="!getOwnerAuthor(item)">
+              <div class="mobile-item__media__priority">?</div>
             </div>
         </md-card-media>
 
