@@ -1,6 +1,6 @@
 angular.module('app.collaboration')
 .controller('ChangeOwnerController', ["$scope", "$mdDialog", "item", "owner", function($scope, $mdDialog, item, owner) {
-
+    owner = owner || {};
 	$scope.item = item;
 
 	$scope.partecipants = _.values(item.members);
