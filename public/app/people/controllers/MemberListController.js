@@ -95,22 +95,28 @@ angular.module('app.people')
 			console.log(member.involvement);
 
 			var strWarningMsg = "";
+
+			var item_label = member.involvement.membershipsCount > 1 ? "items" : "item";
 			switch (true) {
 				case ((member.involvement.ownershipsCount>0) && (member.involvement.membershipsCount>0)): 
-					strWarningMsg = "<p><strong>" + member.firstname + " " + member.lastname + "</strong>  is the owner of <strong class=\"warn\">" + member.involvement.ownershipsCount + "</strong> open items and involved in <strong>" + member.involvement.membershipsCount + "</strong> open items.</p>";
+					strWarningMsg = "<p><strong>" + member.firstname + " " + member.lastname + "</strong>  is the owner of <strong class=\"warn\">" + member.involvement.ownershipsCount + "</strong> open "+item_label+" and involved in <strong>" + member.involvement.membershipsCount + "</strong> open items.</p>";
 				break;
 				case ((member.involvement.ownershipsCount==0) && (member.involvement.membershipsCount>0)): 
-					strWarningMsg = "<p><strong>" + member.firstname + " " + member.lastname + "</strong>  is involved in <strong>" + member.involvement.membershipsCount + "</strong> open items.</p>";
+					strWarningMsg = "<p><strong>" + member.firstname + " " + member.lastname + "</strong>  is involved in <strong>" + member.involvement.membershipsCount + "</strong> open "+item_label+".</p>";
 				break;
 				default:
 					break;
 			}
 
+			var strWARNING = "";
+			if(member.involvement.membershipsCount>0){
+				strWARNING = "<p>WARNING: </p>" + strWarningMsg + "<p>";
+			}
 
 
 			var confirm = $mdDialog.confirm()
 					.title("Would you remove this user from the organization?")
-					.htmlContent("<p>WARNING: </p>" + strWarningMsg + "<p>" + member.firstname + " " + member.lastname + " will be removed from the open cards in which he is involved and the removal operation can not be canceled.<br />Are you sure you want to proceed?</p>")
+					.htmlContent(strWARNING + member.firstname + " " + member.lastname + " will be removed from the open cards in which he is involved and the removal operation can not be canceled.<br />Are you sure you want to proceed?</p>")
 					.targetEvent(ev)
 					.ok("Yes")
 					.cancel("No");
