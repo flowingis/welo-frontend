@@ -122,9 +122,20 @@ angular.module('app.people')
 					.cancel("No");
 
 			$mdDialog.show(confirm).then(function() {
+				$scope.loading = true;
 				memberService.removeUserFromOrganization($stateParams.orgId,member.id).then(function(){
 					memberService.query({ orgId: $stateParams.orgId },function(data){
-						//$scope.members = data;
+						$scope.membersArray = _.orderBy(_.values(data._embedded['ora:member']), function(p) {
+							return p.firstname + p.lastname;
+						}, "asc");
+						$scope.membersArray = _.orderBy($scope.membersArray, function(p) {
+							if (p.role==="admin") {
+								p.role = "member";
+							}
+
+							return p.role;
+						}, "desc");
+						$scope.loading = false;
 					});
 				});
 			});
