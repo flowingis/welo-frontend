@@ -1,4 +1,4 @@
-<div class="kanban__item">
+<div class="kanban__item" data-ng-class="{no_owner: (!picture && !position)}">
     <img ng-if="picture" class="kanban__item__owner" ng-src="{{picture}}" alt="{{ownerAuthorName}}" title="{{ownerAuthorName}}" style="max-width: 30px;">
     <div ng-if="position" class="kanban__item__position">{{position}}</div>
     <div ng-if="!picture && !position" class="kanban__item__position">?</div>

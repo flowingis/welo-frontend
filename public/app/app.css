@@ -1100,3 +1100,7 @@ md-card.mobile-item md-card-header {
 .kanban__column__divider:hover .kanban__column__divider__text {
   color: #00bcd4;
 }
+
+.no_owner {
+  border: 1px solid red;
+}

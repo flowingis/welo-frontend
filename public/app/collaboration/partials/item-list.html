@@ -84,7 +84,7 @@
 <md-progress-linear data-ng-if="loadingItems" md-mode="query"></md-progress-linear>
 <md-card data-ng-click="goToDetail($event,item)" class="mobile-item" ng-repeat="item in items._embedded['ora:task']"
     infinite-scroll-distance="1" infinite-scroll-parent="true" infinite-scroll-disabled="items.total == items.count || isLoadingMore"
-    infinite-scroll-immediate-check="false">
+    infinite-scroll-immediate-check="false" data-ng-class="{no_owner: !getOwnerAuthor(item)}">
     <md-card-header card="item" class="">
         <md-card-media class="mobile-item__media" layout="column" layout-align="start end">
             <div ng-show="getOwnerAuthor(item) && item.status != ITEM_STATUS.OPEN">
