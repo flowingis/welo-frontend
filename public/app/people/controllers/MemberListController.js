@@ -35,7 +35,8 @@ angular.module('app.people')
 		};
 
 		memberService.query({ orgId: $stateParams.orgId },function(data){
-			$scope.membersArray = getSortedMembersArray(data);
+			//$scope.membersArray = getSortedMembersArray(data);
+			$scope.membersArray = _.values(data._embedded['ora:member']);
 			$scope.totalPeople = data.total;
 			$scope.loading = false;
 		},function(){
