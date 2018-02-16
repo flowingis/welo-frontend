@@ -4,7 +4,7 @@
 		<md-card-header-text ui-sref="org.item({ orgId: item.organization.id, itemId: item.id })">
 
 			<span style="text-transform: uppercase;" class="md-subhead">{{item.decision === 'true' ? 'Decision' : ''}}</span>
-			
+
 			<div layout="row">
 				<div flex>
 					<span style="font-size: 26px;">{{ item.subject }}</span>
@@ -81,7 +81,11 @@
 				</div>
 			</div>
 			<div layout="row" class="margin-bottom-20" ng-if="item.status > ITEM_STATUS.OPEN">
-				<div data-ng-if="!owner" class="margin-right-20" style="max-width: 60px; max-height: 60px; border-radius: 50%;">MISSING OWNER</div>
+				<div data-ng-if="!owner" class="item-detail__no_owner">
+					<div class="mobile-item__no_owner">?</div>
+					<span class="item-detail__no_owner--text">Missing Owner</span>
+					<button href="#" ng-if="ctrl.isAllowed('changeOwner', item)" class="md-raised md-alert md-button ng-scope md-ink-ripple" ng-click="ctrl.changeOwner($event, item);">ASSIGN NEW OWNER</button>
+				</div>
 				<img data-ng-if="owner" class="margin-right-20" style="max-width: 60px; max-height: 60px; border-radius: 50%;" ng-src="{{ owner.picture || 'img/account.jpg' }}">
 				<div>
 					<p data-ng-if="owner" class="no-margin no-padding" style="font-size: 14px;">owner:</p>

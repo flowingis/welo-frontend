@@ -97,7 +97,7 @@
               <p class="mobile-item__media__role">priority</p>
             </div>
             <div ng-show="!getOwnerAuthor(item)">
-              <div class="mobile-item__media__priority">?</div>
+              <div class="mobile-item__no_owner">?</div>
             </div>
         </md-card-media>
 
@@ -117,7 +117,8 @@
         <div class="mobile-item__meta">
             <div class="mobile-item__meta__name">
               <span class="mobile-item__media__role">{{getRole(item)}}</span>
-              <span class="mobile-item__media__name">{{ getOwnerAuthor(item).firstname }} {{ getOwnerAuthor(item).lastname}}</span>
+              <span data-ng-if="getOwnerAuthor(item)" class="mobile-item__media__name">{{ getOwnerAuthor(item).firstname }} {{ getOwnerAuthor(item).lastname}}</span>
+              <span data-ng-if="!getOwnerAuthor(item)" class="mobile-item__media__no_owner">Missing Owner</span>
             </div>
             <div class="mobile-item__meta__icons">
               <span data-ng-class="{'mobile-item__meta__icon-container--active': getItemMembersNumber(item) >= 3}" class="mobile-item__meta__icon-container">
