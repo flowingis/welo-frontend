@@ -91,7 +91,7 @@
 					<p data-ng-if="owner" class="no-margin no-padding" style="font-size: 14px;">owner:</p>
 					<p class="no-margin no-padding" style="font-size: 14px;">
 						<p class="warn" style="cursor: pointer;" ng-click="goToProfile(owner.id)"> {{ owner.firstname }} {{ owner.lastname }}</p>
-						<i style="font-size:16px;" ng-if="ctrl.isAllowed('changeOwner', item)" class="material-icons" ng-click="ctrl.changeOwner($event, item);">&#xE254;</i>
+						<i style="font-size:16px;" ng-if="ctrl.isAllowed('changeOwner', item) && owner" class="material-icons" ng-click="ctrl.changeOwner($event, item);">&#xE254;</i>
 					</p>
 
 				</div>
