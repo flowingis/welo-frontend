@@ -33,12 +33,12 @@
                     $scope.remove = function(){
                         var confirmMsg = "";
                         if ($scope.lane.lcitems > 0) {
-                            confirmMsg =  "The lane contains some items. After delete they will be moved in \"Items without lane\" space where you can edit them to put in other lane.";
+                            confirmMsg =  "The lane contains some items. After deletion they will be moved to the \"Items without lane\" space. You'll then be able to edit them to assign a new lane.";
                         } else {
                             confirmMsg = "It removes all its informations and cannot be undone.";
                         }
                         var confirm = $mdDialog.confirm()
-					        .title("Would you delete this lane?")
+					        .title("Do you confirm you're deleting this lane?")
 					        .textContent(confirmMsg)
 					        .ok("YES, I DO!")
                             .cancel("NOT NOW");
