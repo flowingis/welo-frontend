@@ -203,8 +203,14 @@
 <md-card ng-if="canShowKanbanizeBlock()">
 	<md-card-content>
 		<h1 flex>Kanbanize Account</h1>
-		<md-button data-ng-show="kanbanizeSectionAllowed() && !loadingKanbanize && projects.length" style="float: right;" data-ng-click="detachFromKanbanize()" class="md-raised md-warn">Detach from Kanbanize</md-button>
-		<form name="form" ng-submit="ctrl.updateKanbanizeSettings()" novalidate>
+		<md-button data-ng-show="kanbanizeSectionAllowed() && !loadingKanbanize && projects.length && !kanbanizeCommunicationError" style="float: right;" data-ng-click="detachFromKanbanize()" class="md-raised md-warn">Detach from Kanbanize</md-button>
+		<div ng-if="kanbanizeCommunicationError && !loadingKanbanize">
+			There was an error in communicating with the Kanbanize server.<br />
+			<md-button class="md-raised" data-ng-click="reloadPage()">Reload Page</md-button>
+			<md-button data-ng-click="detachFromKanbanize()" class="md-raised md-warn">Detach from Kanbanize</md-button>
+		</div>
+		
+		<form name="form" ng-submit="ctrl.updateKanbanizeSettings()" novalidate ng-show="!kanbanizeCommunicationError">
 			<div layout="row">
 				<md-input-container> <label
 					class="md-container-ignore">Subdomain</label>

@@ -36,6 +36,7 @@ angular.module('app')
 			$scope.managePriorityWelo = false;
 			$scope.manageLanesWelo = false;
 			$scope.thereAreSomeLanes = false;
+			$scope.kanbanizeCommunicationError = false;
 			
 			
 			var getCheckboxFromSettingValue = function(setting_value) {
@@ -232,6 +233,10 @@ angular.module('app')
                 });
 
 			};
+
+			$scope.reloadPage = function() {
+				window.location.reload();
+			};
 			
 			var loadKanbanizeData = function() {
 				kanbanizeService.query($stateParams.orgId,
@@ -241,16 +246,23 @@ angular.module('app')
 						$scope.projects = data.projects;
 						$scope.boards = readBoards(data.projects);
 						$scope.loadingKanbanize = false;
+						$scope.kanbanizeCommunicationError = false;
 					},
 					function(httpResponse) {
+						console.log(httpResponse);
 						switch(httpResponse.status) {
 							case 400:
-								try{
-									httpResponse.data.errors.forEach(function(error) {
-										$scope.form[error.field].$error.remote = error.message;
-									});
-								}catch(err){
-									alert('Generic Error during server communication (error: ' + httpResponse.status + ' ' + httpResponse.statusText + ') ');
+								if (httpResponse.data && httpResponse.data.description &&   httpResponse.data.description==="error_on_kanbanize_get_board") {
+									$scope.kanbanizeCommunicationError = true;
+									$scope.loadingKanbanize = false;
+								} else {
+									try{
+										httpResponse.data.errors.forEach(function(error) {
+											$scope.form[error.field].$error.remote = error.message;
+										});
+									}catch(err){
+										alert('Generic Error during server communication (error: ' + httpResponse.status + ' ' + httpResponse.statusText + ') ');
+									}
 								}
 								break;
 							default:
