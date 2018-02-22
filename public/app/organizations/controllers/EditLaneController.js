@@ -1,21 +1,19 @@
-function EditItemController($scope, $mdDialog, $log, itemService, lanesService, $stateParams, task, lanesManaged) {
-	$scope.item = task;
-	$scope.lanesManaged = lanesManaged;
+function EditLaneController($scope, $mdDialog, $log, $stateParams, lanesService, lane, orgId) {
+	$scope.lane = lane;
+	$scope.saving = false;
 
 	this.cancel = function() {
 		$mdDialog.cancel();
 	};
 
-	$scope.lanes = [];
-	if ($scope.lanesManaged) {
-		lanesService.get($stateParams.orgId).then(function(lanes){
-			$scope.lanes = lanes;
-		});
-	}
-	
-
 	this.submit = function() {
-		itemService.edit($scope.item, $mdDialog.hide, function(httpResponse) {
+		$scope.saving = true;
+		
+		lanesService.edit(orgId, $scope.lane.lcname, $scope.lane.lcid).then(function() {
+			$scope.saving = false;
+			$mdDialog.hide();
+		}, function(httpResponse) {
+			$scope.saving = false;
 			switch(httpResponse.status) {
 				case 400:
 					httpResponse.data.errors.forEach(function(error) {

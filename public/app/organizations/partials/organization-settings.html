@@ -1,7 +1,7 @@
 <md-card>
 	<md-card-content>
 		<h1 flex>Organization Settings</h1>
-		<form name="orgSettingsForm" ng-submit="ctrl.updateSettings()" novalidate>
+		<form name="orgSettingsForm" ng-submit="ctrl.updateSettings(); orgSettingsForm.$setPristine()" novalidate>
 			<div layout="row">
 				<md-input-container>
 					<label class="md-container-ignore">Assign shares timeboxing (days)</label>
@@ -167,12 +167,19 @@
 			<div layout="row" data-ng-if="!settings.apiKey">
 				<md-input-container>
 					<label class="md-container-ignore">Manage priority from Welo&nbsp;</label>
-					<md-checkbox data-ng-change="changeManagePriorities(managePriorityWelo)" data-ng-model="managePriorityWelo"></md-checkbox>
+					<md-checkbox data-ng-change="changeManagePriorities(managePriorityWelo)" data-ng-model="managePriorityWelo" aria-label="Manage priority from Welo"></md-checkbox>
+				</md-input-container>
+			</div>
+			<div layout="row" data-ng-if="!settings.apiKey">
+				<md-input-container>
+					<label class="md-container-ignore">Manage lanes from Welo&nbsp;</label>
+					<md-checkbox data-ng-change="changeManageLanes(manageLanesWelo)" data-ng-model="manageLanesWelo" aria-label="Manage lanes from Welo"></md-checkbox>
 				</md-input-container>
 			</div>
 			<div layout="row" layout-align="end center">
+				<span style="color:#FF0000" ng-if="orgSettingsForm.$dirty">There are changes to save.</span>
 				<md-button
-					ng-if="kanbanizeSectionAllowed('editKanbanizeSettings', organization)"
+					ng-if="kanbanizeSectionAllowed()"
 					type="submit" class="md-raised" aria-label="Save settings"
 					ng-disabled="orgSettingsForm.$invalid">Save
 				</md-button>
@@ -180,16 +187,23 @@
 		</form>
 	</md-card-content>
 </md-card>
-<md-card data-ng-if="!managePriorityWelo && kanbanizeSectionAllowed('editKanbanizeSettings', organization) && loadingKanbanize">
+<md-card data-ng-if="manageLanesWelo && !settings.apiKey">
+	<md-card-content>
+		<md-progress-linear md-mode="query" ng-if="lanesLoading"></md-progress-linear>
+		<h1 flex>Lanes</h1>
+		<settings-lanes on-lanes-loaded="onLanesLoaded(lanes)" on-loading-toggle="toggleLanesLoading()"></settings-lanes>
+	</md-card-content>
+</md-card>
+<md-card data-ng-if="!managePriorityWelo && !manageLanesWelo && kanbanizeSectionAllowed() && loadingKanbanize">
 	<md-card-content>
 		<md-progress-linear md-mode="query"></md-progress-linear>
 		<h1 flex>Loading Kanbanize Settings</h1>
 	</md-card-content>
 </md-card>
-<md-card data-ng-if="!managePriorityWelo && kanbanizeSectionAllowed('editKanbanizeSettings', organization) && !loadingKanbanize">
+<md-card ng-if="canShowKanbanizeBlock()">
 	<md-card-content>
 		<h1 flex>Kanbanize Account</h1>
-		<md-button data-ng-show="kanbanizeSectionAllowed('editKanbanizeSettings', organization) && !loadingKanbanize && projects.length" style="float: right;" data-ng-click="detachFromKanbanize()" class="md-raised md-warn">Detach from Kanbanize</md-button>
+		<md-button data-ng-show="kanbanizeSectionAllowed() && !loadingKanbanize && projects.length" style="float: right;" data-ng-click="detachFromKanbanize()" class="md-raised md-warn">Detach from Kanbanize</md-button>
 		<form name="form" ng-submit="ctrl.updateKanbanizeSettings()" novalidate>
 			<div layout="row">
 				<md-input-container> <label
@@ -228,7 +242,7 @@
 		</form>
 	</md-card-content>
 </md-card>
-<md-card data-ng-show="!managePriorityWelo && kanbanizeSectionAllowed('editKanbanizeSettings', organization) && !loadingKanbanize && projects.length">
+<md-card data-ng-show="!managePriorityWelo && !manageLanesWelo && kanbanizeSectionAllowed() && !loadingKanbanize && projects.length">
 	<md-card-content>
 		<h1 flex>Board Settings</h1>
 		<form name="boardList" ng-submit="ctrl.saveKanbanizeBoards($event)" novalidate>

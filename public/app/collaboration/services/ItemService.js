@@ -431,7 +431,7 @@ var ItemService = function(
 				},
 				editItem: function(resource) {
 					return this.getIdentity().isAuthenticated() &&
-                        resource.status < this.ITEM_STATUS.COMPLETED &&
+                        //resource.status < this.ITEM_STATUS.COMPLETED &&
                         (this.isOwner(resource, this.getIdentity().getId()) ||
                         this.isAuthor(resource, this.getIdentity().getId()) ||
                         'admin' === this.getIdentity().getMembershipRole(resource.organization.id));

@@ -20,10 +20,10 @@
 <md-progress-linear data-ng-if="loadingItems" md-mode="query"></md-progress-linear>
 
 <div class="kanban">
-  <div class="kanban__lane" ng-repeat="lane in kanbanItems" ng-class="{'kanban__lane--even':$odd}">
+  <div class="kanban__lane" ng-repeat="(lcid, lane) in kanbanItems" ng-class="{'kanban__lane--even':$odd, 'kanban__lane--itemwithoutlane': (lcid=='-1')}" ng-if="!loadingItems">
     <div class="kanban__lane__title">{{lane.name}}</div>
     <item-kanban-column column-title="idea" column-items="lane.cols[ITEM_STATUS.IDEA]" my-id="currentUserId"></item-kanban-column>
-    <item-kanban-column column-title="open" column-items="lane.cols[ITEM_STATUS.OPEN]" my-id="currentUserId"></item-kanban-column>
+    <item-kanban-column column-title="open" column-items="lane.cols[ITEM_STATUS.OPEN]" my-id="currentUserId" priority-managed="priorityManaged"></item-kanban-column>
     <item-kanban-column column-title="ongoing" column-items="lane.cols[ITEM_STATUS.ONGOING]" my-id="currentUserId"></item-kanban-column>
     <item-kanban-column column-title="completed" column-items="lane.cols[ITEM_STATUS.COMPLETED]" my-id="currentUserId"></item-kanban-column>
     <item-kanban-column column-title="accepted" column-items="lane.cols[ITEM_STATUS.ACCEPTED]" my-id="currentUserId"></item-kanban-column>

@@ -4,7 +4,7 @@
 <div data-ng-if="menu.open" class="tooltip" style=" width: 120px;right:85px;bottom: 194px;">
     Create Decision Item
 </div>
-<md-fab-speed-dial md-open="menu.open" md-direction="up" class="md-scale ora-fab" ng-if="lanes && !decisions">
+<md-fab-speed-dial md-open="menu.open" md-direction="up" class="md-scale ora-fab" ng-if="!loadingItems && !decisions">
     <md-fab-trigger>
         <md-button aria-label="Item Menu" class="md-fab md-warn md-hue-1">
             <md-icon md-svg-icon="add"></md-icon>
@@ -39,8 +39,8 @@
         <div flex>
             <span class="font-size12" style="text-transform: uppercase;font-size: 10px;font-weight:600">by status</span>
             <span style="display: inline-block; position:relative;padding:2px;vertical-align:middle" class="font-size12">
-                <md-select data-ng-model="filtersStatus" data-ng-change="updateFiltersStatus()" style="margin:0">
-                    <md-option data-ng-selected="filtersStatus === 'All'" ng-value="All">All</md-option>
+                <md-select data-ng-model="filtersStatus" data-ng-change="updateFiltersStatus()" style="margin:0" aria-label="by status">
+                    <md-option data-ng-selected="filtersStatus === 'All'" ng-value="'All'">All</md-option>
                     <md-option ng-repeat="status in ITEM_STATUS" data-ng-selected="filtersStatus === status" ng-value="status">{{ status | itemStatusLabel }}
                     </md-option>
                 </md-select>
@@ -65,7 +65,7 @@
         <div flex>
             <span style="text-transform: uppercase;font-size: 10px;font-weight:600">by</span>
             <span style="display: inline-block; position:relative;padding:2px;vertical-align:middle" class="font-size12">
-                <md-select data-ng-model="sorting" data-ng-change="updateSorting()" style="margin:0">
+                <md-select data-ng-model="sorting" data-ng-change="updateSorting()" style="margin:0" aria-label="sorting by">
                     <md-option data-ng-selected="sorting === 'mostRecentEditAt_desc'" value="mostRecentEditAt_desc">Last modified up</md-option>
                     <md-option data-ng-selected="sorting === 'mostRecentEditAt_asc'" value="mostRecentEditAt_asc">Last modified down</md-option>
                     <md-option data-ng-selected="sorting === 'position_desc'" value="position_desc">Top priority up</md-option>
@@ -105,9 +105,10 @@
         </md-card-header-text>
     </md-card-header>
     <div layout="row">
-        <span class="mobile-item__lane">
-            {{ lanesNames[item.lane] }}
+        <span ng-if="!item.withoutLane" class="mobile-item__lane">
+            {{ item.laneName }}
         </span>
+        <span ng-if="item.withoutLane" style="background-color: rgb(255,82,82);color:#FFFFFF;" class="mobile-item__lane">ITEM WITHOUT LANE</span>
     </div>
     <div layout="row">
         <div class="mobile-item__meta">

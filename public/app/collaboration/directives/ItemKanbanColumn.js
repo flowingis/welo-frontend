@@ -10,7 +10,8 @@
                 scope: {
                     columnTitle: '@',
                     columnItems: '=',
-                    myId: '='
+                    myId: '=',
+                    priorityManaged: '='
                   },
                 replace: true,
                 templateUrl: 'app/collaboration/partials/item-kanban-column.html',

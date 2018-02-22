@@ -9,7 +9,7 @@ angular.module('app.collaboration')
 		'itemService',
 		'sortedItemsService',
 		'$state',
-		'kanbanizeLaneService',
+		'lanesService',
 		'$q',
 		function (
 			$scope,
@@ -21,7 +21,7 @@ angular.module('app.collaboration')
 			itemService,
 			sortedItemsService,
 			$state,
-			kanbanizeLaneService,
+			lanesService,
 			$q) {
 
 			$scope.getSortedItems = function(id, sortedItems){
@@ -112,7 +112,7 @@ angular.module('app.collaboration')
 			};
 
 			//INIT
-			kanbanizeLaneService.getLanes($stateParams.orgId).then(function (lanes) {
+			lanesService.get($stateParams.orgId).then(function (lanes) {
 				$scope.lanes = lanes;
 				//Manage organization without lane as organization with lane
 				if (!lanes.length) {

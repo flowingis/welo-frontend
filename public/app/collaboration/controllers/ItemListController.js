@@ -10,8 +10,10 @@ angular.module('app.collaboration')
 		'itemService',
 		'$state',
 		'voteExtractor',
-		'kanbanizeLaneService',
 		'selectedFilterService',
+		'lanesService',
+		'kanbanizeService',
+		'settingsService',
 		function (
 			$scope,
 			$log,
@@ -23,8 +25,10 @@ angular.module('app.collaboration')
 			itemService,
 			$state,
 			voteExtractor,
-			kanbanizeLaneService,
-			selectedFilterService) {
+			selectedFilterService,
+			lanesService,
+			kanbanizeService,
+			settingsService) {
 
 			$scope.menu = {
 				open:false
@@ -72,6 +76,16 @@ angular.module('app.collaboration')
 					function(data) {
 						$scope.loadingItems = false;
 						$scope.items = data;
+						$scope.items._embedded['ora:task'].forEach(function(item) {
+							var laneObj = lanesService.findLane(item.lane, $scope.lanes);
+							if (lanesManaged && laneObj) {
+								item.laneName = laneObj.lcname;
+								item.withoutLane = false;
+							} else if (lanesManaged && !laneObj) {
+								item.laneName = "";
+								item.withoutLane = true;
+							}
+						});
 					},
 					function(response) {
 						$scope.loadingItems = false;
@@ -121,31 +135,44 @@ angular.module('app.collaboration')
 				});
 			};
 
-			kanbanizeLaneService.getLanes($stateParams.orgId).then(function(lanes){
-				$scope.lanes = lanes;
-				$scope.lanesNames = [];
+			var getIfPriorityLaneManaged = function(cb) {
+				kanbanizeService.query($stateParams.orgId,
+					function(data) {
+						if (data.apikey) {
+							priorityManaged = true;
+							lanesManaged = true;
+							cb();
+						} else {
+							settingsService.get($stateParams.orgId).then(function(settings){
+								priorityManaged = settings.manage_priorities === "1";
+								lanesManaged = settings.manage_lanes === "1";
+								cb();
+							});
+						}
+					}
+				);
+			};
 
-                lanes.forEach(function(lane) {
-                    if (lane.lcid!==null) {
-                        $scope.lanesNames[lane.lcid] = lane.lcname;
-                    }
-                });
-
-				$scope.$watchGroup(['filters.status','filters.memberId','filters.orderType','filters.orderBy'],function(newValue,oldValue){
-					if (newValue!=oldValue) {
-						selectedFilterService.set($scope.filters);
-						getItems();
+			getIfPriorityLaneManaged(function() {
+				lanesService.get($stateParams.orgId).then(function(lanes) {
+					$scope.lanes = lanes;
+	
+					$scope.$watchGroup(['filters.status','filters.memberId','filters.orderType','filters.orderBy'],function(newValue,oldValue){
+						if (newValue!=oldValue) {
+							selectedFilterService.set($scope.filters);
+							getItems();
+						}
+					});
+					getItems();
+	
+	
+				},function (httpResponse) {
+					if(httpResponse.status === 500){
+						alert('Generic Error during server communication');
 					}
 				});
-				getItems();
-
-
-			},function (httpResponse) {
-				if(httpResponse.status === 500){
-					alert('Generic Error during server communication');
-				}
 			});
-
+			
 			var onHttpGenericError  = function(httpResponse) {
 				alert('Generic Error during server communication (error: ' + httpResponse.status + ' ' + httpResponse.statusText + ') ');
 				$log.warn(httpResponse);
@@ -201,11 +228,12 @@ angular.module('app.collaboration')
 					targetEvent: ev,
 					clickOutsideToClose: true,
 					locals: {
-						orgId: $stateParams.orgId,
-						streams: [$scope.stream],
-						decisionMode: decision,
+						lanesManaged: lanesManaged,
 						lanes: $scope.lanes,
-						itemType: itemType
+						decisionMode: decision,
+						streams: [$scope.stream],
+						itemType: itemType,
+						orgId: $stateParams.orgId
 					}
 				}).then(this.onItemAdded);
 			};
@@ -256,7 +284,7 @@ angular.module('app.collaboration')
 			};
 
 			$scope.showPriority = function(item){
-				return item.status == itemService.ITEM_STATUS.OPEN && !_.isNull(item.position);
+				return (item.status == itemService.ITEM_STATUS.OPEN) && priorityManaged && !_.isNull(item.position);
 			};
 
 			$scope.getItemMembersNumber = function(item){

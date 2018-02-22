@@ -8,7 +8,8 @@
                 restrict: 'E',
                 scope: {
                     item: '=',
-                    myId: '='
+                    myId: '=',
+                    priorityManaged: '='
                 },
                 replace: true,
                 templateUrl: 'app/collaboration/partials/item-kanban-card.html',
@@ -25,7 +26,11 @@
                         $scope.ownerAuthorName = $scope.item.author.firstname + " " + $scope.item.author.lastname;
                         $scope.imInvolved = false;
                     } else if ($scope.item.status === itemService.ITEM_STATUS.OPEN) {
-                        $scope.position = $scope.item.position || "  ";
+                        if ($scope.priorityManaged) {
+                            $scope.position = $scope.item.position || "  ";
+                        } else {
+                            $scope.position = " ";
+                        }
                         $scope.ownerAuthorName = "";
                         $scope.imInvolved = false;
                     } else {
