@@ -223,6 +223,14 @@ var ItemService = function(
 				return resourceRollback.rollbackItem({ orgId: item.organization.id, itemId: item.id}, { action: 'backToOngoing' }, success, error);
 			};
 
+			this.backToCompleted = function(item, success, error) {
+				return resourceRollback.rollbackItem({ orgId: item.organization.id, itemId: item.id}, { action: 'backToCompleted' }, success, error);
+			};
+
+			this.backToAccepted = function(item, success, error) {
+				return resourceRollback.rollbackItem({ orgId: item.organization.id, itemId: item.id}, { action: 'backToAccepted' }, success, error);
+			};
+
 			this.assignShares = function(item, shares, success, error) {
 				return resource.assignShares({ orgId: item.organization.id, itemId: item.id }, shares, success, error);
 			};
@@ -477,6 +485,28 @@ var ItemService = function(
 
 					var allowedStatuses = [
 						this.ITEM_STATUS.COMPLETED
+					];
+
+					var isAdmin = 'admin' === this.getIdentity().getMembershipRole(resource.organization.id);
+					var isAllowedStatus = allowedStatuses.indexOf(resource.status) !== -1;
+
+					return (isAdmin || this.isOwner(resource, this.getIdentity().getId()) || this.isAuthor(resource, this.getIdentity().getId())) && isAllowedStatus;
+				},
+				backToCompleted: function(resource) {
+
+					var allowedStatuses = [
+						this.ITEM_STATUS.ACCEPTED
+					];
+
+					var isAdmin = 'admin' === this.getIdentity().getMembershipRole(resource.organization.id);
+					var isAllowedStatus = allowedStatuses.indexOf(resource.status) !== -1;
+
+					return (isAdmin || this.isOwner(resource, this.getIdentity().getId()) || this.isAuthor(resource, this.getIdentity().getId())) && isAllowedStatus;
+				},
+				backToAccepted: function(resource) {
+
+					var allowedStatuses = [
+						this.ITEM_STATUS.CLOSED
 					];
 
 					var isAdmin = 'admin' === this.getIdentity().getMembershipRole(resource.organization.id);

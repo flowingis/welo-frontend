@@ -218,7 +218,9 @@ angular.module('app.collaboration')
 				return this.isAllowed('backToIdea', item) ||
 					this.isAllowed('deleteItem', item) || 
 					this.isAllowed('backToOpen', item) || 
-					this.isAllowed('backToOngoing', item);
+					this.isAllowed('backToOngoing', item) ||
+					this.isAllowed('backToCompleted', item) ||
+					this.isAllowed('backToAccepted', item);
 			};
 			this.parseDate = function (when) {
 				return Date.parse(when);
@@ -266,6 +268,7 @@ angular.module('app.collaboration')
 			};
 
 			this.backToIdea = function (ev, item) {
+				var that = this;
 				var confirm = $mdDialog.confirm()
 					.title("Do you really want to take this item back to the \"Idea\" stage?")
 					.textContent("Please be careful: this action would remove all of its information and cannot be undone.")
@@ -275,8 +278,8 @@ angular.module('app.collaboration')
 
 				$mdDialog.show(confirm).then(function () {
 					itemService.backToIdea(item,
-						function () {
-							$state.go('org.collaboration', { orgId: item.organization.id });
+						function() {
+							that.updateItem();
 						},
 						onHttpGenericError
 					);
@@ -286,6 +289,7 @@ angular.module('app.collaboration')
 			};
 			
 			this.backToOpen = function (ev, item) {
+				var that = this;
 				var confirm = $mdDialog.confirm()
 					.title("Do you really want to take this item back to the \"Open\" stage?")
 					.textContent("Please be careful: this action would remove all of its information and cannot be undone.")
@@ -295,8 +299,8 @@ angular.module('app.collaboration')
 
 				$mdDialog.show(confirm).then(function () {
 					itemService.backToOpen(item,
-						function () {
-							$state.go('org.collaboration', { orgId: item.organization.id });
+						function() {
+							that.updateItem();
 						},
 						onHttpGenericError
 					);
@@ -306,6 +310,7 @@ angular.module('app.collaboration')
 			};
 			
 			this.backToOngoing = function (ev, item) {
+				var that = this;
 				var confirm = $mdDialog.confirm()
 					.title("Do you really want to take this item back to the \"Ongoing\" stage?")
 					.textContent("Please be careful: this action would remove all of its information and cannot be undone.")
@@ -315,8 +320,50 @@ angular.module('app.collaboration')
 
 				$mdDialog.show(confirm).then(function () {
 					itemService.backToOngoing(item,
-						function () {
-							$state.go('org.collaboration', { orgId: item.organization.id });
+						function() {
+							that.updateItem();
+						},
+						onHttpGenericError
+					);
+				});
+
+				originatorEv = null;
+			};
+
+			this.backToCompleted = function (ev, item) {
+				var that = this;
+				var confirm = $mdDialog.confirm()
+					.title("Do you really want to take this item back to the \"Completed\" stage?")
+					.textContent("Please be careful: this action would remove all of its information and cannot be undone.")
+					.targetEvent(ev)
+					.ok("Yes")
+					.cancel("No");
+
+				$mdDialog.show(confirm).then(function () {
+					itemService.backToCompleted(item,
+						function() {
+							that.updateItem();
+						},
+						onHttpGenericError
+					);
+				});
+
+				originatorEv = null;
+			};
+
+			this.backToAccepted = function (ev, item) {
+				var that = this;
+				var confirm = $mdDialog.confirm()
+					.title("Do you really want to take this item back to the \"Accepted\" stage?")
+					.textContent("Please be careful: this action would remove all of its information, including any share of credits assigned to users, and cannot be undone.")
+					.targetEvent(ev)
+					.ok("Yes")
+					.cancel("No");
+
+				$mdDialog.show(confirm).then(function () {
+					itemService.backToAccepted(item,
+						function() {
+							that.updateItem();
 						},
 						onHttpGenericError
 					);
