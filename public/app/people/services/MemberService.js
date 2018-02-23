@@ -32,6 +32,14 @@ var MemberService = function($http,$resource, identity) {
 	this.query = resource.query;
 	this.get   = resource.get;
 
+	this.getPeople = function(organizationId, offset, limit){
+		return $http({
+			method: 'GET',
+			url: '/api/'+organizationId+'/people/members?offset='+offset,
+			headers: { 'GOOGLE-JWT': identity.getToken() }
+		});
+	};
+
 	this.getHistory = function(organizationId, memberId){
 		return $http({
 			method: 'GET',

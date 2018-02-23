@@ -18,22 +18,39 @@ angular.module('app.people')
 			return person.id === $scope.identity.getId();
 		};
 
+		$scope.totalPeople = 0;
 		$scope.loading = true;
-		memberService.query({ orgId: $stateParams.orgId },function(data){
-			$scope.membersArray = _.orderBy(_.values(data._embedded['ora:member']), function(p) {
+
+		var getSortedMembersArray = function(data){
+			var membersArray = _.orderBy(_.values(data._embedded['ora:member']), function(p) {
 				return p.firstname + p.lastname;
 			}, "asc");
-			$scope.membersArray = _.orderBy($scope.membersArray, function(p) {
+			return _.orderBy(membersArray, function(p) {
 				if (p.role==="admin") {
 					p.role = "member";
 				}
 
 				return p.role;
 			}, "desc");
+		};
+
+		memberService.query({ orgId: $stateParams.orgId },function(data){
+			//$scope.membersArray = getSortedMembersArray(data);
+			$scope.membersArray = _.values(data._embedded['ora:member']);
+			$scope.totalPeople = data.total;
 			$scope.loading = false;
 		},function(){
 			$scope.loading = false;
 		});
+
+		$scope.loadMore = function() {
+			$scope.loading = true;
+			memberService.getPeople($stateParams.orgId, $scope.membersArray.length).then(function(response){
+				$scope.membersArray = $scope.membersArray.concat(getSortedMembersArray(response.data));
+			})["finally"](function(){
+				$scope.loading = false;
+			});
+		};
 
 		$scope.orgId = $stateParams.orgId;
 
