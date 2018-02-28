@@ -92,7 +92,7 @@
 					<p data-ng-if="owner || (item.status === ITEM_STATUS.CLOSED)" class="no-margin no-padding" style="font-size: 14px;">owner:</p>
 					<p class="no-margin no-padding" style="font-size: 14px;">
 						<p data-ng-if="owner" class="warn" style="cursor: pointer;" ng-click="goToProfile(owner.id)"> {{ owner.firstname }} {{ owner.lastname }}</p>
-						<p data-ng-if="!owner" class="warn">{{removedAfterClose.owner}}</p>
+						<p data-ng-if="!owner" class="warn">{{removedAfterClose.owner}} <span>{{noMoreInOrganizationPeriod}}</span></p>
 						<i style="font-size:16px;" ng-if="ctrl.isAllowed('changeOwner', item) && owner" class="material-icons" ng-click="ctrl.changeOwner($event, item);">&#xE254;</i>
 					</p>
 
@@ -207,10 +207,9 @@
 
 				<md-list-item ng-repeat="member in removedAfterClose.all" ng-init="m = member" data-ng-click="true" class="md-2-line md-no-proxy"
 				 style="padding:0;">
-					<img alt="{{ member }}" ng-src="{{ 'img/account.jpg' }}" class="md-avatar"
-					/>
+					<img alt="{{ member }}" ng-src="{{ 'img/account.jpg' }}" class="md-avatar" />
 					<div class="md-list-item-text" layout="column">
-						<h3 class="warn" style="line-height: 1.2em;">{{ member }}</h3>
+						<h3 class="warn" style="line-height: 1.2em;">{{member}} <span>{{noMoreInOrganizationPeriod}}</span></h3>
 						<!-- <p style="line-height: 1.2em;"><strong>Credits: {{member.credits | creditFormatterFilter}}</strong><br /><i>(Share: {{member.share*100 | creditFormatterFilter}}% Gap: {{printGap(member.delta)}})</i></p>
 						<md-progress-linear class="md-primary md-hue-2" md-mode="determinate" value="{{member.share*100}}"></md-progress-bar> -->
 					</div>

@@ -47,6 +47,7 @@ angular.module('app.collaboration')
 				members: [],
 				all: []
 			};
+			$scope.noMoreInOrganizationPeriod = "(No more within this organization)";
 			$scope.lanes = [];
 			$scope.streams = null;
 
