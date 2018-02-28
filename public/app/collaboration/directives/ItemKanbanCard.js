@@ -16,6 +16,7 @@
                 templateUrl: 'app/collaboration/partials/item-kanban-card.html',
                 link: function ($scope, element, attrs) {
 
+                    $scope.ITEM_STATUS = itemService.ITEM_STATUS;
                     $scope.picture = null;
                     $scope.position = null;
                     $scope.tooltip = "";

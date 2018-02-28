@@ -1,7 +1,8 @@
-<div class="kanban__item" data-ng-class="[{no_owner: (!picture && !position)}, myClass]">
+<div class="kanban__item" data-ng-class="[{no_owner: (!picture && !position) && (item.status !== ITEM_STATUS.CLOSED)}, myClass]">
     <img ng-if="picture" class="kanban__item__owner" ng-src="{{picture}}" alt="{{ownerAuthorName}}" title="{{ownerAuthorName}}" style="max-width: 30px;">
     <div ng-if="position" class="kanban__item__position">{{position}}</div>
-    <div ng-if="!picture && !position" class="kanban__item__position">?</div>
+    <div ng-if="(!picture && !position) && (item.status !== ITEM_STATUS.CLOSED)" class="kanban__item__position">?</div>
+    <img ng-if="(!picture && !position) && (item.status === ITEM_STATUS.CLOSED)" class="kanban__item__owner" style="max-width: 30px;" data-ng-src="img/account.jpg" />
     <div class="kanban__item__title">{{subject}}</div>
     <div ng-if="isDecision" class="kanban__item__decision" title="{{tooltip}}"></div>
     <img ng-if="imInvolved" class="kanban__item__involved" ng-src="img/im-involved.svg" title="{{tooltip}}" />
