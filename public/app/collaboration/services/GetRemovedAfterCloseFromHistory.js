@@ -44,7 +44,7 @@ angular.module('app.collaboration').factory('getRemovedAfterCloseFromHistory', [
             owner: owner,
             members: members,
             all: all
-        }
+        };
     };
 
     return {
