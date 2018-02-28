@@ -9,7 +9,8 @@
                 scope: {
                     item: '=',
                     myId: '=',
-                    priorityManaged: '='
+                    priorityManaged: '=',
+                    myClass: '='
                 },
                 replace: true,
                 templateUrl: 'app/collaboration/partials/item-kanban-card.html',
