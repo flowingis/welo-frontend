@@ -113,7 +113,7 @@
         <md-icon class="md-avatar-icon" ng-switch-when="Withdrawal" md-svg-icon="withdrawal"></md-icon>
         <md-icon class="md-avatar-icon" ng-switch-when="Deposit" md-svg-icon="deposit"></md-icon>
         <div class="md-list-item-text">
-            <p ng-style="transaction.amount < 0 ? { color : 'Red' } : {}">{{ transaction.amount | number:2 }}</p>
+            <p ng-style="transaction.amount < 0 ? { color : 'Red' } : {}">{{ transaction.amount | creditFormatterFilter }}</p>
             <h2 style="font-size: 16px; margin-top: 0px;">{{ transaction.description }}</h2>
             <p style="margin-top: -10px;" ng-switch="transaction.type">
                 <span ng-switch-when="IncomingTransfer">from {{ transaction.payer }}</span>

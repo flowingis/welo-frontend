@@ -1,15 +1,25 @@
 angular.module('app.collaboration').filter('creditFormatterFilter', ['$filter', function($filter){
+
     var floorNumber = function(n, mul){
         return Math.round(n * mul) / mul;
+    };
+
+    var toFixed1 = function(floatValue){
+        var sufix = "";
+        if(floatValue < 0){
+            sufix = "-";
+        }
+        return sufix+(Math.abs(floorNumber(floatValue, 10))).toFixed(1);
+    };
+
+    var removeZeroDecimal = function(numStr){
+        return numStr.replace('.0', '');
     };
 
     return function(value){
         var floatValue = parseFloat(value);
         if(!_.isNaN(floatValue)){
-            if(Math.abs(floatValue) % 1 >= 0.1){
-                return (floorNumber(floatValue, 10)).toFixed(1);
-            }
-            return Math.floor(floatValue).toFixed(0);
+            return removeZeroDecimal(toFixed1(floatValue));
         }else{
             return "n/a";
         }
