@@ -140,23 +140,27 @@ angular.module('app.collaboration')
 				$scope.loadingItems = true;
 
 				getItemForStatus($scope.ITEM_STATUS.IDEA, $scope.kanbanItems).then(function(kanbanItems){
-					getItemForStatus($scope.ITEM_STATUS.OPEN,kanbanItems).then(function() {
-						getItemForStatus($scope.ITEM_STATUS.ONGOING,kanbanItems).then(function() {
-							getItemForStatus($scope.ITEM_STATUS.COMPLETED,kanbanItems).then(function() {
-								getItemForStatus($scope.ITEM_STATUS.ACCEPTED,kanbanItems).then(function() {
-									getItemForStatus($scope.ITEM_STATUS.CLOSED,kanbanItems).then(function() {
-										$scope.kanbanItems = kanbanItems;
-										$scope.kanbanItems = removeLaneIfIsEmpty($scope.kanbanItems, "-1");
-										$scope.loadingItems = false;
-									});
-								});
-							});
-						});
-					});
+					$scope.kanbanItems = kanbanItems;
+					return getItemForStatus($scope.ITEM_STATUS.OPEN,kanbanItems);
+				}).then(function(kanbanItems) {
+					$scope.kanbanItems = kanbanItems;
+					return getItemForStatus($scope.ITEM_STATUS.ONGOING,kanbanItems);
+				}).then(function(kanbanItems) {
+					$scope.kanbanItems = kanbanItems;
+					return getItemForStatus($scope.ITEM_STATUS.COMPLETED,kanbanItems);
+				}).then(function(kanbanItems) {
+					$scope.kanbanItems = kanbanItems;
+					return getItemForStatus($scope.ITEM_STATUS.ACCEPTED,kanbanItems);
+				}).then(function(kanbanItems) {
+					$scope.kanbanItems = kanbanItems;
+					return getItemForStatus($scope.ITEM_STATUS.CLOSED,kanbanItems);
+				}).then(function(kanbanItems) {
+					$scope.kanbanItems = kanbanItems;
+					$scope.kanbanItems = removeLaneIfIsEmpty($scope.kanbanItems, "-1");
+					$scope.loadingItems = false;
 				}, function(response){
 					onHttpGenericError(response);
 				});
-
 			};
 
 			var goToFilterdItems = function(status){
