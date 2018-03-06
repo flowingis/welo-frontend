@@ -273,10 +273,10 @@
 			<md-card-header>
 				<md-card-header-text>
 					<span class="md-subheader" style="color: black; font-weight: 300;"> AVAILABLE CREDITS
-						<span class="md-title" style="margin-left: 10px;"> {{credits.balance}}
+						<span class="md-title" style="margin-left: 10px;"> {{credits.balance | creditFormatterFilter}}
 					 </span>
 					<span class="md-subheader" style="color: black; font-weight: 300; margin-top: 14px;"> TOTAL GENERATED CREDITS
-						<span class="md-title" style="margin-left: 10px;"> {{credits.total}}
+						<span class="md-title" style="margin-left: 10px;"> {{credits.total | creditFormatterFilter}}
 					</span>
 					<span class="md-subheader" style="color: black; font-weight: 300; margin-top: 14px;"> ITEM CONTRIBUTIONS
 						<span class="md-title" style="margin-left: 10px;"> {{ stats.membershipsCount | number : 0 }}
@@ -296,19 +296,19 @@
 						<div flex="33" layout="column">
 							<center>
 								<span class="md-subheader" style="color: black; font-weight: 300;">LAST 3 <br/> MONTHS</span>
-								<span class="md-title">{{credits.last3M}}</span>
+								<span class="md-title">{{credits.last3M | creditFormatterFilter}}</span>
 							</center>
 						</div>
 						<div flex="33" layout="column">
 							<center>
 								<span class="md-subheader" style="color: black; font-weight: 300;">LAST 6 <br/> MONTHS</span>
-								<span class="md-title">{{credits.last6M}}</span>
+								<span class="md-title">{{credits.last6M | creditFormatterFilter}}</span>
 							</center>
 						</div>
 						<div flex="33" layout="column">
 							<center>
 								<span class="md-subheader" style="color: black; font-weight: 300;">LAST 12 <br/> MONTHS</span>
-								<span class="md-title">{{credits.last1Y}}</span>
+								<span class="md-title">{{credits.last1Y | creditFormatterFilter}}</span>
 							</center>
 						</div>
 					</md-card-content>
