@@ -69,6 +69,15 @@ var MemberService = function($http,$resource, identity) {
 		});
 	};
 
+	this.enableDisableUser = function(organizationId, memberId) {
+		// TODO: change with real entry poit
+		// return $http({
+		// 	method: 'DELETE',
+		// 	url: 'api/'+organizationId+'/people/members/' + memberId,
+		// 	headers: { 'GOOGLE-JWT': identity.getToken() }
+		// });
+	};
+
 	this.unjoinOrganization = function(organization, success, error) {
 		resource.delete({ orgId: organization.id }, success, error);
 	};
@@ -129,6 +138,9 @@ MemberService.prototype = {
 			var role = this.getIdentity().getMembershipRole(data.orgId);
 			//Not me && I'm admingit
 			return data && data.userId && this.getIdentity().getId() !== data.userId && role && role === "admin";
+		},
+		enableDisableUser: function(organizationId) {
+			return 'admin' === this.getIdentity().getMembershipRole(organizationId);
 		}
 	},
 	isAllowed: function(command, resource) {

@@ -133,5 +133,25 @@ angular.module('app.people')
 			});
 
 		};
+
+		$scope.enableDisableUser = function(ev,member){
+			console.log(member);
+
+			var confirm = $mdDialog.confirm()
+					.title("Would you deactivate this user for this the organization?")
+					.textContent("This operation can be undone.")
+					.targetEvent(ev)
+					.ok("Yes")
+					.cancel("No");
+
+			$mdDialog.show(confirm).then(function() {
+				console.log("confirmed deactivation");
+				// memberService.enableDisableUser($stateParams.orgId,member.id).then(function(){
+				// 	memberService.query({ orgId: $stateParams.orgId },function(data){
+				// 		//$scope.members = data;
+				// 	});
+				// });
+			});
+		};
 	}
 ]);

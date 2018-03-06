@@ -33,8 +33,13 @@
                            ng-click="removeUser($event,person)">
                     <md-icon class="material-icons" aria-label="delete">delete</md-icon>
                 </md-button>
+                <!-- <button
+                    style="position: relative; z-index: 1"
+                    data-ng-if="!isMe(person) && isAllowed('enableDisableUser', orgId)"
+                    data-ng-click="enableDisableUser($event,person)">
+                    X
+                </button> -->
             </div>
-
             <md-divider ng-if="!$last"></md-divider>
         </md-list-item>
         <div layout="row" layout-align="center">
