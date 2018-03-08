@@ -51,14 +51,11 @@ angular.module('app', [
 						members:['$stateParams','memberService','$q','$state','identity',function($stateParams, memberService,$q,$state,identity) {
 							var deferred = $q.defer();
 							memberService.query({ orgId: $stateParams.orgId },function(data){
-								var getUserMembershipForOrganization = function(orgId, memberships){
-									return _.find(memberships, function(membership){
-										return membership.organization && (membership.organization.id === orgId);
-									});
+								var getUserMembershipForOrganization = function(id, memberships){
+									return memberships[id];
 								};
-
-								var membership = getUserMembershipForOrganization($stateParams.orgId, identity.getMemberships());
-								if(!membership || membership.deactivated){
+								var membership = getUserMembershipForOrganization(identity.getId(), data._embedded['ora:member']);
+								if(!membership || !membership.active){
 									$state.go("deactivated-user-landing");
 								}else{
 									deferred.resolve(data);
