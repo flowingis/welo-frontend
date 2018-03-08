@@ -148,7 +148,7 @@ angular.module('app.people')
 			$mdDialog.show(confirm).then(function() {
 				$scope.loading = true;
 				memberService.enableDisableUser($stateParams.orgId,member.id, !member.active).then(function(res){
-					member.active = res && res.data && res.data.active === 1;
+					member.active = res && res.data && res.data.active;
 				})["finally"](function(){
 					$scope.loading = false;
 				});

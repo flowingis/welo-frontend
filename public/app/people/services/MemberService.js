@@ -69,8 +69,7 @@ var MemberService = function($http,$resource, identity) {
 		});
 	};
 
-	this.enableDisableUser = function(organizationId, memberId, newActiveValue) {
-		var active = newActiveValue ? 1 : 0;
+	this.enableDisableUser = function(organizationId, memberId, active) {
 		return $http({
 			method: 'PUT',
 			url: 'api/'+organizationId+'/people/members/'+memberId,
