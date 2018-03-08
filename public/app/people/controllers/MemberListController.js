@@ -135,22 +135,23 @@ angular.module('app.people')
 		};
 
 		$scope.enableDisableUser = function(ev,member){
-			console.log(member);
+			var msgValue = member.active ? "deactivate" : "activate";
+			var msg = "Would you "+msgValue+" this user for this the organization?";
 
 			var confirm = $mdDialog.confirm()
-					.title("Would you deactivate this user for this the organization?")
+					.title(msg)
 					.textContent("This operation can be undone.")
 					.targetEvent(ev)
 					.ok("Yes")
 					.cancel("No");
 
 			$mdDialog.show(confirm).then(function() {
-				console.log("confirmed deactivation");
-				// memberService.enableDisableUser($stateParams.orgId,member.id).then(function(){
-				// 	memberService.query({ orgId: $stateParams.orgId },function(data){
-				// 		//$scope.members = data;
-				// 	});
-				// });
+				$scope.loading = true;
+				memberService.enableDisableUser($stateParams.orgId,member.id, !member.active).then(function(data){
+					member.active = data.active === 1;
+				})["finally"](function(){
+					$scope.loading = false;
+				});
 			});
 		};
 	}

@@ -69,13 +69,14 @@ var MemberService = function($http,$resource, identity) {
 		});
 	};
 
-	this.enableDisableUser = function(organizationId, memberId) {
-		// TODO: change with real entry poit
-		// return $http({
-		// 	method: 'DELETE',
-		// 	url: 'api/'+organizationId+'/people/members/' + memberId,
-		// 	headers: { 'GOOGLE-JWT': identity.getToken() }
-		// });
+	this.enableDisableUser = function(organizationId, memberId, newActiveValue) {
+		var active = newActiveValue ? 1 : 0;
+		return $http({
+			method: 'PUT',
+			url: 'api/'+organizationId+'/people/members/'+memberId,
+			headers: { 'GOOGLE-JWT': identity.getToken() },
+			data: { orgId: organizationId, memberId: memberId, active: active}
+		});
 	};
 
 	this.unjoinOrganization = function(organization, success, error) {
