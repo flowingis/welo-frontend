@@ -91,8 +91,8 @@ angular.module('app.accounting')
 			};
 
 			$scope.statementExport = function(){
-				accountService.getStatementExport($stateParams.orgId).then(function(data){
-					// downloadFileService(csv, "credits", ".csv");
+				accountService.getStatementExport($stateParams.orgId).then(function(res){
+					downloadFileService(res.data, "credits", ".csv");
 				});
 			};
 
