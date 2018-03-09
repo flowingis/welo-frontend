@@ -34,15 +34,17 @@ angular.module('app.people')
 			}, "desc");
 		};
 
-		memberService.query({ orgId: $stateParams.orgId },function(data){
-			//$scope.membersArray = getSortedMembersArray(data);
-			$scope.membersArray = _.values(data._embedded['ora:member']);
-			$scope.totalPeople = data.total;
-			$scope.loading = false;
-		},function(){
-			$scope.loading = false;
-		});
-
+		var initMembers = function(){
+			memberService.query({ orgId: $stateParams.orgId },function(data){
+				//$scope.membersArray = getSortedMembersArray(data);
+				$scope.membersArray = _.values(data._embedded['ora:member']);
+				$scope.totalPeople = data.total;
+				$scope.loading = false;
+			},function(){
+				$scope.loading = false;
+			});
+		};
+		initMembers();
 		$scope.loadMore = function() {
 			$scope.loading = true;
 			memberService.getPeople($stateParams.orgId, $scope.membersArray.length).then(function(response){
@@ -125,17 +127,7 @@ angular.module('app.people')
 				$scope.loading = true;
 				memberService.removeUserFromOrganization($stateParams.orgId,member.id).then(function(){
 					memberService.query({ orgId: $stateParams.orgId },function(data){
-						$scope.membersArray = _.orderBy(_.values(data._embedded['ora:member']), function(p) {
-							return p.firstname + p.lastname;
-						}, "asc");
-						$scope.membersArray = _.orderBy($scope.membersArray, function(p) {
-							if (p.role==="admin") {
-								p.role = "member";
-							}
-
-							return p.role;
-						}, "desc");
-						$scope.loading = false;
+						initMembers();
 					});
 				});
 			});
