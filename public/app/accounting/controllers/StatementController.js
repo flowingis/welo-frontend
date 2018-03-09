@@ -3,6 +3,7 @@ angular.module('app.accounting')
         '$scope',
         '$stateParams',
         'accountService',
+        'downloadFileService',
         '$state',
         '$interval',
 		'$mdDialog',
@@ -10,6 +11,7 @@ angular.module('app.accounting')
             $scope,
             $stateParams,
             accountService,
+            downloadFileService,
             $state,
             $interval,
 			$mdDialog) {
@@ -86,6 +88,12 @@ angular.module('app.accounting')
 							$scope.isLoadingMore = false;
 							that.onLoadingError(response);
 						});
+			};
+
+			$scope.statementExport = function(){
+				accountService.getStatementExport($stateParams.orgId).then(function(data){
+					// downloadFileService(csv, "credits", ".csv");
+				});
 			};
 
 			$scope.isLoadingMorePersonal = false;

@@ -120,6 +120,14 @@ var AccountService = function($q, $resource, $interval, $http, identity) {
 	this.getIdentity = function() {
 		return identity;
 	};
+
+	this.getStatementExport = function(orgId){
+		return $http({
+			method: 'GET',
+			headers: { 'GOOGLE-JWT': identity.getToken() },
+			url: "api/"+orgId+"/accounting/organization-statement-export"
+		});
+	};
 };
 AccountService.prototype = {
 	constructor: AccountService,
