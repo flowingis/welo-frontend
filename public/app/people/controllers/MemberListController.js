@@ -34,15 +34,17 @@ angular.module('app.people')
 			}, "desc");
 		};
 
-		memberService.query({ orgId: $stateParams.orgId },function(data){
-			//$scope.membersArray = getSortedMembersArray(data);
-			$scope.membersArray = _.values(data._embedded['ora:member']);
-			$scope.totalPeople = data.total;
-			$scope.loading = false;
-		},function(){
-			$scope.loading = false;
-		});
-
+		var initMembers = function(){
+			memberService.query({ orgId: $stateParams.orgId },function(data){
+				//$scope.membersArray = getSortedMembersArray(data);
+				$scope.membersArray = _.values(data._embedded['ora:member']);
+				$scope.totalPeople = data.total;
+				$scope.loading = false;
+			},function(){
+				$scope.loading = false;
+			});
+		};
+		initMembers();
 		$scope.loadMore = function() {
 			$scope.loading = true;
 			memberService.getPeople($stateParams.orgId, $scope.membersArray.length).then(function(response){
@@ -92,17 +94,40 @@ angular.module('app.people')
 		};
 
 		$scope.removeUser = function(ev,member){
+			console.log(member.involvement);
+
+			var strWarningMsg = "";
+
+			var item_label = member.involvement.membershipsCount > 1 ? "items" : "item";
+			switch (true) {
+				case ((member.involvement.ownershipsCount>0) && (member.involvement.membershipsCount>0)): 
+					strWarningMsg = "<p><strong>" + member.firstname + " " + member.lastname + "</strong>  is the owner of <strong class=\"warn\">" + member.involvement.ownershipsCount + "</strong> open "+item_label+" and involved in <strong>" + member.involvement.membershipsCount + "</strong> open items.</p>";
+				break;
+				case ((member.involvement.ownershipsCount==0) && (member.involvement.membershipsCount>0)): 
+					strWarningMsg = "<p><strong>" + member.firstname + " " + member.lastname + "</strong>  is involved in <strong>" + member.involvement.membershipsCount + "</strong> open "+item_label+".</p>";
+				break;
+				default:
+					break;
+			}
+
+			var strWARNING = "";
+			if(member.involvement.membershipsCount>0){
+				strWARNING = "<p>WARNING: </p>" + strWarningMsg + "<p>";
+			}
+
+
 			var confirm = $mdDialog.confirm()
 					.title("Would you remove this user from the organization?")
-					.textContent("This operation cannot be undone.")
+					.htmlContent(strWARNING + member.firstname + " " + member.lastname + " will be removed from the open cards in which he is involved and the removal operation can not be canceled.<br />Are you sure you want to proceed?</p>")
 					.targetEvent(ev)
 					.ok("Yes")
 					.cancel("No");
 
 			$mdDialog.show(confirm).then(function() {
+				$scope.loading = true;
 				memberService.removeUserFromOrganization($stateParams.orgId,member.id).then(function(){
 					memberService.query({ orgId: $stateParams.orgId },function(data){
-						//$scope.members = data;
+						initMembers();
 					});
 				});
 			});

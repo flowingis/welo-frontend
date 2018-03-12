@@ -9,12 +9,14 @@
                 scope: {
                     item: '=',
                     myId: '=',
-                    priorityManaged: '='
+                    priorityManaged: '=',
+                    myClass: '='
                 },
                 replace: true,
                 templateUrl: 'app/collaboration/partials/item-kanban-card.html',
                 link: function ($scope, element, attrs) {
 
+                    $scope.ITEM_STATUS = itemService.ITEM_STATUS;
                     $scope.picture = null;
                     $scope.position = null;
                     $scope.tooltip = "";
@@ -22,8 +24,10 @@
                     $scope.isDecision = ($scope.item.decision == "true");
                     
                     if ($scope.item.status === itemService.ITEM_STATUS.IDEA) {
-                        $scope.picture = $scope.item.author.picture || 'img/account.jpg';
-                        $scope.ownerAuthorName = $scope.item.author.firstname + " " + $scope.item.author.lastname;
+                        if($scope.item.author){
+                            $scope.picture = $scope.item.author.picture || 'img/account.jpg';
+                            $scope.ownerAuthorName = $scope.item.author.firstname + " " + $scope.item.author.lastname;
+                        }
                         $scope.imInvolved = false;
                     } else if ($scope.item.status === itemService.ITEM_STATUS.OPEN) {
                         if ($scope.priorityManaged) {
@@ -35,8 +39,10 @@
                         $scope.imInvolved = false;
                     } else {
                         var owner = itemService.getOwner($scope.item);
-                        $scope.picture = owner.picture || 'img/account.jpg';
-                        $scope.ownerAuthorName = owner.firstname + " " + owner.lastname;
+                        if(owner){
+                            $scope.picture = owner.picture || 'img/account.jpg';
+                            $scope.ownerAuthorName = owner.firstname + " " + owner.lastname;
+                        }
                         $scope.imInvolved = itemService.isIn($scope.item, $scope.myId);
                     }
 

@@ -857,6 +857,14 @@ md-card.mobile-item md-card-header {
   white-space: nowrap;
   font-weight: 500;
 }
+.mobile-item__media__no_owner {
+  font-size: 12px;
+  border-radius: 4px;
+  padding-left: 10px;
+  white-space: nowrap;
+  font-weight: 500;
+  color: #FF5252;
+}
 
 .mobile-item__decision {
   border-style: solid;
@@ -1099,4 +1107,54 @@ md-card.mobile-item md-card-header {
 }
 .kanban__column__divider:hover .kanban__column__divider__text {
   color: #00bcd4;
+}
+
+.no_owner .kanban__item__position {
+  background: white;
+  border: 3px solid #FF5252;
+  color: #FF5252;
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 24px;
+  position: relative;
+  z-index: 2;
+}
+.kanban__item.no_owner::after {
+  background: #FF5252;
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 25px;
+  height: 100%;
+}
+
+.mobile-item__no_owner {
+  background: white;
+  border: 3px solid #FF5252;
+  color: #FF5252;
+  font-size: 18px;
+  font-weight: bold;
+  display: inline-block;
+  width: 34px;
+  height: 34px;
+  text-align: center;
+  line-height: 34px;
+  border-radius: 50%;
+  position: relative;
+  z-index: 2;
+  vertical-align: middle;
+}
+
+.item-detail__no_owner--text {
+  color: #FF5252;
+  font-size: 24px;
+  vertical-align: middle;
+  padding: 0 10px;
+}
+
+button.md-button.md-raised.md-alert {
+  background: #FF5252;
+  color: white;
 }

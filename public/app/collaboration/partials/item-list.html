@@ -84,17 +84,23 @@
 <md-progress-linear data-ng-if="loadingItems" md-mode="query"></md-progress-linear>
 <md-card data-ng-click="goToDetail($event,item)" class="mobile-item" ng-repeat="item in items._embedded['ora:task']"
     infinite-scroll-distance="1" infinite-scroll-parent="true" infinite-scroll-disabled="items.total == items.count || isLoadingMore"
-    infinite-scroll-immediate-check="false">
+    infinite-scroll-immediate-check="false" data-ng-class="{no_owner: !getOwnerAuthor(item) && (item.status !== ITEM_STATUS.CLOSED)}">
     <md-card-header card="item" class="">
         <md-card-media class="mobile-item__media" layout="column" layout-align="start end">
-            <div ng-show="item.status != ITEM_STATUS.OPEN">
+            <div ng-show="getOwnerAuthor(item) && item.status != ITEM_STATUS.OPEN">
                 <div>
                     <img class="mobile-item__media__image" ng-src="{{ getOwnerAuthor(item).picture || 'img/account.jpg' }}" alt="{{ getOwnerAuthor(item).firstname }} {{ getOwnerAuthor(item).lastname}}" title="{{ getOwnerAuthor(item).firstname }} {{ getOwnerAuthor(item).lastname}}">
                 </div>
             </div>
-            <div ng-show="item.status == ITEM_STATUS.OPEN && showPriority(item)">
+            <div ng-show="getOwnerAuthor(item) && item.status == ITEM_STATUS.OPEN && showPriority(item)">
               <div class="mobile-item__media__priority">{{item.position}}</div>
               <p class="mobile-item__media__role">priority</p>
+            </div>
+            <div ng-show="!getOwnerAuthor(item) && (item.status !== ITEM_STATUS.CLOSED)">
+              <div class="mobile-item__no_owner">?</div>
+            </div>
+            <div ng-show="!getOwnerAuthor(item) && (item.status === ITEM_STATUS.CLOSED)">
+              <img class="mobile-item__media__image" ng-src="img/account.jpg">
             </div>
         </md-card-media>
 
@@ -114,7 +120,8 @@
         <div class="mobile-item__meta">
             <div class="mobile-item__meta__name">
               <span class="mobile-item__media__role">{{getRole(item)}}</span>
-              <span class="mobile-item__media__name">{{ getOwnerAuthor(item).firstname }} {{ getOwnerAuthor(item).lastname}}</span>
+              <span data-ng-if="getOwnerAuthor(item)" class="mobile-item__media__name">{{ getOwnerAuthor(item).firstname }} {{ getOwnerAuthor(item).lastname}}</span>
+              <span data-ng-if="!getOwnerAuthor(item)" class="mobile-item__media__no_owner">Missing Owner</span>
             </div>
             <div class="mobile-item__meta__icons">
               <span data-ng-class="{'mobile-item__meta__icon-container--active': getItemMembersNumber(item) >= 3}" class="mobile-item__meta__icon-container">

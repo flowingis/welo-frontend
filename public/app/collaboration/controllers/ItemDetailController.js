@@ -13,6 +13,7 @@ angular.module('app.collaboration')
 		'kanbanizeService',
 		'lanesService',
 		'creditFormatterFilterFilter',
+		'getRemovedAfterCloseFromHistory',
 		function (
 			$scope,
 			$state,
@@ -26,7 +27,8 @@ angular.module('app.collaboration')
 			voteExtractor,
 			kanbanizeService,
 			lanesService,
-			creditFormatterFilterFilter) {
+			creditFormatterFilterFilter,
+			getRemovedAfterCloseFromHistory) {
 
 			var onHttpGenericError = function (httpResponse) {
 				alert('Generic Error during server communication (error: ' + httpResponse.status + ' ' + httpResponse.statusText + ') ');
@@ -40,6 +42,12 @@ angular.module('app.collaboration')
 			$scope.busy = true;
 			$scope.loading = true;
 			$scope.history = [];
+			$scope.removedAfterClose = {
+				owner: undefined,
+				members: [],
+				all: []
+			};
+			$scope.noMoreInOrganizationPeriod = "(No more within this organization)";
 			$scope.lanes = [];
 			$scope.streams = null;
 
@@ -64,7 +72,6 @@ angular.module('app.collaboration')
 				);
 			};
 
-			
 			var setLanesInformation = function(cb) {
 				lanesService.get($stateParams.orgId).then(function (lanes) {
 					$scope.lanes = lanes;
@@ -87,6 +94,7 @@ angular.module('app.collaboration')
 			var loadHistory = function(cb) {
 				itemService.getHistory($scope.item).then(function (response) {
 					$scope.history = response.data;
+					$scope.removedAfterClose = getRemovedAfterCloseFromHistory.get($scope.history);
 					cb();
 				}, onHttpGenericError);
 			};

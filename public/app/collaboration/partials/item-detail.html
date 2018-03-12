@@ -4,7 +4,7 @@
 		<md-card-header-text ui-sref="org.item({ orgId: item.organization.id, itemId: item.id })">
 
 			<span style="text-transform: uppercase;" class="md-subhead">{{item.decision === 'true' ? 'Decision' : ''}}</span>
-			
+
 			<div layout="row">
 				<div flex>
 					<span style="font-size: 26px;">{{ item.subject }}</span>
@@ -81,12 +81,19 @@
 				</div>
 			</div>
 			<div layout="row" class="margin-bottom-20" ng-if="item.status > ITEM_STATUS.OPEN">
-				<img class="margin-right-20" style="max-width: 60px; max-height: 60px; border-radius: 50%;" ng-src="{{ owner.picture || 'img/account.jpg' }}">
+				<div data-ng-if="!owner && (item.status !== ITEM_STATUS.CLOSED)" class="item-detail__no_owner">
+					<div class="mobile-item__no_owner">?</div>
+					<span class="item-detail__no_owner--text">Missing Owner</span>
+					<button href="#" ng-if="ctrl.isAllowed('changeOwner', item)" class="md-raised md-alert md-button ng-scope md-ink-ripple" ng-click="ctrl.changeOwner($event, item);">ASSIGN NEW OWNER</button>
+				</div>
+				<img data-ng-if="owner" class="margin-right-20" style="max-width: 60px; max-height: 60px; border-radius: 50%;" ng-src="{{ owner.picture || 'img/account.jpg' }}">
+				<img data-ng-if="!owner && (item.status === ITEM_STATUS.CLOSED)" class="margin-right-20" style="max-width: 60px; max-height: 60px; border-radius: 50%;" ng-src="{{ 'img/account.jpg' }}">
 				<div>
-					<p class="no-margin no-padding" style="font-size: 14px;">owner:</p>
+					<p data-ng-if="owner || (item.status === ITEM_STATUS.CLOSED)" class="no-margin no-padding" style="font-size: 14px;">owner:</p>
 					<p class="no-margin no-padding" style="font-size: 14px;">
-						<p class="warn" style="cursor: pointer;" ng-click="goToProfile(owner.id)"> {{ owner.firstname }} {{ owner.lastname }}</p>
-						<i style="font-size:16px;" ng-if="ctrl.isAllowed('changeOwner', item)" class="material-icons" ng-click="ctrl.changeOwner($event, item);">&#xE254;</i>
+						<p data-ng-if="owner" class="warn" style="cursor: pointer;" ng-click="goToProfile(owner.id)"> {{ owner.firstname }} {{ owner.lastname }}</p>
+						<p data-ng-if="!owner && (item.status === ITEM_STATUS.CLOSED)">{{removedAfterClose.owner}} <span class="warn">{{noMoreInOrganizationPeriod}}</span></p>
+						<i style="font-size:16px;" ng-if="ctrl.isAllowed('changeOwner', item) && owner" class="material-icons" ng-click="ctrl.changeOwner($event, item);">&#xE254;</i>
 					</p>
 
 				</div>
@@ -111,8 +118,8 @@
 			</p>
 			<p class="font-size14" style="margin-top: -8px;">
 				Current Value:
-				<span data-ng-if="item.estimation" style="line-height: 14px;" class="md-subhead">{{item.estimation | creditFormatterFilter}}&nbsp;credits</span>
-				<span data-ng-if="!item.estimation" style="line-height: 14px;" class="md-subhead">Yet to be estimated</span></p>
+				<span data-ng-if="item.estimation && (item.estimation >= 0)" style="line-height: 14px;" class="md-subhead">{{item.estimation | creditFormatterFilter}}&nbsp;credits</span>
+				<span data-ng-if="!item.estimation || (item.estimation < 0)" style="line-height: 14px;" class="md-subhead">Yet to be estimated</span></p>
 			<p class="font-size14" style="margin-top: -8px;">
 				<span class="color-primary" ng-if="ctrl.isAllowed('showMyEstimation', item) && !yourEstimation">You've not estimated yet.</span>
 				<span class="color-primary" ng-if="ctrl.isAllowed('showMyEstimation', item) && yourEstimation < 0">You've skipped the estimate.</span>
@@ -195,6 +202,16 @@
 						<h3 class="warn" style="line-height: 1.2em;">{{ member.firstname }} {{ member.lastname }}</h3>
 						<p style="line-height: 1.2em;"><strong>Credits: {{member.credits | creditFormatterFilter}}</strong><br /><i>(Share: {{member.share*100 | creditFormatterFilter}}% Gap: {{printGap(member.delta)}})</i></p>
 						<md-progress-linear class="md-primary md-hue-2" md-mode="determinate" value="{{member.share*100}}"></md-progress-bar>
+					</div>
+				</md-list-item>
+
+				<md-list-item ng-repeat="member in removedAfterClose.all" ng-init="m = member" data-ng-click="true" class="md-2-line md-no-proxy"
+				 style="padding:0;">
+					<img alt="{{ member }}" ng-src="{{ 'img/account.jpg' }}" class="md-avatar" />
+					<div class="md-list-item-text" layout="column">
+						<h3 class="warn" style="line-height: 1.2em;">{{member}} <span class="warn">{{noMoreInOrganizationPeriod}}</span></h3>
+						<!-- <p style="line-height: 1.2em;"><strong>Credits: {{member.credits | creditFormatterFilter}}</strong><br /><i>(Share: {{member.share*100 | creditFormatterFilter}}% Gap: {{printGap(member.delta)}})</i></p>
+						<md-progress-linear class="md-primary md-hue-2" md-mode="determinate" value="{{member.share*100}}"></md-progress-bar> -->
 					</div>
 				</md-list-item>
 			</md-list>
