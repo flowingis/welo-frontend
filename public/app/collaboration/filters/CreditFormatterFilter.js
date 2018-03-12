@@ -20,7 +20,7 @@ angular.module('app.collaboration').filter('creditFormatterFilter', ['$filter', 
         var floatValue = parseFloat(value);
         if(!_.isNaN(floatValue)){
             var valueWithoutZeroDecimal = removeZeroDecimal(toFixed1(floatValue));
-            return parseFloat(valueWithoutZeroDecimal).toLocaleString();
+            return parseFloat(valueWithoutZeroDecimal).toLocaleString("it-IT");
         }else{
             return "n/a";
         }
