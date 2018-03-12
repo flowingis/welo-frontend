@@ -19,7 +19,7 @@
                 <div class="md-list-item-text" md-ink-ripple>
                     <h3>{{ person.firstname }} {{ person.lastname }}</h3>
                     <p>{{ person.role }} 
-                      <em hide-xs><br />
+                      <em data-ng-if="isAllowed('removeUser', orgId)" hide-xs><br />
                         involved in {{person.involvement.membershipsCount}} open <span data-ng-if="person.involvement.membershipsCount > 1">items</span><span data-ng-if="person.involvement.membershipsCount <= 1">item</span>
                         <span data-ng-if="person.involvement.ownershipsCount > 0"> and owner of {{person.involvement.ownershipsCount}}</span>
                       </em>
