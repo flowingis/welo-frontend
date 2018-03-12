@@ -27,7 +27,7 @@
 
 			<div class="flow-description justify padding-right-30" ng-if="card.type == 'ItemClosed'">
 				<p class="flow-description justify padding-right-30">
-					Total credits: {{card.content.extraData.total}}
+					Total credits: {{card.content.extraData.total | creditFormatterFilter}}
 				</p>
 
 				<table class="summary">
@@ -37,9 +37,9 @@
 					<tbody>
 						<tr ng-repeat="share in card.content.extraData.shares">
 							<td>{{ share['name'] }}</td>
-							<td>{{ share['share'] }}</td>
-							<td>{{ share['value'] }}</td>
-							<td>{{ share['gap'] }}</td>
+							<td>{{ share['share'] | creditFormatterFilter }}</td>
+							<td>{{ share['value'] | creditFormatterFilter }}</td>
+							<td>{{ share['gap'] | creditFormatterFilter }}</td>
 						</tr>
 					</tbody>
 				</table>
