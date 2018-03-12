@@ -104,6 +104,11 @@
          infinite-scroll-disabled="statement.total == statement.count || isLoadingMore"
          infinite-scroll-immediate-check="false"
          infinite-scroll="ctrl.loadMore()">
+    <div class="statement-item" style="text-align: right; padding: 5px">
+        <span style="cursor: pointer;" data-ng-click="statementExport()">
+            csv export <md-icon class="material-icons ng-scope" role="img" aria-hidden="true">&#xE2C4;</md-icon>
+        </span>
+    </div>
     <md-list-item
             class="md-3-line statement-item"
             data-ng-repeat="transaction in statement._embedded.transactions"
