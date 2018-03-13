@@ -12,6 +12,7 @@ angular.module('app.collaboration')
 		'voteExtractor',
 		'kanbanizeService',
 		'lanesService',
+		'membersDataService',
 		'creditFormatterFilterFilter',
 		'getRemovedAfterCloseFromHistory',
 		function (
@@ -27,6 +28,7 @@ angular.module('app.collaboration')
 			voteExtractor,
 			kanbanizeService,
 			lanesService,
+			membersDataService,
 			creditFormatterFilterFilter,
 			getRemovedAfterCloseFromHistory) {
 
@@ -103,6 +105,12 @@ angular.module('app.collaboration')
 				itemService.get($stateParams.orgId, $stateParams.itemId, function (data) {
 					$scope.author = itemService.getAuthor(data);
 					$scope.owner = itemService.getOwner(data);
+					if($scope.status > $scope.ITEM_STATUS.OPEN){
+						$scope.active = membersDataService.isActive($scope.owner.id);
+					}else{
+						$scope.active = membersDataService.isActive($scope.author.id);
+					}
+
 					$scope.yourEstimation = itemService.yourEstimation(data);
 					$scope.item = data;
 					$scope.attachments = data.attachments || [];
