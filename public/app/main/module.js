@@ -48,21 +48,9 @@ angular.module('app', [
 					url: '/:orgId',
 					templateUrl: 'app/main/partials/pillars.html',
 					resolve: {
-						members:['$stateParams','memberService','$q','$state','identity',function($stateParams, memberService,$q,$state,identity) {
-							var deferred = $q.defer();
-							memberService.query({ orgId: $stateParams.orgId },function(data){
-								var getUserMembershipForOrganization = function(id, memberships){
-									return memberships[id];
-								};
-								var membership = getUserMembershipForOrganization(identity.getId(), data._embedded['ora:member']);
-								if(!membership || !membership.active){
-									$state.go("deactivated-user-landing");
-								}else{
-									deferred.resolve(data);
-								}
-							});
-							return deferred.promise;
-						}],
+						members: function($stateParams, memberService) {
+                            return memberService.query($stateParams.orgId);
+                        },
 						streams:['streamService','$stateParams','$q',function(streamService,$stateParams,$q){
 							var deferred = $q.defer();
 							streamService.query($stateParams.orgId,function(data){

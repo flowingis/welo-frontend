@@ -1,6 +1,6 @@
 var MINIMAL_CREDITS = 3000; //Dati da settings
 
-var MemberService = function($http,$resource, identity) {
+var MemberService = function($http, $state, $resource, membersDataService, identity) {
 	var resource = $resource('api/:orgId/people/members/:memberId', { orgId: '@orgId', memberId: '@memberId' }, {
 		get: {
 			method: 'GET',
@@ -29,7 +29,29 @@ var MemberService = function($http,$resource, identity) {
 		}
 	});
 
-	this.query = resource.query;
+	this.query = function(organizationId){
+		return $http({
+			method: 'GET',
+			url: 'api/'+organizationId+'/people/members',
+			isArray: false,
+			headers: { 'GOOGLE-JWT': identity.getToken() }
+		}).then(function(res){
+			var data = res ? res.data : {};
+			var membersData = data._embedded ? data._embedded['ora:member'] : {};
+
+			var getUserMembershipForOrganization = function(id, memberships){
+				return memberships[id];
+			};
+			membersDataService.set(membersData);
+			var membership = getUserMembershipForOrganization(identity.getId(), membersData);
+			if(!membership || !membership.active){
+				$state.go("deactivated-user-landing");
+			}else{
+				return data;
+			}
+		});
+	};
+
 	this.get   = resource.get;
 
 	this.getPeople = function(organizationId, offset, limit){
@@ -153,4 +175,4 @@ MemberService.prototype = {
 	}
 };
 angular.module('app.people')
-	.service('memberService', ['$http','$resource', 'identity', MemberService]);
+	.service('memberService', ['$http', '$state', '$resource', 'membersDataService', 'identity', MemberService]);

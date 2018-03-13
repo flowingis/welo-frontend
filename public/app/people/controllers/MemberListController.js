@@ -35,12 +35,11 @@ angular.module('app.people')
 		};
 
 		var initMembers = function(){
-			memberService.query({ orgId: $stateParams.orgId },function(data){
+			memberService.query($stateParams.orgId).then(function(data){
 				//$scope.membersArray = getSortedMembersArray(data);
 				$scope.membersArray = _.values(data._embedded['ora:member']);
 				$scope.totalPeople = data.total;
-				$scope.loading = false;
-			},function(){
+			})["finally"](function(){
 				$scope.loading = false;
 			});
 		};
