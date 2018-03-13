@@ -105,10 +105,12 @@ angular.module('app.collaboration')
 				itemService.get($stateParams.orgId, $stateParams.itemId, function (data) {
 					$scope.author = itemService.getAuthor(data);
 					$scope.owner = itemService.getOwner(data);
-					if($scope.status > $scope.ITEM_STATUS.OPEN){
+					if($scope.status > $scope.ITEM_STATUS.OPEN && $scope.owner){
 						$scope.active = membersDataService.isActive($scope.owner.id);
-					}else{
+					}else if($scope.author){
 						$scope.active = membersDataService.isActive($scope.author.id);
+					}else{
+						$scope.active = false;
 					}
 
 					$scope.yourEstimation = itemService.yourEstimation(data);
