@@ -1,7 +1,7 @@
 angular.module('app.collaboration').factory('getRemovedAfterCloseFromHistory', [function(){
     var getEventsAfterClosed = function(history){
         var closedIndex = _.findIndex(history, function(event){
-            return event.name === "TaskCompleted";
+            return event.name === "TaskClosed";
         });
         return history.slice(closedIndex);
     };
