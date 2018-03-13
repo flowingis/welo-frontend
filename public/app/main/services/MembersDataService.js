@@ -9,9 +9,14 @@ var MembersDataService = function() {
         return membersData;
     };
 
+    var isActive = function(memberId){
+        return membersData[memberId] && membersData[memberId].active;
+    };
+
     return {
         set: set,
-        get: get
+        get: get,
+        isActive: isActive
     };
 };
 
