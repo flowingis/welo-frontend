@@ -153,5 +153,10 @@ angular.module('app.people')
 				});
 			});
 		};
+
+		$scope.openMenu = function ($mdMenu, ev) {
+			console.log($mdMenu);
+			$mdMenu.open(ev);
+		};
 	}
 ]);

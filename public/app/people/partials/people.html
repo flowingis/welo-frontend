@@ -27,23 +27,34 @@
                 </div>
             </div>
 
-            <div>
-                <md-button class="md-secondary md-icon-button md-warn"
-                           data-ng-if="!isMe(person) && isAllowed('removeUser', orgId)" aria-label="Delete"
-                           ng-click="removeUser($event,person)">
-                    <md-icon class="material-icons" aria-label="delete">delete</md-icon>
-                </md-button>
-                <div
-                    style="position: relative; z-index: 1"
-                    data-ng-if="!isMe(person) && isAllowed('enableDisableUser', orgId)"
-                    data-ng-click="enableDisableUser($event,person)">
-                    <span data-ng-class="{'color-primary': person.active}" style="background: #00FF00;">
-                        on
-                    </span>
-                    <span data-ng-class="{'color-primary': !person.active}" style="background: #FF0000;">
-                        off
-                    </span>
-                </div>
+            <div flex="none">
+                <md-menu data-ng-if="!isMe(person) && isAllowed('removeUser', orgId)">
+                    <md-button aria-label="Open management actions" class="md-icon-button" data-ng-click="openMenu($mdMenu, $event)">
+                        <md-icon md-menu-origin>&#xE5D4;</md-icon>
+                    </md-button>
+                    <md-menu-content width="4">
+                        <md-menu-item>
+                            <md-button class="md-icon-button md-warn"
+                                   data-ng-if="!isMe(person) && isAllowed('removeUser', orgId)" aria-label="Delete"
+                                   ng-click="removeUser($event,person)">
+                                <md-icon class="material-icons" aria-label="delete">delete</md-icon>
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <div
+                                style="position: relative; z-index: 1"
+                                data-ng-if="!isMe(person) && isAllowed('enableDisableUser', orgId)"
+                                data-ng-click="enableDisableUser($event,person)">
+                                <span data-ng-class="{'color-primary': person.active}" style="background: #00FF00;">
+                                    on
+                                </span>
+                                <span data-ng-class="{'color-primary': !person.active}" style="background: #FF0000;">
+                                    off
+                                </span>
+                            </div>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
             </div>
             <md-divider ng-if="!$last"></md-divider>
         </md-list-item>
