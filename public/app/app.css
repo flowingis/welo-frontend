@@ -1158,3 +1158,51 @@ button.md-button.md-raised.md-alert {
   background: #FF5252;
   color: white;
 }
+
+.more-btn {
+  margin-left: auto;
+}
+
+.switch-deactivation__btn {
+  margin: 0;
+  width: 100%;
+}
+
+.people-list--user-inactive .md-avatar {
+  opacity: 0.5;
+  border: 5px dashed black;
+  margin-left: -5px;
+  margin-right: 11px !important;
+}
+.people-list--user-inactive .people-list__text {
+  opacity: 0.5;
+}
+.people-list--user-inactive .people-list__text__inactive {
+  color: #D64C3F;
+}
+
+.people-list__remove-icon {
+  margin-right: 0 !important;
+}
+.people-list__remove-text {
+  color: rgba(0,0,0,0.87);
+}
+
+img.profile--user-inactive {
+  opacity: 0.5;
+  border: 5px dashed black;
+}
+.profile--user-inactive__text {
+  opacity: 0.5;
+}
+.profile__text__inactive {
+  color: #D64C3F;
+  font-size: 14px;
+}
+
+.kanban--user-inactive {
+  opacity: 0.5;
+  border: 5px dashed black;
+  margin-left: 5px !important;
+  margin-right: 5px !important;
+}
