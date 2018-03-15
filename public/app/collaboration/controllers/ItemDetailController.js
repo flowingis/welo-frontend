@@ -77,11 +77,6 @@ angular.module('app.collaboration')
 			var setLanesInformation = function(cb) {
 				lanesService.get($stateParams.orgId).then(function (lanes) {
 					$scope.lanes = lanes;
-					//lanes.forEach(function (lane) {
-					//	if (lane.lcid !== null) {
-					//		$scope.lanes[lane.lcid] = lane.lcname;
-					//	}
-					//});
 					cb();
 				});
 			};
@@ -99,6 +94,21 @@ angular.module('app.collaboration')
 					$scope.removedAfterClose = getRemovedAfterCloseFromHistory.get($scope.history);
 					cb();
 				}, onHttpGenericError);
+			};
+
+			this.isItemWithoutLane = function() {
+				var laneObj = lanesService.findLane($scope.item.lane, $scope.lanes);
+				var withoutLane = true; //the default value is true to prevent action while waiting for correct information
+				if (lanesManaged) {
+					if (laneObj) {
+						withoutLane = false;
+					} else {
+						withoutLane = true;
+					}
+				} else {
+					withoutLane = false; //if kanbanize manage lanes the state "withoutlane" it is not possible
+				}
+				return withoutLane;
 			};
 
 			var loadItem = function(cb) {
@@ -121,13 +131,10 @@ angular.module('app.collaboration')
 					$scope.members = _.values(data.members);
 					var laneObj = lanesService.findLane($scope.item.lane, $scope.lanes);
 					$scope.item.laneName = "";
-					$scope.item.withoutLane = false;
 					if (lanesManaged && laneObj) {
 						$scope.item.laneName = laneObj.lcname;
-						$scope.item.withoutLane = false;
 					} else if (lanesManaged && !laneObj) {
 						$scope.item.laneName = "";
-						$scope.item.withoutLane = true;
 					}
 					cb();
 
@@ -228,7 +235,7 @@ angular.module('app.collaboration')
 					case 'backToOngoing':
 					case 'backToCompleted':
 					case 'backToAccepted':
-						return (itemService.isAllowed(command, item) && !item.withoutLane);
+						return (itemService.isAllowed(command, item) && !this.isItemWithoutLane());
 					default:
 						return itemService.isAllowed(command, item);
 				}
