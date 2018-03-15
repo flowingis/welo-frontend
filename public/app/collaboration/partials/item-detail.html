@@ -70,7 +70,7 @@
 			<p ng-if="item.withoutLane" style="text-transform: uppercase; font-size: 18px; background-color: rgb(255,82,82);color:#FFFFFF; padding:3px;">ITEM WITHOUT LANE</p>
 
 			<div layout="row" class="margin-bottom-20" ng-if="item.status <= ITEM_STATUS.OPEN">
-				<img ng-click="goToProfile(author.id)" class="margin-right-20" style="max-width: 60px; max-height: 60px; border-radius: 50%; cursor: pointer;"
+				<img ng-click="goToProfile(author.id)" ng-class="{'item-list--user-inactive': !active}" class="margin-right-20" style="max-width: 60px; max-height: 60px; border-radius: 50%; cursor: pointer;"
 				 ng-src="{{ author.picture || 'img/account.jpg' }}">
 				<div>
 					<p class="no-margin no-padding" style="font-size: 14px;">author:</p>
@@ -86,7 +86,7 @@
 					<span class="item-detail__no_owner--text">Missing Owner</span>
 					<button href="#" ng-if="ctrl.isAllowed('changeOwner', item)" class="md-raised md-alert md-button ng-scope md-ink-ripple" ng-click="ctrl.changeOwner($event, item);">ASSIGN NEW OWNER</button>
 				</div>
-				<img data-ng-if="owner" class="margin-right-20" style="max-width: 60px; max-height: 60px; border-radius: 50%;" ng-src="{{ owner.picture || 'img/account.jpg' }}">
+				<img data-ng-if="owner" ng-class="{'item-list--user-inactive': !active}" class="margin-right-20" style="max-width: 60px; max-height: 60px; border-radius: 50%;" ng-src="{{ owner.picture || 'img/account.jpg' }}">
 				<img data-ng-if="!owner && (item.status === ITEM_STATUS.CLOSED)" class="margin-right-20" style="max-width: 60px; max-height: 60px; border-radius: 50%;" ng-src="{{ 'img/account.jpg' }}">
 				<div>
 					<p data-ng-if="owner || (item.status === ITEM_STATUS.CLOSED)" class="no-margin no-padding" style="font-size: 14px;">owner:</p>
@@ -169,7 +169,7 @@
 			<md-list class="md-dense" ng-if="item.status != 50">
 				<md-list-item ng-repeat="member in members" ng-init="m = member" ng-click="goToProfile(member.id)" class="md-2-line md-no-proxy"
 				 style="padding:0;">
-					<img alt="{{ member.firstname }} {{ member.lastname }}" ng-src="{{ member.picture || 'img/account.jpg' }}" class="md-avatar"/>
+					<img alt="{{ member.firstname }} {{ member.lastname }}" ng-src="{{ member.picture || 'img/account.jpg' }}" class="md-avatar" ng-class="{'item-list--user-inactive': !partecipantIsActive(member)}" />
 					<div class="md-list-item-text" layout="column">
 						<h3 class="warn partecipantsListText">{{ member.firstname }} {{ member.lastname }}</h3>
 						<p style="color:gray;">
@@ -195,8 +195,7 @@
 			<md-list class="md-dense" ng-if="ctrl.isAllowed('showShares', item)">
 				<md-list-item ng-repeat="member in members" ng-init="m = member" ng-click="goToProfile(member.id)" class="md-2-line md-no-proxy"
 				 style="padding:0;">
-					<img alt="{{ member.firstname }} {{ member.lastname }}" ng-src="{{ member.picture || 'img/account.jpg' }}" class="md-avatar"
-					/>
+					<img alt="{{ member.firstname }} {{ member.lastname }}" ng-src="{{ member.picture || 'img/account.jpg' }}" class="md-avatar" ng-class="{'item-list--user-inactive': !partecipantIsActive(member)}" />
 					<div class="md-list-item-text" layout="column">
 						<h3 class="warn" style="line-height: 1.2em;">{{ member.firstname }} {{ member.lastname }}</h3>
 						<p style="line-height: 1.2em;"><strong>Credits: {{member.credits | creditFormatterFilter}}</strong><br /><i>(Share: {{member.share*100 | creditFormatterFilter}}% Gap: {{printGap(member.delta)}})</i></p>

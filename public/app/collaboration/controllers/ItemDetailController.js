@@ -105,7 +105,9 @@ angular.module('app.collaboration')
 				itemService.get($stateParams.orgId, $stateParams.itemId, function (data) {
 					$scope.author = itemService.getAuthor(data);
 					$scope.owner = itemService.getOwner(data);
-					if($scope.status > $scope.ITEM_STATUS.OPEN && $scope.owner){
+					$scope.item = data;
+
+					if($scope.item.status > $scope.ITEM_STATUS.OPEN && $scope.owner){
 						$scope.active = membersDataService.isActive($scope.owner.id);
 					}else if($scope.author){
 						$scope.active = membersDataService.isActive($scope.author.id);
@@ -114,7 +116,7 @@ angular.module('app.collaboration')
 					}
 
 					$scope.yourEstimation = itemService.yourEstimation(data);
-					$scope.item = data;
+					
 					$scope.attachments = data.attachments || [];
 					$scope.members = _.values(data.members);
 					var laneObj = lanesService.findLane($scope.item.lane, $scope.lanes);
@@ -619,6 +621,9 @@ angular.module('app.collaboration')
 				});
 			};
 
+			$scope.partecipantIsActive = function(partecipant) {
+				return membersDataService.isActive(partecipant.id);
+			};
 
 			load();
 
