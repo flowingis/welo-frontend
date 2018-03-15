@@ -1179,6 +1179,7 @@ button.md-button.md-raised.md-alert {
 }
 .people-list--user-inactive .people-list__text__inactive {
   color: #D64C3F;
+  font-size: 14px;
 }
 
 .people-list__remove-icon {
@@ -1205,4 +1206,29 @@ img.profile--user-inactive {
   border: 5px dashed black;
   margin-left: 5px !important;
   margin-right: 5px !important;
+}
+
+.deactivated-landing {
+  padding: 108px 0 0 40px;
+}
+
+.deactivated-landing a {
+  color: rgb(0,131,143);
+}
+
+.item-list--user-inactive {
+  opacity: 0.5;
+  border: 5px dashed black;
+}
+
+.no-desk {
+  display: none;
+}
+@media screen and (max-width:500px) {
+  .deactivated-landing {
+    padding: 40px 20px 0 20px;
+  }
+  .no-desk {
+    display: block;
+  }
 }

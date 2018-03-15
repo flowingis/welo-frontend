@@ -169,8 +169,7 @@
 			<md-list class="md-dense" ng-if="item.status != 50">
 				<md-list-item ng-repeat="member in members" ng-init="m = member" ng-click="goToProfile(member.id)" class="md-2-line md-no-proxy"
 				 style="padding:0;">
-					<img alt="{{ member.firstname }} {{ member.lastname }}" ng-src="{{ member.picture || 'img/account.jpg' }}" class="md-avatar"
-					/>
+					<img alt="{{ member.firstname }} {{ member.lastname }}" ng-src="{{ member.picture || 'img/account.jpg' }}" class="md-avatar"/>
 					<div class="md-list-item-text" layout="column">
 						<h3 class="warn partecipantsListText">{{ member.firstname }} {{ member.lastname }}</h3>
 						<p style="color:gray;">

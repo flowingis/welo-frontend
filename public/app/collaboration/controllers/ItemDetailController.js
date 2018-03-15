@@ -87,7 +87,7 @@ angular.module('app.collaboration')
 			};
 
 			var loadStream = function(cb) {
-				streamService.query($stateParams.orgId, function (data) { 
+				streamService.query($stateParams.orgId, function (data) {
 					$scope.streams = data;
 					cb();
 				 }, onHttpGenericError);
@@ -128,7 +128,7 @@ angular.module('app.collaboration')
 						$scope.item.withoutLane = true;
 					}
 					cb();
-					
+
 				}, this.onLoadingError);
 			};
 
@@ -155,7 +155,7 @@ angular.module('app.collaboration')
 					return "n/a";
 				}
 			};
-			
+
 			this.iVoted = function (elm) {
 				var messageFromVoteExtractor = voteExtractor($scope.myId, elm);
 
@@ -234,8 +234,8 @@ angular.module('app.collaboration')
 
 			this.hasMore = function (item) {
 				return this.isAllowed('backToIdea', item) ||
-					this.isAllowed('deleteItem', item) || 
-					this.isAllowed('backToOpen', item) || 
+					this.isAllowed('deleteItem', item) ||
+					this.isAllowed('backToOpen', item) ||
 					this.isAllowed('backToOngoing', item) ||
 					this.isAllowed('backToCompleted', item) ||
 					this.isAllowed('backToAccepted', item);
@@ -305,7 +305,7 @@ angular.module('app.collaboration')
 
 				originatorEv = null;
 			};
-			
+
 			this.backToOpen = function (ev, item) {
 				var that = this;
 				var confirm = $mdDialog.confirm()
@@ -326,7 +326,7 @@ angular.module('app.collaboration')
 
 				originatorEv = null;
 			};
-			
+
 			this.backToOngoing = function (ev, item) {
 				var that = this;
 				var confirm = $mdDialog.confirm()
@@ -460,7 +460,7 @@ angular.module('app.collaboration')
 				}
 
 			};
-			
+
 			this.completeItem = function (ev, item) {
 				var that = this;
 				var confirm = $mdDialog.confirm()
@@ -622,5 +622,5 @@ angular.module('app.collaboration')
 
 			load();
 
-			
+
 		}]);

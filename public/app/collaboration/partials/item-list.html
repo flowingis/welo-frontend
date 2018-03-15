@@ -89,7 +89,7 @@
         <md-card-media class="mobile-item__media" layout="column" layout-align="start end">
             <div ng-show="getOwnerAuthor(item) && item.status != ITEM_STATUS.OPEN">
                 <div>
-                    <img class="mobile-item__media__image" ng-src="{{ getOwnerAuthor(item).picture || 'img/account.jpg' }}" alt="{{ getOwnerAuthor(item).firstname }} {{ getOwnerAuthor(item).lastname}}" title="{{ getOwnerAuthor(item).firstname }} {{ getOwnerAuthor(item).lastname}}">
+                    <img class="mobile-item__media__image item-list--user-inactive" ng-src="{{ getOwnerAuthor(item).picture || 'img/account.jpg' }}" alt="{{ getOwnerAuthor(item).firstname }} {{ getOwnerAuthor(item).lastname}}" title="{{ getOwnerAuthor(item).firstname }} {{ getOwnerAuthor(item).lastname}}">
                 </div>
             </div>
             <div ng-show="getOwnerAuthor(item) && item.status == ITEM_STATUS.OPEN && showPriority(item)">
