@@ -625,6 +625,22 @@ angular.module('app.collaboration')
 				return membersDataService.isActive(partecipant.id);
 			};
 
+			$scope.ownerAuthorAlt = function() {
+				if ($scope.active) {
+					return "";
+				} else {
+					return "currently inactive";
+				}
+			};
+
+			$scope.partecipantAlt = function(partecipant) {
+				if (membersDataService.isActive(partecipant.id)) {
+					return partecipant.firstname + " " + partecipant.lastname;
+				} else {
+					return "currently inactive";
+				}
+			}
+
 			load();
 
 
