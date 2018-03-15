@@ -49,6 +49,10 @@
                         $scope.imInvolved = itemService.isIn($scope.item, $scope.myId);
                     }
 
+                    if ($scope.ownerAuthorName && !$scope.active) {
+                        $scope.ownerAuthorName = $scope.ownerAuthorName + " (currently inactive)"
+                    }
+
                     switch (true) {
                         case ($scope.imInvolved && $scope.isDecision):
                             $scope.tooltip = "It's a decision and I'm involved";
