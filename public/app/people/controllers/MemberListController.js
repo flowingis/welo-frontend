@@ -101,7 +101,7 @@ angular.module('app.people')
 				case ((member.involvement.ownershipsCount>0) && (member.involvement.membershipsCount>0)): 
 					strWarningMsg = "<p><strong>" + member.firstname + " " + member.lastname + "</strong>  is the owner of <strong class=\"warn\">" + member.involvement.ownershipsCount + "</strong> open "+item_label+" and involved in <strong>" + member.involvement.membershipsCount + "</strong> open items.</p>";
 				break;
-				case ((member.involvement.ownershipsCount==0) && (member.involvement.membershipsCount>0)): 
+				case ((member.involvement.ownershipsCount===0) && (member.involvement.membershipsCount>0)): 
 					strWarningMsg = "<p><strong>" + member.firstname + " " + member.lastname + "</strong>  is involved in <strong>" + member.involvement.membershipsCount + "</strong> open "+item_label+".</p>";
 				break;
 				default:

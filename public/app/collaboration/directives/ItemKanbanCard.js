@@ -50,7 +50,7 @@
                     }
 
                     if ($scope.ownerAuthorName && !$scope.active) {
-                        $scope.ownerAuthorName = $scope.ownerAuthorName + " (currently inactive)"
+                        $scope.ownerAuthorName = $scope.ownerAuthorName + " (currently inactive)";
                     }
 
                     switch (true) {

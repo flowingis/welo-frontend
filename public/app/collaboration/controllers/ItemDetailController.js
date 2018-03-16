@@ -639,7 +639,7 @@ angular.module('app.collaboration')
 				} else {
 					return "currently inactive";
 				}
-			}
+			};
 
 			load();
 

@@ -1175,7 +1175,8 @@ button.md-button.md-raised.md-alert {
   margin-right: 11px !important;
 }
 .people-list--user-inactive .people-list__text {
-  opacity: 0.5;
+    color: #888888;
+    /*opacity: 0.5;*/
 }
 .people-list--user-inactive .people-list__text__inactive {
   color: #D64C3F;
