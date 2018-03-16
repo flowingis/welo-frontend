@@ -1,6 +1,36 @@
-<div class="deactivated-landing">
-    <h1>Hey [name],<br>
-    we miss you for a long time…</h1>
-    <p>[Organization] has deactivated you because …</p>
-    <p><b>Contact <a href="#">admin@email.it</a> to request an access.</b></p>
+<md-toolbar>
+	<div class="md-toolbar-tools" ng-if="!showBack">
+		<div class="organization-logo hand-pointer" data-ng-click="toggleLeft();">
+			{{organization | organizationInitials}}
+		</div>
+		<h2 class="stream-subject"> {{stream.subject}} &nbsp;&gt; &nbsp; </h2>  <h2>User deactivated</h2>
+		<span flex></span>
+	</div>
+	<!-- Back -->
+	<div class="md-toolbar-tools" ng-if="showBack">
+		<md-button class="md-icon-button" ng-click="goBack();">
+			<i class="material-icons" title="Back">&#xE317;</i>
+		</md-button>
+		<h2> back </h2>
+		<span flex></span>
+	</div>
+</md-toolbar>
+<div scrolly class="bkg-color-secondary content-wrapper" offset="10" data-ng-class="{'full-content-wrapper':!(organizationId && navigationBarTabs.selectedIndex>=0)}" data-ng-if="!fullHeight" flex ui-view>
+    <div class="deactivated-landing">
+        <h1>Hey [name],<br>
+        we miss you for a long time…</h1>
+        <p>[Organization] has deactivated you because …</p>
+        <p><b>Contact <a href="#">admin@email.it</a> to request an access.</b></p>
+    </div>
 </div>
+<div class="bkg-color-secondary content-wrapper" data-ng-class="{'full-content-wrapper':!(organizationId && navigationBarTabs.selectedIndex>=0)}" data-ng-if="fullHeight" layout="row" flex ui-view>
+    <div class="deactivated-landing">
+        <h1>Hey [name],<br>
+        we miss you for a long time…</h1>
+        <p>[Organization] has deactivated you because …</p>
+        <p><b>Contact <a href="#">admin@email.it</a> to request an access.</b></p>
+    </div>
+</div>
+
+
+
