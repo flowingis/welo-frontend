@@ -10,11 +10,6 @@ var MemberService = function($http, $state, $resource, membersDataService, ident
 			method: 'GET',
 			headers: { 'GOOGLE-JWT': identity.getToken() }
 		},
-		query: {
-			method: 'GET',
-			isArray: false,
-			headers: { 'GOOGLE-JWT': identity.getToken() }
-		},
 		save: {
 			method: 'POST',
 			headers: { 'GOOGLE-JWT': identity.getToken() }
@@ -32,7 +27,7 @@ var MemberService = function($http, $state, $resource, membersDataService, ident
 	this.query = function(organizationId){
 		return $http({
 			method: 'GET',
-			url: 'api/'+organizationId+'/people/members',
+			url: 'api/'+organizationId+'/people/members?offset=0&limit=9999',
 			isArray: false,
 			headers: { 'GOOGLE-JWT': identity.getToken() }
 		}).then(function(res){

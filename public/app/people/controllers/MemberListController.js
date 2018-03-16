@@ -35,10 +35,9 @@ angular.module('app.people')
 		};
 
 		var initMembers = function(){
-			memberService.query($stateParams.orgId).then(function(data){
-				//$scope.membersArray = getSortedMembersArray(data);
-				$scope.membersArray = _.values(data._embedded['ora:member']);
-				$scope.totalPeople = data.total;
+			memberService.getPeople($stateParams.orgId,0).then(function(response) {
+				$scope.membersArray = getSortedMembersArray(response.data);
+				$scope.totalPeople = response.data.total;
 			})["finally"](function(){
 				$scope.loading = false;
 			});
@@ -139,7 +138,7 @@ angular.module('app.people')
 
 			var confirm = $mdDialog.confirm()
 					.title(msg)
-					.textContent("This operation can be undone.")
+					.textContent("")
 					.targetEvent(ev)
 					.ok("Yes")
 					.cancel("No");

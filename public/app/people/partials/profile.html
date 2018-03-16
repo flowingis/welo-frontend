@@ -1,10 +1,10 @@
 <div layout="row" class="md-padding">
 	<div layout="column">
 		<center>
-			<img alt="{{ profile.firstname }} {{ profile.lastname }}" ng-src="{{ profile.picture || 'img/account.jpg' }}" style="border-radius: 50%; height: 70px; width: 70px; margin-top:20px;" data-ng-class="{'profile--user-inactive': !person.active}">
-			<p style="margin-top:-2px; font-size: 14px;" data-ng-class="{'profile--user-inactive__text': !person.active}">{{ profile.firstname }} {{ profile.lastname}}</p>
-			<p class="profile-role" data-ng-class="{'profile--user-inactive__text': !person.active}">({{profile.role}})</p>
-			<span class="profile__text__inactive" data-ng-if="!person.active">currently inactive</span>
+			<img alt="{{ profile.firstname }} {{ profile.lastname }}" ng-src="{{ profile.picture || 'img/account.jpg' }}" style="border-radius: 50%; height: 70px; width: 70px; margin-top:20px;" data-ng-class="{'profile--user-inactive': !profile.active}">
+			<p style="margin-top:-2px; font-size: 14px;" data-ng-class="{'profile--user-inactive__text': !profile.active}">{{ profile.firstname }} {{ profile.lastname}}</p>
+			<p class="profile-role" data-ng-class="{'profile--user-inactive__text': !profile.active}">({{profile.role}})</p>
+			<span class="profile__text__inactive" data-ng-if="!profile.active">currently inactive</span>
 		</center>
 	</div>
 	<div layout="column">
