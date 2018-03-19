@@ -40,7 +40,7 @@ var MemberService = function($http, $state, $resource, membersDataService, ident
 			membersDataService.set(membersData);
 			var membership = getUserMembershipForOrganization(identity.getId(), membersData);
 			if(!membership || !membership.active){
-				$state.go("deactivated-user-landing");
+				$state.go("deactivated-user-landing", { orgId: organizationId });
 			}else{
 				return data;
 			}

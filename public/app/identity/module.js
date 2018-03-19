@@ -7,7 +7,7 @@ angular.module('app.identity', ['ui.router'])
 					templateUrl: 'app/identity/partials/sign-in.html',
 					controller: 'SignInController'
 				}).state('deactivated-user-landing', {
-					url: '/deactivated-user-landing',
+					url: ':orgId/deactivated-user-landing',
 					templateUrl: 'app/identity/partials/deactivated-user-landing.html',
 					controller: 'DeactivatedUserLandingController as ctrl'
 				});

@@ -17,20 +17,28 @@
 </md-toolbar>
 <div scrolly class="bkg-color-secondary content-wrapper" offset="10" data-ng-class="{'full-content-wrapper':!(organizationId && navigationBarTabs.selectedIndex>=0)}" data-ng-if="!fullHeight" flex ui-view>
     <div class="deactivated-landing">
-        <h1>Hey [name],<br>
-        we miss you for a long time…</h1>
-        <p>[Organization] has deactivated you because …</p>
-        <p><b>Contact <a href="#">admin@email.it</a> to request an access.</b></p>
+        <h1>Hello {{userDesc}},</h1>
+<h3>if you are reading this page it means you haven't been contributing to the governance of {{organization.name}} for a while, thus you've now been deactivated.</h3>
+
+<p>No panic though, all of your data is intact and you can be reactivated by the members of your organisation in any moment, if its current policies allow for it. Thus, please contact one of the members in order to be reactivated.</p>
+
+<p>Hope to see you back to action very soon!</p>
     </div>
 </div>
 <div class="bkg-color-secondary content-wrapper" data-ng-class="{'full-content-wrapper':!(organizationId && navigationBarTabs.selectedIndex>=0)}" data-ng-if="fullHeight" layout="row" flex ui-view>
     <div class="deactivated-landing">
-        <h1>Hey [name],<br>
-        we miss you for a long time…</h1>
-        <p>[Organization] has deactivated you because …</p>
-        <p><b>Contact <a href="#">admin@email.it</a> to request an access.</b></p>
+        <h1>Hello {{userDesc}},</h1>
+<h3>if you are reading this page it means you haven't been contributing to the governance of {{organization.name}} for a while, thus you've now been deactivated.</h3>
+
+<p>No panic though, all of your data is intact and you can be reactivated by the members of your organisation in any moment, if its current policies allow for it. Thus, please contact one of the members in order to be reactivated.</p>
+
+<p>Hope to see you back to action very soon!</p>
     </div>
 </div>
 
+<!-- <h1>Hello {{userDesc}},
+if you are reading this page it means you haven't been contributing to the governance of {{organization.name}} for a while, thus you've now been deactivated.</h1>
 
+<p>No panic though, all of your data is intact and you can be reactivated by the members of your organisation in any moment, if its current policies allow for it. Thus, please contact one of the members in order to be reactivated.</p>
 
+<p>Hope to see you back to action very soon!</p> -->
