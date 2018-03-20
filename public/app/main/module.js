@@ -49,8 +49,8 @@ angular.module('app', [
 					templateUrl: 'app/main/partials/pillars.html',
 					resolve: {
 						members: function($stateParams, memberService) {
-							return memberService.query({ orgId: $stateParams.orgId });
-						},
+                            return memberService.query($stateParams.orgId);
+                        },
 						streams:['streamService','$stateParams','$q',function(streamService,$stateParams,$q){
 							var deferred = $q.defer();
 							streamService.query($stateParams.orgId,function(data){

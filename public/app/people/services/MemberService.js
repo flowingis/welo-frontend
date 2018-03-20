@@ -1,6 +1,6 @@
 var MINIMAL_CREDITS = 3000; //Dati da settings
 
-var MemberService = function($http,$resource, identity) {
+var MemberService = function($http, $state, $resource, membersDataService, identity) {
 	var resource = $resource('api/:orgId/people/members/:memberId', { orgId: '@orgId', memberId: '@memberId' }, {
 		get: {
 			method: 'GET',
@@ -8,11 +8,6 @@ var MemberService = function($http,$resource, identity) {
 		},
 		getHistory: {
 			method: 'GET',
-			headers: { 'GOOGLE-JWT': identity.getToken() }
-		},
-		query: {
-			method: 'GET',
-			isArray: false,
 			headers: { 'GOOGLE-JWT': identity.getToken() }
 		},
 		save: {
@@ -29,7 +24,29 @@ var MemberService = function($http,$resource, identity) {
 		}
 	});
 
-	this.query = resource.query;
+	this.query = function(organizationId){
+		return $http({
+			method: 'GET',
+			url: 'api/'+organizationId+'/people/members?offset=0&limit=9999',
+			isArray: false,
+			headers: { 'GOOGLE-JWT': identity.getToken() }
+		}).then(function(res){
+			var data = res ? res.data : {};
+			var membersData = data._embedded ? data._embedded['ora:member'] : {};
+
+			var getUserMembershipForOrganization = function(id, memberships){
+				return memberships[id];
+			};
+			membersDataService.set(membersData);
+			var membership = getUserMembershipForOrganization(identity.getId(), membersData);
+			if(!membership || !membership.active){
+				$state.go("deactivated-user-landing", { orgId: organizationId });
+			}else{
+				return data;
+			}
+		});
+	};
+
 	this.get   = resource.get;
 
 	this.getPeople = function(organizationId, offset, limit){
@@ -66,6 +83,15 @@ var MemberService = function($http,$resource, identity) {
  			method: 'DELETE',
  			url: 'api/'+organizationId+'/people/members/' + memberId,
 			headers: { 'GOOGLE-JWT': identity.getToken() }
+		});
+	};
+
+	this.enableDisableUser = function(organizationId, memberId, active) {
+		return $http({
+			method: 'PUT',
+			url: 'api/'+organizationId+'/people/members/'+memberId,
+			headers: { 'GOOGLE-JWT': identity.getToken() },
+			data: { orgId: organizationId, memberId: memberId, active: active}
 		});
 	};
 
@@ -129,6 +155,9 @@ MemberService.prototype = {
 			var role = this.getIdentity().getMembershipRole(data.orgId);
 			//Not me && I'm admingit
 			return data && data.userId && this.getIdentity().getId() !== data.userId && role && role === "admin";
+		},
+		enableDisableUser: function(organizationId) {
+			return 'admin' === this.getIdentity().getMembershipRole(organizationId);
 		}
 	},
 	isAllowed: function(command, resource) {
@@ -141,4 +170,4 @@ MemberService.prototype = {
 	}
 };
 angular.module('app.people')
-	.service('memberService', ['$http','$resource', 'identity', MemberService]);
+	.service('memberService', ['$http', '$state', '$resource', 'membersDataService', 'identity', MemberService]);

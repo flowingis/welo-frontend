@@ -35,12 +35,10 @@ angular.module('app.people')
 		};
 
 		var initMembers = function(){
-			memberService.query({ orgId: $stateParams.orgId },function(data){
-				//$scope.membersArray = getSortedMembersArray(data);
-				$scope.membersArray = _.values(data._embedded['ora:member']);
-				$scope.totalPeople = data.total;
-				$scope.loading = false;
-			},function(){
+			memberService.getPeople($stateParams.orgId,0).then(function(response) {
+				$scope.membersArray = getSortedMembersArray(response.data);
+				$scope.totalPeople = response.data.total;
+			})["finally"](function(){
 				$scope.loading = false;
 			});
 		};
@@ -103,7 +101,7 @@ angular.module('app.people')
 				case ((member.involvement.ownershipsCount>0) && (member.involvement.membershipsCount>0)): 
 					strWarningMsg = "<p><strong>" + member.firstname + " " + member.lastname + "</strong>  is the owner of <strong class=\"warn\">" + member.involvement.ownershipsCount + "</strong> open "+item_label+" and involved in <strong>" + member.involvement.membershipsCount + "</strong> open items.</p>";
 				break;
-				case ((member.involvement.ownershipsCount==0) && (member.involvement.membershipsCount>0)): 
+				case ((member.involvement.ownershipsCount===0) && (member.involvement.membershipsCount>0)): 
 					strWarningMsg = "<p><strong>" + member.firstname + " " + member.lastname + "</strong>  is involved in <strong>" + member.involvement.membershipsCount + "</strong> open "+item_label+".</p>";
 				break;
 				default:
@@ -132,6 +130,32 @@ angular.module('app.people')
 				});
 			});
 
+		};
+
+		$scope.enableDisableUser = function(ev,member){
+			var msgValue = member.active ? "deactivate" : "activate";
+			var msg = "Would you "+msgValue+" this user for this the organization?";
+
+			var confirm = $mdDialog.confirm()
+					.title(msg)
+					.textContent("")
+					.targetEvent(ev)
+					.ok("Yes")
+					.cancel("No");
+
+			$mdDialog.show(confirm).then(function() {
+				$scope.loading = true;
+				memberService.enableDisableUser($stateParams.orgId,member.id, !member.active).then(function(res){
+					member.active = res && res.data && res.data.active;
+				})["finally"](function(){
+					$scope.loading = false;
+				});
+			});
+		};
+
+		$scope.openMenu = function ($mdMenu, ev) {
+			console.log($mdMenu);
+			$mdMenu.open(ev);
 		};
 	}
 ]);

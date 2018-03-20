@@ -42,6 +42,7 @@ angular.module('app.people')
 				$scope.profileHistory = _.sortBy(res.data, function(historyEvent){
 					return historyEvent.on;
 				}).reverse();
+				console.log($scope.profileHistory);
 			});
 
 			$scope.askChangeRole = function(ev,newRole) {

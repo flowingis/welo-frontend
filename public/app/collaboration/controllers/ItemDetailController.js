@@ -12,6 +12,7 @@ angular.module('app.collaboration')
 		'voteExtractor',
 		'kanbanizeService',
 		'lanesService',
+		'membersDataService',
 		'creditFormatterFilterFilter',
 		'getRemovedAfterCloseFromHistory',
 		function (
@@ -27,6 +28,7 @@ angular.module('app.collaboration')
 			voteExtractor,
 			kanbanizeService,
 			lanesService,
+			membersDataService,
 			creditFormatterFilterFilter,
 			getRemovedAfterCloseFromHistory) {
 
@@ -85,7 +87,7 @@ angular.module('app.collaboration')
 			};
 
 			var loadStream = function(cb) {
-				streamService.query($stateParams.orgId, function (data) { 
+				streamService.query($stateParams.orgId, function (data) {
 					$scope.streams = data;
 					cb();
 				 }, onHttpGenericError);
@@ -103,8 +105,18 @@ angular.module('app.collaboration')
 				itemService.get($stateParams.orgId, $stateParams.itemId, function (data) {
 					$scope.author = itemService.getAuthor(data);
 					$scope.owner = itemService.getOwner(data);
-					$scope.yourEstimation = itemService.yourEstimation(data);
 					$scope.item = data;
+
+					if($scope.item.status > $scope.ITEM_STATUS.OPEN && $scope.owner){
+						$scope.active = membersDataService.isActive($scope.owner.id);
+					}else if($scope.author){
+						$scope.active = membersDataService.isActive($scope.author.id);
+					}else{
+						$scope.active = false;
+					}
+
+					$scope.yourEstimation = itemService.yourEstimation(data);
+					
 					$scope.attachments = data.attachments || [];
 					$scope.members = _.values(data.members);
 					var laneObj = lanesService.findLane($scope.item.lane, $scope.lanes);
@@ -118,7 +130,7 @@ angular.module('app.collaboration')
 						$scope.item.withoutLane = true;
 					}
 					cb();
-					
+
 				}, this.onLoadingError);
 			};
 
@@ -145,7 +157,7 @@ angular.module('app.collaboration')
 					return "n/a";
 				}
 			};
-			
+
 			this.iVoted = function (elm) {
 				var messageFromVoteExtractor = voteExtractor($scope.myId, elm);
 
@@ -224,8 +236,8 @@ angular.module('app.collaboration')
 
 			this.hasMore = function (item) {
 				return this.isAllowed('backToIdea', item) ||
-					this.isAllowed('deleteItem', item) || 
-					this.isAllowed('backToOpen', item) || 
+					this.isAllowed('deleteItem', item) ||
+					this.isAllowed('backToOpen', item) ||
 					this.isAllowed('backToOngoing', item) ||
 					this.isAllowed('backToCompleted', item) ||
 					this.isAllowed('backToAccepted', item);
@@ -295,7 +307,7 @@ angular.module('app.collaboration')
 
 				originatorEv = null;
 			};
-			
+
 			this.backToOpen = function (ev, item) {
 				var that = this;
 				var confirm = $mdDialog.confirm()
@@ -316,7 +328,7 @@ angular.module('app.collaboration')
 
 				originatorEv = null;
 			};
-			
+
 			this.backToOngoing = function (ev, item) {
 				var that = this;
 				var confirm = $mdDialog.confirm()
@@ -450,7 +462,7 @@ angular.module('app.collaboration')
 				}
 
 			};
-			
+
 			this.completeItem = function (ev, item) {
 				var that = this;
 				var confirm = $mdDialog.confirm()
@@ -609,8 +621,27 @@ angular.module('app.collaboration')
 				});
 			};
 
+			$scope.partecipantIsActive = function(partecipant) {
+				return membersDataService.isActive(partecipant.id);
+			};
+
+			$scope.ownerAuthorAlt = function() {
+				if ($scope.active) {
+					return "";
+				} else {
+					return "currently inactive";
+				}
+			};
+
+			$scope.partecipantAlt = function(partecipant) {
+				if (membersDataService.isActive(partecipant.id)) {
+					return partecipant.firstname + " " + partecipant.lastname;
+				} else {
+					return "currently inactive";
+				}
+			};
 
 			load();
 
-			
+
 		}]);

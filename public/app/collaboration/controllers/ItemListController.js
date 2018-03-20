@@ -12,6 +12,7 @@ angular.module('app.collaboration')
 		'voteExtractor',
 		'selectedFilterService',
 		'lanesService',
+		'membersDataService',
 		'kanbanizeService',
 		'settingsService',
 		function (
@@ -27,6 +28,7 @@ angular.module('app.collaboration')
 			voteExtractor,
 			selectedFilterService,
 			lanesService,
+			membersDataService,
 			kanbanizeService,
 			settingsService) {
 
@@ -210,6 +212,15 @@ angular.module('app.collaboration')
 				} else {
 					return getOwner(item);
 				} 
+			};
+
+			$scope.itemIsActive = function(item){
+				var ownerAuthor = $scope.getOwnerAuthor(item);
+				if(ownerAuthor){
+					return membersDataService.isActive(ownerAuthor.id);
+				}else{
+					return false;
+				}
 			};
 
 			$scope.checkImIn = function(item){
