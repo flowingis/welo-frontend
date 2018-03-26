@@ -102,7 +102,7 @@ angular.module('app.collaboration')
 						    "on": h.on+"-"+OwnerAddedEvent.on,
 						    "user": h.user,
 						    "payload": OwnerAddedEvent.payload
-						 }
+						};
 						toReturn.push(OwnerChangedEvent);
 					}else if(h.name === "OwnerAdded" && prevIsOwnerRemoved(history, i)){
 					}else{
