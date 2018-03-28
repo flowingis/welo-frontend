@@ -91,9 +91,9 @@ angular.module('app.collaboration')
             EstimationAdded: function(h){ //Aggiunto
                 var estimate = h.payload && h.payload.value;
                 if(estimate >= 0){
-                    return getUserName(h)+" made an estimate of this Item"
+                    return getUserName(h)+" made an estimate of this Item";
                 }else{
-                    return getUserName(h)+" skipped estimate of this Item"
+                    return getUserName(h)+" skipped estimate of this Item";
                 }
             }
         };
