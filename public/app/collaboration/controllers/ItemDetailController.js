@@ -140,7 +140,16 @@ angular.module('app.collaboration')
 
 				}, this.onLoadingError);
 			};
-
+			//TODO: idealmente la loadItem dovrebbe essere caricata per prima e sbloccare il caricamento della pagina
+			// al momento le chiamate fatte prima servono per non vedere la pagina rotta
+			// capire cosa viene inizializzato dalle chiamate prima per poterle eseguire dopo o in contemporanea con la loadItem
+			// getIfPriorityLaneManaged -> 
+			// 		priorityManaged
+			// 		lanesManaged
+			// setLanesInformation ->
+			// 		$scope.lanes
+			// loadStream ->
+			// 		$scope.streams
 			var load = function() {
 				getIfPriorityLaneManaged(function() {
 					setLanesInformation(function() {
