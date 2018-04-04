@@ -36,6 +36,7 @@ angular.module('app.flow')
 
 			var initFilters = function(){
 				$scope.filters = {
+                    org: SelectedOrganizationId.get(),
 					limit: 10,
 					offset: 0
 				};
