@@ -51,20 +51,20 @@ angular.module('app.collaboration')
 			};
 			$scope.noMoreInOrganizationPeriod = "(No more within this organization)";
 			$scope.lanes = [];
-			$scope.streams = null;
+			//$scope.streams = null;
 
 			var priorityManaged = false;
 			var lanesManaged = false;
 
-			var getIfPriorityLaneManaged = function(cb) {
+			var getIfPriorityLaneManaged = function (cb) {
 				kanbanizeService.query($stateParams.orgId,
-					function(data) {
+					function (data) {
 						if (data.apikey) {
 							priorityManaged = true;
 							lanesManaged = true;
 							cb();
 						} else {
-							settingsService.get($stateParams.orgId).then(function(settings){
+							settingsService.get($stateParams.orgId).then(function (settings) {
 								priorityManaged = settings.manage_priorities === "1";
 								lanesManaged = settings.manage_lanes === "1";
 								cb();
@@ -74,19 +74,19 @@ angular.module('app.collaboration')
 				);
 			};
 
-			var setLanesInformation = function(cb) {
+			var setLanesInformation = function (cb) {
 				lanesService.get($stateParams.orgId).then(function (lanes) {
 					$scope.lanes = lanes;
 					cb();
 				});
 			};
 
-			var loadStream = function(cb) {
+			/*var loadStream = function(cb) {
 				streamService.query($stateParams.orgId, function (data) {
 					$scope.streams = data;
 					cb();
-				 }, onHttpGenericError);
-			};
+				}, onHttpGenericError);
+			};*/
 
 			var loadHistory = function(cb) {
 				itemService.getHistory($scope.item).then(function (response) {
@@ -111,6 +111,19 @@ angular.module('app.collaboration')
 				return withoutLane;
 			};
 
+			this.getLaneName = function() {
+				var laneName = "";
+				if ($scope.lanes.length && $scope.item) {
+					var laneObj = lanesService.findLane($scope.item.lane, $scope.lanes);
+					if (lanesManaged && laneObj) {
+						laneName = laneObj.lcname;
+					} else if (lanesManaged && !laneObj) {
+						laneName = "";
+					}
+				}
+				return laneName;
+			};
+
 			var loadItem = function(cb) {
 				itemService.get($stateParams.orgId, $stateParams.itemId, function (data) {
 					$scope.author = itemService.getAuthor(data);
@@ -129,38 +142,33 @@ angular.module('app.collaboration')
 					
 					$scope.attachments = data.attachments || [];
 					$scope.members = _.values(data.members);
-					var laneObj = lanesService.findLane($scope.item.lane, $scope.lanes);
-					$scope.item.laneName = "";
-					if (lanesManaged && laneObj) {
-						$scope.item.laneName = laneObj.lcname;
-					} else if (lanesManaged && !laneObj) {
-						$scope.item.laneName = "";
-					}
+					
 					cb();
 
 				}, this.onLoadingError);
 			};
-			//TODO: idealmente la loadItem dovrebbe essere caricata per prima e sbloccare il caricamento della pagina
-			// al momento le chiamate fatte prima servono per non vedere la pagina rotta
-			// capire cosa viene inizializzato dalle chiamate prima per poterle eseguire dopo o in contemporanea con la loadItem
-			// getIfPriorityLaneManaged -> 
-			// 		priorityManaged
-			// 		lanesManaged
-			// setLanesInformation ->
-			// 		$scope.lanes
-			// loadStream ->
-			// 		$scope.streams
+			
+			var partialDataLoaded = 0;
+			this.isAllPageLoaded = function() {
+				return partialDataLoaded===3;
+			};
 			var load = function() {
+				partialDataLoaded = 0;
 				getIfPriorityLaneManaged(function() {
-					setLanesInformation(function() {
-						loadStream(function() {
-							loadItem(function() {
-								$scope.busy = false;
-								loadHistory(function() {
-									$scope.loading = false;
-								});
-							});
-						});
+					partialDataLoaded++;
+				});
+				setLanesInformation(function() {
+					partialDataLoaded++
+				});
+				//loadStream(function() {
+				//	console.log("HO L'INFORMAZIONE DELLO STREAM");
+				//	partiCaricate++
+				//});
+				loadItem(function() {
+					$scope.busy = false;
+					loadHistory(function() {
+						$scope.loading = false;
+						partialDataLoaded++
 					});
 				});
 			};
@@ -223,14 +231,17 @@ angular.module('app.collaboration')
 			$scope.item = null;
 			$scope.ITEM_STATUS = itemService.ITEM_STATUS;
 
-			this.stream = function (item) {
-				if ($scope.streams && item && item.stream) {
-					return $scope.streams._embedded['ora:stream'][item.stream.id];
-				}
-				return null;
-			};
+			//this.stream = function (item) {
+			//	if ($scope.streams && item && item.stream) {
+			//		return $scope.streams._embedded['ora:stream'][item.stream.id];
+			//	}
+			//	return null;
+			//};
 
 			this.isAllowed = function(command, item) {
+				if (!this.isAllPageLoaded()) {
+					return false;
+				}
 				switch (command) {
 					case 'executeItem':
 					case 'approveIdea':
