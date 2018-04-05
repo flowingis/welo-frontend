@@ -5,7 +5,6 @@ angular.module('app.collaboration')
 		'$stateParams',
 		'$mdDialog',
 		'$log',
-		'streamService',
 		'itemService',
 		'settingsService',
 		'identity',
@@ -21,7 +20,6 @@ angular.module('app.collaboration')
 			$stateParams,
 			$mdDialog,
 			$log,
-			streamService,
 			itemService,
 			settingsService,
 			identity,
@@ -51,7 +49,6 @@ angular.module('app.collaboration')
 			};
 			$scope.noMoreInOrganizationPeriod = "(No more within this organization)";
 			$scope.lanes = [];
-			//$scope.streams = null;
 
 			var priorityManaged = false;
 			var lanesManaged = false;
@@ -80,13 +77,6 @@ angular.module('app.collaboration')
 					cb();
 				});
 			};
-
-			/*var loadStream = function(cb) {
-				streamService.query($stateParams.orgId, function (data) {
-					$scope.streams = data;
-					cb();
-				}, onHttpGenericError);
-			};*/
 
 			var loadHistory = function(cb) {
 				itemService.getHistory($scope.item).then(function (response) {
@@ -160,10 +150,6 @@ angular.module('app.collaboration')
 				setLanesInformation(function() {
 					partialDataLoaded++
 				});
-				//loadStream(function() {
-				//	console.log("HO L'INFORMAZIONE DELLO STREAM");
-				//	partiCaricate++
-				//});
 				loadItem(function() {
 					$scope.busy = false;
 					loadHistory(function() {
@@ -230,13 +216,6 @@ angular.module('app.collaboration')
 
 			$scope.item = null;
 			$scope.ITEM_STATUS = itemService.ITEM_STATUS;
-
-			//this.stream = function (item) {
-			//	if ($scope.streams && item && item.stream) {
-			//		return $scope.streams._embedded['ora:stream'][item.stream.id];
-			//	}
-			//	return null;
-			//};
 
 			this.isAllowed = function(command, item) {
 				if (!this.isAllPageLoaded()) {
