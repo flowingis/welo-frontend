@@ -148,13 +148,13 @@ angular.module('app.collaboration')
 					partialDataLoaded++;
 				});
 				setLanesInformation(function() {
-					partialDataLoaded++
+					partialDataLoaded++;
 				});
 				loadItem(function() {
 					$scope.busy = false;
 					loadHistory(function() {
 						$scope.loading = false;
-						partialDataLoaded++
+						partialDataLoaded++;
 					});
 				});
 			};
