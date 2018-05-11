@@ -9,7 +9,7 @@
                 templateUrl: 'app/main/partials/navigationBar.html',
                 link: function($scope, element, attrs) {
 
-                    $scope.kanbanView = $mdMedia('gt-md');
+                    $scope.kanbanView = $mdMedia('gt-sm');
 
                 }
             };
