@@ -42,7 +42,6 @@ angular.module('app.people')
 				$scope.profileHistory = _.sortBy(res.data, function(historyEvent){
 					return historyEvent.on;
 				}).reverse();
-				console.log($scope.profileHistory);
 			});
 
 			$scope.askChangeRole = function(ev,newRole) {
@@ -150,7 +149,8 @@ angular.module('app.people')
 				        return 'member' === newRole;
 				    case 'member':
 				        return 'contributor' === newRole || 'admin' === newRole;
-				    case 'admin':
+					case 'admin':
+					case 'member and admin':
 						return 'member' === newRole;
 				}
 			};
