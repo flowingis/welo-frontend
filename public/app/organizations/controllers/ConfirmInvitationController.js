@@ -32,22 +32,13 @@ angular.module('app')
 							$mdDialog.show(confirm).then(function(result){
 								if(result){
 									$scope.identity.signInFromGoogle(googleUser).then(function(response) {
-										console.log("EUREKA!!!!!  qui update membership del signin ha finito e ci ha dato:");
-										console.log(JSON.stringify(response.data));
 
 										SelectedOrganizationId.set(InvitationData.orgId);
 										memberService.joinOrganizationAfterInvite({ id: InvitationData.orgId }, function(){
-											console.log("HO FATTO JOIN ", InvitationData.orgId);
-	
 											$scope.identity.updateMemberships().then(function(r){
-												console.log("RIAGGIORNO LE MEMBERSHIB e REINDIRIZZO a org.flow ", console.log(JSON.stringify(r)));
-	
 												$state.go('org.flow',{ orgId: InvitationData.orgId });
-	
-												//window.location.href = location.href.split('#')[0];
 											});
 										}, function(error) {
-
 											console.log("ERROR!!!!!");
 											console.log(JSON.stringify(error));
 
