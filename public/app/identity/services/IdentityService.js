@@ -48,7 +48,7 @@ var Identity = function($http, $log, $q) {
 		avatar = profile.getImageUrl();
 		email = profile.getEmail();
 
-		this.updateMemberships();
+		return this.updateMemberships();
 	};
 
 	this.updateMemberships = function() {
