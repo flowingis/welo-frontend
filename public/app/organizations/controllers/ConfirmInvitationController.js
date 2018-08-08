@@ -21,7 +21,7 @@ angular.module('app')
 						var profile = googleUser.getBasicProfile();
 						var email = profile.getEmail();
 
-						if(email === InvitationData.guestEmail){
+						if(email.toLowerCase() === InvitationData.guestEmail.toLowerCase()){
 							var confirm = $mdDialog.confirm({
 						        title: 'Confirm',
 						        textContent: 'Do You want to Join ' + InvitationData.orgName + '?',
