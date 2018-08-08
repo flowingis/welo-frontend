@@ -78,9 +78,43 @@ angular.module('app.collaboration')
 				});
 			};
 
+			var loadStream = function(cb) {
+				streamService.query($stateParams.orgId, function (data) {
+					$scope.streams = data;
+					cb();
+				 }, onHttpGenericError);
+			};
+
+			var getHistoryWithAggregatedEvent = function(history){
+				var toReturn = [];
+				var prevIsOwnerRemoved = function(history, i){
+					return history[i-1] && history[i-1].name === "OwnerRemoved";
+				};
+				var nextIsOwnerAdded = function(history, i){
+					return history[i+1] && history[i+1].name === "OwnerAdded";
+				};
+				_.each(history, function(h, i){
+					if(h.name === "OwnerRemoved" && nextIsOwnerAdded(history, i)){
+						var OwnerAddedEvent = history[i+1];
+						var OwnerChangedEvent = {
+						    "id": h.id+"-"+OwnerAddedEvent.id,
+						    "name": "OwnerChanged",
+						    "on": h.on+"-"+OwnerAddedEvent.on,
+						    "user": h.user,
+						    "payload": OwnerAddedEvent.payload
+						};
+						toReturn.push(OwnerChangedEvent);
+					}else if(h.name === "OwnerAdded" && prevIsOwnerRemoved(history, i)){
+					}else{
+						toReturn.push(h);
+					}
+				});
+				return toReturn.reverse();
+			};
+
 			var loadHistory = function(cb) {
 				itemService.getHistory($scope.item).then(function (response) {
-					$scope.history = response.data;
+					$scope.history = getHistoryWithAggregatedEvent(response.data);
 					$scope.removedAfterClose = getRemovedAfterCloseFromHistory.get($scope.history);
 					cb();
 				}, onHttpGenericError);
