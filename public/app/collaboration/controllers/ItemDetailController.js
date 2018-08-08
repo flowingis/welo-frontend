@@ -109,7 +109,7 @@ angular.module('app.collaboration')
 						toReturn.push(h);
 					}
 				});
-				return toReturn;
+				return toReturn.reverse();
 			};
 
 			var loadHistory = function(cb) {
