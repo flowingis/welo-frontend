@@ -45,7 +45,7 @@ angular.module('app.collaboration')
                     changes.push("description changed");
                 }
                 if(h.payload.laneName !== h.payload.previousLaneName){
-                    changes.push("lane changed from \""+(h.payload.previousLane || "")+"\" to \""+(h.payload.lane || "")+"\"");
+                    changes.push("lane changed from \""+(h.payload.previousLaneName || "")+"\" to \""+(h.payload.laneName || "")+"\"");
                 }
                 if(changes.length > 0){
                     return getFormatedName(h)+": "+changes.join(' and ');
