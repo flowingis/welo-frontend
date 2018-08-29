@@ -59,7 +59,7 @@
     <md-button 
         aria-label="Load More"
         class="md-raised md-primary md-button md-ink-ripple"
-        data-ng-if="cards._embedded['ora:flowcard'].length < cards.total" 
+		data-ng-if="cards.count==10"
         data-ng-click="loadMore()">
         LOAD MORE
     </md-button>
