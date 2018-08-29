@@ -124,9 +124,7 @@ angular.module('app.people')
 			$mdDialog.show(confirm).then(function() {
 				$scope.loading = true;
 				memberService.removeUserFromOrganization($stateParams.orgId,member.id).then(function(){
-					memberService.query({ orgId: $stateParams.orgId },function(data){
-						initMembers();
-					});
+					initMembers();
 				});
 			});
 

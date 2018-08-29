@@ -21,7 +21,7 @@ angular.module('app')
 						var profile = googleUser.getBasicProfile();
 						var email = profile.getEmail();
 
-						if(email === InvitationData.guestEmail){
+						if(email.toLowerCase() === InvitationData.guestEmail.toLowerCase()){
 							var confirm = $mdDialog.confirm({
 						        title: 'Confirm',
 						        textContent: 'Do You want to Join ' + InvitationData.orgName + '?',
@@ -31,28 +31,48 @@ angular.module('app')
 
 							$mdDialog.show(confirm).then(function(result){
 								if(result){
-									$scope.identity.signInFromGoogle(googleUser);
-									SelectedOrganizationId.set(InvitationData.orgId);
-									memberService.joinOrganizationAfterInvite({ id: InvitationData.orgId }, function(){
-										$scope.identity.updateMemberships().then(function(){
-											$state.go('org.flow',{ orgId: InvitationData.orgId });
-											window.location.href = location.href.split('#')[0];
+									$scope.identity.signInFromGoogle(googleUser).then(function(response) {
+
+										SelectedOrganizationId.set(InvitationData.orgId);
+										memberService.joinOrganizationAfterInvite({ id: InvitationData.orgId }, function(){
+											$scope.identity.updateMemberships().then(function(r){
+												$state.go('org.flow',{ orgId: InvitationData.orgId });
+											});
+										}, function(error) {
+											console.log("ERROR!!!!!");
+											console.log(JSON.stringify(error));
+
+											
+											var message = "Generic Error during server communication. Reload the page and retry";
+											var alert = $mdDialog.alert({
+												title: 'Error',
+												textContent: message,
+												ok: 'Close'
+											});
+											$mdDialog.show(alert);
 										});
-									}, function() {
-										console.log("Error");
+
+									}, function(error) {
+										console.log("ERROR!!!!!");
+										console.log(JSON.stringify(error));
+
+										var message = "Generic Error during server communication. Reload the page and retry";
+										var alert = $mdDialog.alert({
+											title: 'Error',
+											textContent: message,
+											ok: 'Close'
+										});
+										$mdDialog.show(alert);
 									});
 								}
 							});
 						}else{
-
 							var message = "Your email (" + email + ") it's not the same used to invite you (" + InvitationData.guestEmail + "). Please login with a different user";
-
 							var alert = $mdDialog.alert({
 						        title: 'Error',
 						        textContent: message,
 						        ok: 'Close'
 							});
-
 							$mdDialog.show(alert);
 						}
 					});
