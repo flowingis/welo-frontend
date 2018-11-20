@@ -31,7 +31,7 @@ angular.module('app.collaboration').factory('getRemovedAfterCloseFromHistory', [
     };
 
     var get = function(history){
-        var eventsAfterClosed = getEventsAfterClosed(history);
+        var eventsAfterClosed = getEventsAfterClosed(history.slice().reverse());
         var owner = getRemovedOwnerName(eventsAfterClosed);
         var members = getRemovedMembersName(eventsAfterClosed);
         var all = [];
