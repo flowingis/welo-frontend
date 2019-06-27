@@ -80,9 +80,8 @@ angular.module('app.collaboration')
 				});
 			};
 
-			var getItemForStatus = function(stateId, kanbanItems) {
-				var deferred = $q.defer();
-				var filters = {
+			var getDefaultFilter = function(stateId){
+				return {
 					offset: 0,
 					limit: 30,
 					status: stateId,
@@ -91,9 +90,24 @@ angular.module('app.collaboration')
 					orderBy: "position", 
 					orderType: "asc"
 				};
+			};
+
+			var getFilterForStatus = function(stateId){
+				var toReturn = getDefaultFilter(stateId);
+				if(stateId === $scope.ITEM_STATUS.CLOSED){
+					toReturn.limit = 60;
+				}
+				return toReturn;
+			};
+
+			var getItemForStatus = function(stateId, kanbanItems) {
+				var deferred = $q.defer();
+				var filters = getFilterForStatus(stateId);
 				itemService.query($stateParams.orgId, filters,
 					function(data) {
 						_(kanbanItems).each(function(lane, idlane){
+							lane.totals = lane.totals || {};
+							lane.totals[stateId] = data.total;
 							if (idlane==="0") {
 								lane.cols[stateId] = data._embedded['ora:task'];
 							} else if (idlane==="-1"){

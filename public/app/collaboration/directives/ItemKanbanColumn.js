@@ -10,6 +10,7 @@
                 scope: {
                     columnTitle: '@',
                     columnItems: '=',
+                    columnTotals: '=',
                     myId: '=',
                     priorityManaged: '='
                   },
