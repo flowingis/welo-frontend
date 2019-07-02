@@ -95,7 +95,9 @@ angular.module('app.collaboration')
 			var getFilterForStatus = function(stateId){
 				var toReturn = getDefaultFilter(stateId);
 				if(stateId === $scope.ITEM_STATUS.CLOSED){
-					toReturn.limit = 60;
+					toReturn.limit = 100;
+					toReturn.orderBy = "acceptedAt";
+					toReturn.orderType = "desc";
 				}
 				return toReturn;
 			};
