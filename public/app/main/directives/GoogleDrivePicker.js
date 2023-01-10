@@ -1,8 +1,8 @@
 (function() {
 	"use strict";
 
-	var APIKEY_GOOGLE  = 'AIzaSyBx2sD5LLPis-w2k53aujeDuevtn5rWXdw';
-	var CLIENT_ID_GOOLE = '324494101979-kd155mfhheot9jjplga314139rl0p5pk';
+	var APIKEY_GOOGLE  = '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';
+	var CLIENT_ID_GOOLE = '53386093135-hc8jmo16fj20u5387g11rhdk2ko91akr.apps.googleusercontent.com';
 	var access_token;
 	var picker;
 	var GOOGLE_AUTH_INFO = {
