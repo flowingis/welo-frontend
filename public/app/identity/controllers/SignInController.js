@@ -10,9 +10,9 @@ angular.module('app.identity')
 			$state,
 			SelectedOrganizationId) {
 
-			$scope.onSuccess = function(googleUser) {
+			$scope.onSuccess = function(googleResponse) {
 				$scope.$apply(function() {
-					$scope.identity.signInFromGoogle(googleUser);
+					$scope.identity.signInFromGoogle(googleResponse);
 					$scope.identity.loadMemberships().then(function(memberships) {
 
 						if (memberships && memberships.length) {
@@ -48,14 +48,23 @@ angular.module('app.identity')
 			};
 
 			$scope.renderSignInButton = function() {
-				gapi.signin2.render('googleSignIn', {
-					'scope': 'https://www.googleapis.com/auth/drive.readonly',
-					'width': 230,
-					'longtitle': true,
-					'theme': 'dark',
-					'onsuccess': $scope.onSuccess/*,
-					'onfailure': angular.element($('#identityBox')).scope().onSignInFailure()*/
+				google.accounts.id.initialize({
+					client_id: window.googleApi.CLIENT_ID,
+					callback: function(response) {
+						$scope.onSuccess(response);
+					}
 				});
+				google.accounts.id.renderButton(
+					document.getElementById('googleSignIn'), 
+					{
+						'width': 230,
+						'type': 'standard',
+						'theme': 'filled_blue',
+						'size': 'large',
+						'shape': 'pill'
+					}
+				);
+				google.accounts.id.prompt();
 			};
 
 			$scope.start = function() {

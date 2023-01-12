@@ -148,18 +148,32 @@
 		<left-menu></left-menu>
 		<md-content layout="column"   flex ui-view></md-content>
 	</section>
+
 	<script>
-	//Manual Angular Bootstrap after google plus initialization
-	window.init = function() {
-		gapi.client.load('drive', 'v2', function(){
-			gapi.load('picker',function(){
-				angular.element(document).ready(function() {
-			      angular.bootstrap(document, ['app']);
-			    });
-			});
-		});
-  	}
+		window.googleApi = {
+			CLIENT_ID: '53386093135-hc8jmo16fj20u5387g11rhdk2ko91akr.apps.googleusercontent.com',
+			accessToken: false,
+			clientInstance: false,
+			init: function() {
+				window.googleApi.clientInstance = google.accounts.oauth2.initTokenClient({
+					client_id: window.googleApi.CLIENT_ID,
+					scope: 'https://www.googleapis.com/auth/drive.readonly',
+					callback: function(tokenResponse) {
+						window.googleApi.accessToken = tokenResponse.access_token;
+					},
+				});
+			},
+			getToken: function() {
+				return window.googleApi.clientInstance.requestAccessToken();
+			}
+		};
+
+		window.onload = function () {
+			window.googleApi.init();
+        	angular.bootstrap(document, ['app']);
+		}
 	</script>
-	<script src="https://apis.google.com/js/client:plusone.js?onload=init" async defer></script>
+
+	<script src="https://accounts.google.com/gsi/client" async defer></script>
 </body>
 </html>

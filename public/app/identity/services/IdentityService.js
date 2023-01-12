@@ -39,15 +39,8 @@ var Identity = function($http, $log, $q) {
 		memberships = [];
 	};
 
-	this.signInFromGoogle = function(googleUser) {
-		token = googleUser.getAuthResponse().id_token;
-
-		// Useful data for your client-side scripts:
-		var profile = googleUser.getBasicProfile();
-		firstname = profile.getName();
-		avatar = profile.getImageUrl();
-		email = profile.getEmail();
-
+	this.signInFromGoogle = function(googleResponse) {
+		token = googleResponse.credential;
 		return this.updateMemberships();
 	};
 
