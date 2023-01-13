@@ -3,11 +3,13 @@ angular.module('app.identity')
 		'$scope',
 		'$log',
 		'$state',
+		'$http',
 		'SelectedOrganizationId',
 		function(
 			$scope,
 			$log,
 			$state,
+			$http,
 			SelectedOrganizationId) {
 
 			$scope.onSuccess = function(accessToken) {
@@ -48,16 +50,9 @@ angular.module('app.identity')
 			};
 
 			$scope.renderSignInButton = function() {
-				window.googleApi.initJWT(function () {
-					console.log('requested token ' + window.googleApi.accessToken);
-					$scope.onSuccess(window.googleApi.accessToken);
-				});
-
 				google.accounts.id.initialize({
 					client_id: window.googleApi.CLIENT_ID,
 					callback: function(response) {
-						console.log('initialized token: ' + response.credential);
-						// window.googleApi.getJWTToken();
 						$scope.onSuccess(response.credential);
 					}
 				});
