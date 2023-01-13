@@ -144,6 +144,7 @@
 	<!-- /build -->
 </head>
 <body layout="column" style="overflow-y: hidden;" ng-controller="AppController">
+	<script src="https://accounts.google.com/gsi/client" async defer></script>
 	<section ng-class="clsWithoutSideMenu()" layout="row" flex ng-controller="IdentityController" data-ng-cloak>
 		<left-menu></left-menu>
 		<md-content layout="column"   flex ui-view></md-content>
@@ -154,26 +155,24 @@
 			CLIENT_ID: '53386093135-hc8jmo16fj20u5387g11rhdk2ko91akr.apps.googleusercontent.com',
 			accessToken: false,
 			clientInstance: false,
-			init: function() {
+			initJWT: function(callback) {
 				window.googleApi.clientInstance = google.accounts.oauth2.initTokenClient({
 					client_id: window.googleApi.CLIENT_ID,
 					scope: 'https://www.googleapis.com/auth/drive.readonly',
 					callback: function(tokenResponse) {
 						window.googleApi.accessToken = tokenResponse.access_token;
+						callback();
 					},
 				});
 			},
-			getToken: function() {
+			getJWTToken: function() {
 				return window.googleApi.clientInstance.requestAccessToken();
 			}
 		};
 
 		window.onload = function () {
-			window.googleApi.init();
         	angular.bootstrap(document, ['app']);
 		}
 	</script>
-
-	<script src="https://accounts.google.com/gsi/client" async defer></script>
 </body>
 </html>

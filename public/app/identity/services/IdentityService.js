@@ -39,8 +39,8 @@ var Identity = function($http, $log, $q) {
 		memberships = [];
 	};
 
-	this.signInFromGoogle = function(googleResponse) {
-		token = googleResponse.credential;
+	this.signInFromGoogle = function(accessToken) {
+		token = accessToken;
 		return this.updateMemberships();
 	};
 

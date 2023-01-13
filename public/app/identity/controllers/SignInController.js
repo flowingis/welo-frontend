@@ -10,9 +10,9 @@ angular.module('app.identity')
 			$state,
 			SelectedOrganizationId) {
 
-			$scope.onSuccess = function(googleResponse) {
+			$scope.onSuccess = function(accessToken) {
 				$scope.$apply(function() {
-					$scope.identity.signInFromGoogle(googleResponse);
+					$scope.identity.signInFromGoogle(accessToken);
 					$scope.identity.loadMemberships().then(function(memberships) {
 
 						if (memberships && memberships.length) {
@@ -48,14 +48,22 @@ angular.module('app.identity')
 			};
 
 			$scope.renderSignInButton = function() {
+				window.googleApi.initJWT(function () {
+					console.log('requested token ' + window.googleApi.accessToken);
+					$scope.onSuccess(window.googleApi.accessToken);
+				});
+
 				google.accounts.id.initialize({
 					client_id: window.googleApi.CLIENT_ID,
 					callback: function(response) {
-						$scope.onSuccess(response);
+						console.log('initialized token: ' + response.credential);
+						// window.googleApi.getJWTToken();
+						$scope.onSuccess(response.credential);
 					}
 				});
+
 				google.accounts.id.renderButton(
-					document.getElementById('googleSignIn'), 
+					document.getElementById('googleSignIn'),
 					{
 						'width': 230,
 						'type': 'standard',
@@ -64,7 +72,6 @@ angular.module('app.identity')
 						'shape': 'pill'
 					}
 				);
-				google.accounts.id.prompt();
 			};
 
 			$scope.start = function() {
