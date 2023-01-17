@@ -10,37 +10,37 @@ angular.module('app.identity')
 			$state,
 			SelectedOrganizationId) {
 
-			$scope.onSuccess = function(accessToken) {
-				$scope.$apply(function() {
-					$scope.identity.signInFromGoogle(accessToken);
+			$scope.onSigningIn = function(accessToken) {
+				$scope.identity.getUser(accessToken).then(function(user) {
+					$scope.identity.signIn(accessToken, user);
 					$scope.identity.loadMemberships().then(function(memberships) {
 
 						if (memberships && memberships.length) {
 							SelectedOrganizationId.set(memberships[0].organization.id);
 
-                                if ($state.previous) {
-                                    $log.debug('Redirecting to ' + $state.previous.name);
+							if ($state.previous) {
+								$log.debug('Redirecting to ' + $state.previous.name);
 
-                                    $state.go($state.previous.name, $state.previousParams);
-                                    $state.previous = null;
-                                    $state.previousParams = null;
+								$state.go($state.previous.name, $state.previousParams);
+								$state.previous = null;
+								$state.previousParams = null;
 
-                                    return;
-                                }
+								return;
+							}
 
-								$state.go('org.flow',{ orgId: memberships[0].organization.id });
+							$state.go('org.flow',{ orgId: memberships[0].organization.id });
 							return;
 						}
 
-                        if ($state.previous) {
-                            $log.debug('Redirecting to ' + $state.previous.name);
+						if ($state.previous) {
+							$log.debug('Redirecting to ' + $state.previous.name);
 
-                            $state.go($state.previous.name, $state.previousParams);
-                            $state.previous = null;
-                            $state.previousParams = null;
+							$state.go($state.previous.name, $state.previousParams);
+							$state.previous = null;
+							$state.previousParams = null;
 
-                            return;
-                        }
+							return;
+						}
 
 						$state.go('organizations');
 					});
@@ -51,12 +51,7 @@ angular.module('app.identity')
 				google.accounts.id.initialize({
 					client_id: window.googleApi.CLIENT_ID,
 					callback: function(response) {
-						if (response.status == 401) {
-							angular.element($('#identityBox')).scope().onSignInFailure();
-							return;
-						}
-
-						$scope.onSuccess(response.credential);
+						$scope.onSigningIn(response.credential);
 					}
 				});
 

@@ -39,14 +39,18 @@ var Identity = function($http, $log, $q) {
 		memberships = [];
 	};
 
-	this.signInFromGoogle = function(accessToken) {
+	this.getUser = function(accessToken) {
+		return $http({method: 'GET', url: 'api/users/me', headers: {'GOOGLE-JWT': accessToken}}).success(function(userData) {
+			return userData;
+		});
+	};
+
+	this.signIn = function(accessToken, user) {
 		token = accessToken;
 
-		// Useful data for your client-side scripts:
-		var profile = googleUser.getBasicProfile();
-		firstname = profile.getName();
-		avatar = profile.getImageUrl();
-		email = profile.getEmail();
+		firstname = user.firstname;
+		avatar = user.picture;
+		email = user.email;
 
 		return this.updateMemberships();
 	};
