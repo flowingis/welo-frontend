@@ -3,13 +3,11 @@ angular.module('app.identity')
 		'$scope',
 		'$log',
 		'$state',
-		'$http',
 		'SelectedOrganizationId',
 		function(
 			$scope,
 			$log,
 			$state,
-			$http,
 			SelectedOrganizationId) {
 
 			$scope.onSuccess = function(accessToken) {
@@ -53,6 +51,11 @@ angular.module('app.identity')
 				google.accounts.id.initialize({
 					client_id: window.googleApi.CLIENT_ID,
 					callback: function(response) {
+						if (response.status == 401) {
+							angular.element($('#identityBox')).scope().onSignInFailure();
+							return;
+						}
+
 						$scope.onSuccess(response.credential);
 					}
 				});

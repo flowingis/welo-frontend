@@ -78,15 +78,11 @@ angular.module('app')
 					});
 				};
 
-				google.accounts.id.renderButton(
-					document.getElementById('googleSignIn'), 
-					{
-						'width': 230,
-						'type': 'standard',
-						'theme': 'filled_blue',
-						'size': 'large',
-						'shape': 'pill'
-					}
-				);
-				google.accounts.id.prompt();
+				gapi.signin2.render('googleSignIn', {
+					'scope': 'https://www.googleapis.com/auth/drive.readonly',
+					'width': 230,
+					'longtitle': true,
+					'theme': 'dark',
+					'onsuccess': onSuccess
+				});
 		}]);

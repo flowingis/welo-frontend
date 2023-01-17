@@ -1,7 +1,6 @@
 (function() {
 	"use strict";
 
-	var APIKEY_GOOGLE  = window.APIKEY_GOOGLE;
 	var CLIENT_ID_GOOLE = window.CLIENT_ID_GOOLE;
 	var access_token;
 	var picker;
