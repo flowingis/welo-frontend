@@ -1,13 +1,13 @@
 var Identity = function($http, $log, $q) {
-	var token, id, firstname, lastname, email, avatar, memberships;
+	var id, firstname, lastname, email, avatar, memberships;
 
-	this.getToken        = function() {	return token; };
+	this.getToken        = function() {	return window.googleApi.accessToken; };
 	this.getId           = function() { return id; };
 	this.getFirstname    = function() { return firstname; };
 	this.getLastname     = function() { return lastname; };
 	this.getEmail        = function() { return email; };
 	this.getAvatar       = function() { return avatar; };
-	this.isAuthenticated = function() { return token ? true : false; };
+	this.isAuthenticated = function() { return window.googleApi.accessToken ? true : false; };
 	this.getMemberships  = function() { return memberships; };
 
 	this.isMember = function(orgId){
@@ -35,7 +35,7 @@ var Identity = function($http, $log, $q) {
 	};
 
 	this.reset = function() {
-		token = firstname = lastname = email = avatar = '';
+		window.googleApi.accessToken = firstname = lastname = email = avatar = '';
 		memberships = [];
 	};
 
@@ -46,7 +46,7 @@ var Identity = function($http, $log, $q) {
 	};
 
 	this.signIn = function(accessToken, user) {
-		token = accessToken;
+		window.googleApi.accessToken = accessToken;
 
 		firstname = user.firstname;
 		avatar = user.picture;
@@ -56,7 +56,7 @@ var Identity = function($http, $log, $q) {
 	};
 
 	this.updateMemberships = function() {
-		return $http({method: 'GET', url: 'api/memberships', headers: {'GOOGLE-JWT': token}}).success(function(data) {
+		return $http({method: 'GET', url: 'api/memberships', headers: {'GOOGLE-JWT': window.googleApi.accessToken}}).success(function(data) {
 			id        = data.id;
 			firstname = data.firstname;
 			lastname  = data.lastname;
