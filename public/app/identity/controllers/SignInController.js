@@ -12,7 +12,7 @@ angular.module('app.identity')
 
 			$scope.onSigningIn = function(accessToken) {
 				$scope.identity.getUser(accessToken).then(function(user) {
-					$scope.identity.signIn(accessToken, user);
+					$scope.identity.signIn(accessToken, user.data);
 					$scope.identity.loadMemberships().then(function(memberships) {
 
 						if (memberships && memberships.length) {
