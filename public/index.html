@@ -144,6 +144,7 @@
 	<!-- /build -->
 </head>
 <body layout="column" style="overflow-y: hidden;" ng-controller="AppController">
+	<script src="https://apis.google.com/js/api.js" async defer></script>
 	<script src="https://accounts.google.com/gsi/client" async defer></script>
 	<section ng-class="clsWithoutSideMenu()" layout="row" flex ng-controller="IdentityController" data-ng-cloak>
 		<left-menu></left-menu>
@@ -169,6 +170,10 @@
 		};
 
 		window.onload = function () {
+			gapi.load('client:picker', function () {
+				gapi.client.load('https://www.googleapis.com/discovery/v1/apis/drive/v3/rest');
+			});
+
         	angular.bootstrap(document, ['app']);
 		}
 	</script>

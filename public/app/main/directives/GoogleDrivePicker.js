@@ -6,10 +6,12 @@
 
 	var showPicker = function(callback) {
 		var pickerCallback = function(data) {
-			if (data[google.picker.Response.ACTION] == google.picker.Action.PICKED) {
-				var file = data[google.picker.Response.DOCUMENTS][0],id = file[google.picker.Document.ID],request = gapi.client.drive.files.get({
-					fileId: id
-				});
+			if (data[google.picker.Response.ACTION] === google.picker.Action.PICKED) {
+
+				var
+					file = data[google.picker.Response.DOCUMENTS][0],
+					id = file[google.picker.Document.ID],
+					request = gapi.client.drive.files.get({fileId: id});
 
 				request.execute(callback(file));
 			}
@@ -34,7 +36,7 @@
 				var deferred = $q.defer();
 
 				window.googleApi.authorize(function (requestToken) {
-					access_token = requestToken;
+					access_token = requestToken.access_token;
 					deferred.resolve(access_token);
 				});
 
