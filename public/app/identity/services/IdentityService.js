@@ -48,6 +48,7 @@ var Identity = function($http, $log, $q) {
 	this.signIn = function(accessToken, user) {
 		window.googleApi.accessToken = accessToken;
 
+		id = user.id;
 		firstname = user.firstname;
 		avatar = user.picture;
 		email = user.email;
