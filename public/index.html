@@ -154,17 +154,16 @@
 			CLIENT_ID: '53386093135-hc8jmo16fj20u5387g11rhdk2ko91akr.apps.googleusercontent.com',
 			accessToken: false,
 			clientInstance: false,
-			initJWT: function(callback) {
+			authorize: function(callback) {
 				window.googleApi.clientInstance = google.accounts.oauth2.initTokenClient({
 					client_id: window.googleApi.CLIENT_ID,
 					scope: 'https://www.googleapis.com/auth/drive.readonly',
 					callback: function(tokenResponse) {
-						window.googleApi.accessToken = tokenResponse.access_token;
-						callback();
+						callback(tokenResponse);
 					},
 				});
 			},
-			getJWTToken: function() {
+			requestAccessToken: function() {
 				return window.googleApi.clientInstance.requestAccessToken();
 			}
 		};
